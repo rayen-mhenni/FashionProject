@@ -11,7 +11,7 @@ export default function Footer() {
   const t = useTranslations("Navigation");
 
   return (
-    <>
+    <div className={styles.fullFooter}>
       <div className={styles.footerContainer}>
         <div className={`app-max-width app-x-padding ${styles.footerContents}`}>
           <div>
@@ -103,6 +103,6 @@ export default function Footer() {
           </span>
         </div>
       </div>
-    </>
+    </div>
   );
 }

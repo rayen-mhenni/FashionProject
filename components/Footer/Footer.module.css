@@ -9,6 +9,10 @@
 .column a:hover {
   @apply text-gray400 underline;
 }
+.fullFooter{
+  @apply bg-gray500;
+  @apply text-white
+}
 
 .column a,
 .column span {
