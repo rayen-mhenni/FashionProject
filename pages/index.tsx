@@ -98,13 +98,13 @@ const Home: React.FC<Props> = ({ products }) => {
             <table width="90%" className="mb-10">
               <tr>
                 <td>
-                  <hr style={{ opacity: "0.3" }} />
+                  <hr style={{ opacity: "0.2" }} />
                 </td>
                 <td style={{ width: "1px", padding: "0 25px", whiteSpace: "nowrap" }}>
                   <h2 className="text-4xl">Nouveautés</h2>
                 </td>
                 <td>
-                  <hr style={{ opacity: "0.3" }} />
+                  <hr style={{ opacity: "0.2" }} />
                 </td>
               </tr>
             </table>
