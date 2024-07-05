@@ -91,11 +91,23 @@ const Home: React.FC<Props> = ({ products }) => {
         {/* ===== Best Selling Section ===== */}
         <section className="app-max-width w-full h-full flex flex-col justify-center mt-16 mb-20">
           <div className="flex justify-center">
-            <div className="border-t border-gray-300 flex-grow"></div>
+            {/* <div className="border-t border-gray-300 flex-grow"></div>
               <h2 className="text-4xl mb-4">Nouveautés</h2>
-              <div className="border-t border-gray-300 flex-grow"></div>
-              {/* <span>{t("best_selling_desc")}</span> */}
-         
+              <div className="border-t border-gray-300 flex-grow"></div> */}
+            {/* <span>{t("best_selling_desc")}</span> */}
+            <table width="100%" className="mb-4">
+              <tr>
+                <td>
+                  <hr style={{ opacity: "0.2" }} />
+                </td>
+                <td style={{ width: "1px", padding: "0 25px", whiteSpace: "nowrap" }}>
+                  <h2 className="text-4xl">Nouveautés</h2>
+                </td>
+                <td>
+                  <hr style={{ opacity: "0.2" }} />
+                </td>
+              </tr>
+            </table>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-x-4 lg:gap-x-12 gap-y-6 mb-10 app-x-padding">
             <Card key={currentItems[1].id} item={currentItems[1]} />
