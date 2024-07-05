@@ -78,15 +78,9 @@ const Header: React.FC<Props> = ({ title }) => {
       <TopNav />
 
       {/* ===== Main Navigation ===== */}
-      <nav
-        className={`${
-          scrolled ? "bg-white sticky top-0 shadow-md z-50" : "bg-transparent"
-        } w-full z-50 h-20 relative`}
-      >
+      <nav className={`${scrolled ? "bg-white sticky top-0 shadow-md z-50" : "bg-transparent"} w-full z-50 h-20 relative`}>
         <div className="app-max-width w-full">
-          <div
-            className={`flex justify-between align-baseline app-x-padding ${styles.mainMenu}`}
-          >
+          <div className={`flex justify-between align-baseline app-x-padding ${styles.mainMenu}`}>
             {/* Hamburger Menu and Mobile Nav */}
             <div className="flex-1 lg:flex-0 lg:hidden">
               <Menu />
@@ -139,19 +133,15 @@ const Header: React.FC<Props> = ({ title }) => {
               <li>
                 <SearchForm />
               </li>
-              {/* <li>
+              <li>
                 <AuthForm>
                   <UserIcon />
                 </AuthForm>
-              </li> */}
+              </li>
               <li>
                 <Link href="/wishlist" passHref>
                   {/* <a className="relative" aria-label="Wishlist"> */}
-                  <button
-                    type="button"
-                    className="relative"
-                    aria-label="Wishlist"
-                  >
+                  <button type="button" className="relative" aria-label="Wishlist">
                     <WhistlistIcon />
                     {noOfWishlist > 0 && (
                       <span

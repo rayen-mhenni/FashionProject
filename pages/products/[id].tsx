@@ -45,8 +45,7 @@ const Product: React.FC<Props> = ({ product, products }) => {
   const [currentQty, setCurrentQty] = useState(1);
   const t = useTranslations("Category");
 
-  const alreadyWishlisted =
-    wishlist.filter((wItem) => wItem.id === product.id).length > 0;
+  const alreadyWishlisted = wishlist.filter((wItem) => wItem.id === product.id).length > 0;
 
   useEffect(() => {
     setMainImg(product.img1);
@@ -62,9 +61,7 @@ const Product: React.FC<Props> = ({ product, products }) => {
   };
 
   const handleWishlist = () => {
-    alreadyWishlisted
-      ? deleteWishlistItem!(currentItem)
-      : addToWishlist!(currentItem);
+    alreadyWishlisted ? deleteWishlistItem!(currentItem) : addToWishlist!(currentItem);
   };
 
   return (
@@ -82,9 +79,7 @@ const Product: React.FC<Props> = ({ product, products }) => {
               </Link>{" "}
               /{" "}
               <Link href={`/product-category/${product.categoryName}`}>
-                <a className="text-gray400 capitalize">
-                  {t(product.categoryName as string)}
-                </a>
+                <a className="text-gray400 capitalize">{t(product.categoryName as string)}</a>
               </Link>{" "}
               / <span>{product.name}</span>
             </div>
@@ -95,11 +90,7 @@ const Product: React.FC<Props> = ({ product, products }) => {
           <div className="imgSection w-full md:w-1/2 h-full flex">
             <div className="hidden sm:block w-full sm:w-1/4 h-full space-y-4 my-4">
               <Image
-                className={`cursor-pointer ${
-                  mainImg === img1
-                    ? "opacity-100 border border-gray300"
-                    : "opacity-50"
-                }`}
+                className={`cursor-pointer ${mainImg === img1 ? "opacity-100 border border-gray300" : "opacity-50"}`}
                 onClick={() => setMainImg(img1)}
                 src={img1 as string}
                 alt={product.name}
@@ -107,11 +98,7 @@ const Product: React.FC<Props> = ({ product, products }) => {
                 height={1282}
               />
               <Image
-                className={`cursor-pointer ${
-                  mainImg === img2
-                    ? "opacity-100 border border-gray300"
-                    : "opacity-50"
-                }`}
+                className={`cursor-pointer ${mainImg === img2 ? "opacity-100 border border-gray300" : "opacity-50"}`}
                 onClick={() => setMainImg(img2)}
                 src={img2 as string}
                 alt={product.name}
@@ -130,40 +117,20 @@ const Product: React.FC<Props> = ({ product, products }) => {
                 className="mySwiper sm:hidden"
               >
                 <SwiperSlide>
-                  <Image
-                    className="each-slide w-full"
-                    src={img1 as string}
-                    width={1000}
-                    height={1282}
-                    alt={product.name}
-                  />
+                  <Image className="each-slide w-full" src={img1 as string} width={1000} height={1282} alt={product.name} />
                 </SwiperSlide>
                 <SwiperSlide>
-                  <Image
-                    className="each-slide w-full"
-                    src={img2 as string}
-                    width={1000}
-                    height={1282}
-                    alt={product.name}
-                  />
+                  <Image className="each-slide w-full" src={img2 as string} width={1000} height={1282} alt={product.name} />
                 </SwiperSlide>
               </Swiper>
               <div className="hidden sm:block h-full">
-                <Image
-                  className="w-full"
-                  src={mainImg as string}
-                  width={1000}
-                  height={1282}
-                  alt={product.name}
-                />
+                <Image className="w-full" src={mainImg as string} width={1000} height={1282} alt={product.name} />
               </div>
             </div>
           </div>
           <div className="infoSection w-full md:w-1/2 h-auto py-8 sm:pl-4 flex flex-col">
             <h1 className="text-3xl mb-4">{product.name}</h1>
-            <span className="text-2xl text-gray400 mb-2">
-              $ {product.price}
-            </span>
+            <span className="text-2xl text-gray400 mb-2">$ {product.price}</span>
             <span className="mb-2 text-justify">{product.description}</span>
             <span className="mb-2">
               {t("availability")}: {t("in_stock")}
@@ -175,9 +142,7 @@ const Product: React.FC<Props> = ({ product, products }) => {
               <div
                 onClick={() => handleSize("S")}
                 className={`w-8 h-8 flex items-center justify-center border ${
-                  size === "S"
-                    ? "border-gray500"
-                    : "border-gray300 text-gray400"
+                  size === "S" ? "border-gray500" : "border-gray300 text-gray400"
                 } cursor-pointer hover:bg-gray500 hover:text-gray100`}
               >
                 S
@@ -185,9 +150,7 @@ const Product: React.FC<Props> = ({ product, products }) => {
               <div
                 onClick={() => handleSize("M")}
                 className={`w-8 h-8 flex items-center justify-center border ${
-                  size === "M"
-                    ? "border-gray500"
-                    : "border-gray300 text-gray400"
+                  size === "M" ? "border-gray500" : "border-gray300 text-gray400"
                 } cursor-pointer hover:bg-gray500 hover:text-gray100`}
               >
                 M
@@ -195,9 +158,7 @@ const Product: React.FC<Props> = ({ product, products }) => {
               <div
                 onClick={() => handleSize("L")}
                 className={`w-8 h-8 flex items-center justify-center border ${
-                  size === "L"
-                    ? "border-gray500"
-                    : "border-gray300 text-gray400"
+                  size === "L" ? "border-gray500" : "border-gray300 text-gray400"
                 } cursor-pointer hover:bg-gray500 hover:text-gray100`}
               >
                 L
@@ -213,9 +174,7 @@ const Product: React.FC<Props> = ({ product, products }) => {
                 >
                   -
                 </div>
-                <div className="h-full w-28 sm:w-12 flex justify-center items-center pointer-events-none">
-                  {currentQty}
-                </div>
+                <div className="h-full w-28 sm:w-12 flex justify-center items-center pointer-events-none">{currentQty}</div>
                 <div
                   onClick={() => setCurrentQty((prevState) => prevState + 1)}
                   className="h-full w-full sm:w-12 flex justify-center items-center cursor-pointer hover:bg-gray500 hover:text-gray100"
@@ -231,11 +190,7 @@ const Product: React.FC<Props> = ({ product, products }) => {
                   onClick={() => addItem!(currentItem)}
                 />
                 <GhostButton onClick={handleWishlist}>
-                  {alreadyWishlisted ? (
-                    <HeartSolid extraClass="inline" />
-                  ) : (
-                    <Heart extraClass="inline" />
-                  )}
+                  {alreadyWishlisted ? <HeartSolid extraClass="inline" /> : <Heart extraClass="inline" />}
                 </GhostButton>
               </div>
             </div>
@@ -244,15 +199,9 @@ const Product: React.FC<Props> = ({ product, products }) => {
                 <>
                   <Disclosure.Button className="py-2 focus:outline-none text-left mb-4 border-b-2 border-gray200 flex items-center justify-between">
                     <span>{t("details")}</span>
-                    <DownArrow
-                      extraClass={`${
-                        open ? "" : "transform rotate-180"
-                      } w-5 h-5 text-purple-500`}
-                    />
+                    <DownArrow extraClass={`${open ? "" : "transform rotate-180"} w-5 h-5 text-purple-500`} />
                   </Disclosure.Button>
-                  <Disclosure.Panel
-                    className={`text-gray400 animate__animated animate__bounceIn`}
-                  >
+                  <Disclosure.Panel className={`text-gray400 animate__animated animate__bounceIn`}>
                     {product.detail}
                   </Disclosure.Panel>
                 </>
@@ -305,48 +254,91 @@ const Product: React.FC<Props> = ({ product, products }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({
-  params,
-  locale,
-}) => {
-  const paramId = params!.id as string;
-  const res = await axios.get(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/products/${paramId}?include=category`
-  );
-  const fetchedProduct: apiProductsType = res.data.data;
+export const getServerSideProps: GetServerSideProps = async ({ params, locale }) => {
+  // const paramId = params!.id as string;
+  // const res = await axios.get(
+  //   `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/products/${paramId}?include=category`
+  // );
+  // const fetchedProduct: apiProductsType = res.data.data;
 
   let product: itemType = {
-    id: fetchedProduct.id,
-    name: fetchedProduct.name,
-    price: fetchedProduct.price,
-    detail: fetchedProduct.detail,
-    img1: fetchedProduct.image1,
-    img2: fetchedProduct.image2,
-    categoryName: fetchedProduct!.category!.name,
+    id: 1234,
+    name: "Blue Cotton T-Shirt",
+    price: 29.99,
+    detail: "A comfortable and stylish blue cotton t-shirt. Perfect for casual wear.",
+    img1: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091", // Replace with actual image path
+    img2: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091", // Replace with actual image path (optional)
+    categoryName: "Shirts",
   };
 
   // Might be temporary solution for suggested products
-  const randomProductRes = await axios.get(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/products?category=${product.categoryName}`
-  );
-  const fetchedProducts: apiProductsType[] = randomProductRes.data.data;
+  // const randomProductRes = await axios.get(
+  //   `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/products?category=${product.categoryName}`
+  // );
+  // const fetchedProducts: apiProductsType[] = randomProductRes.data.data;
 
-  // Shuffle array
-  const shuffled = fetchedProducts.sort(() => 0.5 - Math.random());
+  // // Shuffle array
+  // const shuffled = fetchedProducts.sort(() => 0.5 - Math.random());
 
-  // Get sub-array of first 5 elements after shuffled
-  let randomFetchedProducts = shuffled.slice(0, 5);
+  // // Get sub-array of first 5 elements after shuffled
+  // let randomFetchedProducts = shuffled.slice(0, 5);
 
-  let products: itemType[] = [];
-  randomFetchedProducts.forEach((randomProduct: apiProductsType) => {
-    products.push({
-      id: randomProduct.id,
-      name: randomProduct.name,
-      price: randomProduct.price,
-      img1: randomProduct.image1,
-      img2: randomProduct.image2,
-    });
-  });
+  let products: itemType[] = [
+    {
+      id: 1234,
+      name: "Blue Cotton T-Shirt",
+      price: 29.99,
+      detail: "A comfortable and stylish blue cotton t-shirt. Perfect for casual wear.",
+      img1: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091", // Replace with actual image path
+      img2: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091", // Replace with actual image path (optional)
+      categoryName: "Shirts",
+    },
+    {
+      id: 1234,
+      name: "Blue Cotton T-Shirt",
+      price: 29.99,
+      detail: "A comfortable and stylish blue cotton t-shirt. Perfect for casual wear.",
+      img1: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091", // Replace with actual image path
+      img2: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091", // Replace with actual image path (optional)
+      categoryName: "Shirts",
+    },
+    {
+      id: 1234,
+      name: "Blue Cotton T-Shirt",
+      price: 29.99,
+      detail: "A comfortable and stylish blue cotton t-shirt. Perfect for casual wear.",
+      img1: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091", // Replace with actual image path
+      img2: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091", // Replace with actual image path (optional)
+      categoryName: "Shirts",
+    },
+    {
+      id: 1234,
+      name: "Blue Cotton T-Shirt",
+      price: 29.99,
+      detail: "A comfortable and stylish blue cotton t-shirt. Perfect for casual wear.",
+      img1: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091", // Replace with actual image path
+      img2: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091", // Replace with actual image path (optional)
+      categoryName: "Shirts",
+    },
+    {
+      id: 1234,
+      name: "Blue Cotton T-Shirt",
+      price: 29.99,
+      detail: "A comfortable and stylish blue cotton t-shirt. Perfect for casual wear.",
+      img1: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091", // Replace with actual image path
+      img2: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091", // Replace with actual image path (optional)
+      categoryName: "Shirts",
+    },
+  ];
+  // randomFetchedProducts.forEach((randomProduct: apiProductsType) => {
+  //   products.push({
+  //     id: randomProduct.id,
+  //     name: randomProduct.name,
+  //     price: randomProduct.price,
+  //     img1: randomProduct.image1,
+  //     img2: randomProduct.image2,
+  //   });
+  // });
 
   // Pass data to the page via props
   return {

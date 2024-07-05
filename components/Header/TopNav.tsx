@@ -14,21 +14,10 @@ type LinkProps = {
   active: boolean;
 };
 
-const MyLink: React.FC<LinkProps> = ({
-  href,
-  locale,
-  children,
-  active,
-  ...rest
-}) => {
+const MyLink: React.FC<LinkProps> = ({ href, locale, children, active, ...rest }) => {
   return (
     <Link href={href} locale={locale}>
-      <a
-        className={`py-2 px-4 text-center ${
-          active ? "bg-gray200 text-gray500" : "bg-white text-gray500"
-        }`}
-        {...rest}
-      >
+      <a className={`py-2 px-4 text-center ${active ? "bg-gray200 text-gray500" : "bg-white text-gray500"}`} {...rest}>
         {children}
       </a>
     </Link>
@@ -41,9 +30,91 @@ const TopNav = () => {
   const t = useTranslations("Navigation");
 
   return (
-    <div className="bg-white text-black   lg:block text-center text-lg">
-      <div className="flex justify-center app-max-width  ">
-        <p className="underline   ">Découvrez la nouvelle marque de streetwear ALAA</p>
+    <div className="bg-gray500 text-gray100 hidden lg:block">
+      <div className="text-center app-max-width p-1 ">
+        <p style={{fontSize:"12px"}}>Découvrez la nouvelle marque de streetwear Deportivo</p>
+        {/* <ul className={`flex ${styles.topLeftMenu}`}>
+          <li>
+            <a href="#" aria-label="Haru Fashion Facebook Page">
+              <FacebookLogo />
+            </a>
+          </li>
+          <li>
+            <a href="#" aria-label="Haru Fashion Instagram Account">
+              <InstagramLogo />
+            </a>
+          </li>
+          <li>
+            <a href="#">{t("about_us")}</a>
+          </li>
+          <li>
+            <a href="#">{t("our_policy")}</a>
+          </li>
+        </ul>
+        <ul className={`flex ${styles.topRightMenu}`}>
+          <li>
+            <Menu as="div" className="relative">
+              <Menu.Button as="a" href="#" className="flex">
+                {locale === "en" ? t("eng") : t("myn")} <DownArrow />
+              </Menu.Button>
+              <Menu.Items
+                className="flex flex-col w-20 right-0 absolute p-1 border border-gray200 bg-white mt-2 outline-none"
+                style={{ zIndex: 9999 }}
+              >
+                <Menu.Item>
+                  {({ active }) => (
+                    <MyLink active={active} href={asPath} locale="en">
+                      {t("eng")}
+                    </MyLink>
+                  )}
+                </Menu.Item>
+                <Menu.Item>
+                  {({ active }) => (
+                    <MyLink active={active} href={asPath} locale="my">
+                      {t("myn")}
+                    </MyLink>
+                  )}
+                </Menu.Item>
+              </Menu.Items>
+            </Menu>
+          </li>
+          <li>
+            <Menu as="div" className="relative">
+              <Menu.Button as="a" href="#" className="flex">
+                {t("usd")} <DownArrow />
+              </Menu.Button>
+              <Menu.Items
+                className="flex flex-col w-20 right-0 absolute p-1 border border-gray200 bg-white mt-2 outline-none"
+                style={{ zIndex: 9999 }}
+              >
+                <Menu.Item>
+                  {({ active }) => (
+                    <a
+                      href="#"
+                      className={`${
+                        active ? "bg-gray100 text-gray500" : "bg-white text-gray500"
+                      } py-2 px-4 text-center focus:outline-none`}
+                    >
+                      {t("usd")}
+                    </a>
+                  )}
+                </Menu.Item>
+                <Menu.Item>
+                  {({ active }) => (
+                    <a
+                      href="#"
+                      className={`${
+                        active ? "bg-gray100 text-gray500" : "bg-white text-gray500"
+                      } py-2 px-4 text-center focus:outline-none`}
+                    >
+                      {t("mmk")}
+                    </a>
+                  )}
+                </Menu.Item>
+              </Menu.Items>
+            </Menu>
+          </li>
+        </ul> */}
       </div>
     </div>
   );
