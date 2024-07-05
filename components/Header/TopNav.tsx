@@ -30,9 +30,9 @@ const TopNav = () => {
   const t = useTranslations("Navigation");
 
   return (
-    <div className="bg-gray500 text-gray100 hidden lg:block">
+    <div className="bg-white text-black hidden lg:block">
       <div className="text-center app-max-width p-1 ">
-        <p style={{fontSize:"12px"}}>Découvrez la nouvelle marque de streetwear Deportivo</p>
+        <p  className="underline decoration-sky-500 text-lg">Découvrez la nouvelle marque de streetwear ALAA</p>
         {/* <ul className={`flex ${styles.topLeftMenu}`}>
           <li>
             <a href="#" aria-label="Haru Fashion Facebook Page">
