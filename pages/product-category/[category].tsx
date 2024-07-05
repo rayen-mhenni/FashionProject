@@ -21,14 +21,21 @@ type Props = {
   orderby: OrderType;
 };
 
-const ProductCategory: React.FC<Props> = ({ items, page, numberOfProducts, orderby }) => {
+const ProductCategory: React.FC<Props> = ({
+  items,
+  page,
+  numberOfProducts,
+  orderby,
+}) => {
   const t = useTranslations("Category");
 
   const router = useRouter();
   const { category } = router.query;
   const lastPage = Math.ceil(numberOfProducts / 10);
 
-  const capitalizedCategory = category!.toString().charAt(0).toUpperCase() + category!.toString().slice(1);
+  const capitalizedCategory =
+    category!.toString().charAt(0).toUpperCase() +
+    category!.toString().slice(1);
 
   const firstIndex = page === 1 ? page : page * 10 - 9;
   const lastIndex = page * 10;
@@ -73,7 +80,13 @@ const ProductCategory: React.FC<Props> = ({ items, page, numberOfProducts, order
               <Card key={item.id} item={item} />
             ))}
           </div>
-          {category !== "new-arrivals" && <Pagination currentPage={page} lastPage={lastPage} orderby={orderby} />}
+          {category !== "new-arrivals" && (
+            <Pagination
+              currentPage={page}
+              lastPage={lastPage}
+              orderby={orderby}
+            />
+          )}
         </div>
       </main>
 
@@ -83,21 +96,25 @@ const ProductCategory: React.FC<Props> = ({ items, page, numberOfProducts, order
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({ params, locale, query: { page = 1, orderby = "latest" } }) => {
+export const getServerSideProps: GetServerSideProps = async ({
+  params,
+  locale,
+  query: { page = 1, orderby = "latest" },
+}) => {
   const paramCategory = params!.category as string;
 
   const start = +page === 1 ? 0 : (+page - 1) * 10;
 
   let numberOfProducts = 0;
 
-  // if (paramCategory !== "new-arrivals") {
-  //   const numberOfProductsResponse = await axios.get(
-  //     `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/products/count?category=${paramCategory}`
-  //   );
-  //   numberOfProducts = +numberOfProductsResponse.data.count;
-  // } else {
-  //   numberOfProducts = 10;
-  // }
+  if (paramCategory !== "new-arrivals") {
+    const numberOfProductsResponse = await axios.get(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/products/count?category=${paramCategory}`
+    );
+    numberOfProducts = +numberOfProductsResponse.data.count;
+  } else {
+    numberOfProducts = 10;
+  }
 
   let order_by: string;
 
@@ -109,82 +126,23 @@ export const getServerSideProps: GetServerSideProps = async ({ params, locale, q
     order_by = "createdAt.desc";
   }
 
-  // const reqUrl =
-  //   paramCategory === "new-arrivals"
-  //     ? `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/products?order_by=createdAt.desc&limit=10`
-  //     : `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/products?order_by=${order_by}&offset=${start}&limit=10&category=${paramCategory}`;
+  const reqUrl =
+    paramCategory === "new-arrivals"
+      ? `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/products?order_by=createdAt.desc&limit=10`
+      : `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/products?order_by=${order_by}&offset=${start}&limit=10&category=${paramCategory}`;
 
-  // const res = await axios.get(reqUrl);
+  const res = await axios.get(reqUrl);
 
-  // const fetchedProducts = res.data.data.map((product: apiProductsType) => ({
-  //   ...product,
-  //   img1: product.image1,
-  //   img2: product.image2,
-  // }));
+  const fetchedProducts = res.data.data.map((product: apiProductsType) => ({
+    ...product,
+    img1: product.image1,
+    img2: product.image2,
+  }));
 
-  let items: any[] = [
-    {
-      id: 8241,
-      name: "Skinny Jeans in Dark Wash",
-      price: 49.95,
-      qty: 2, // Example of optional quantity (e.g., buying 2 of the same item)
-      description: "A classic pair of skinny jeans in a dark wash. Perfect for everyday wear.",
-      detail: "Made from high-quality stretch denim for a comfortable and flattering fit. Features a five-pocket design.",
-      categoryId: 1, // Could reference a separate category table
-      stock: 30,
-      // ... (optional properties)
-      category: {
-        id: 1,
-        name: "Jeans",
-        description: "Find your perfect fit with our selection of jeans",
-        thumbnailImage: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091",
-      },
-      img1: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091",
-      img2: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091",
-    },
-    {
-      id: 8241,
-      name: "Skinny Jeans in Dark Wash",
-      price: 49.95,
-      qty: 2, // Example of optional quantity (e.g., buying 2 of the same item)
-      description: "A classic pair of skinny jeans in a dark wash. Perfect for everyday wear.",
-      detail: "Made from high-quality stretch denim for a comfortable and flattering fit. Features a five-pocket design.",
-      categoryId: 1, // Could reference a separate category table
-      stock: 30,
-      // ... (optional properties)
-      category: {
-        id: 1,
-        name: "Jeans",
-        description: "Find your perfect fit with our selection of jeans",
-        thumbnailImage: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091",
-      },
-      img1: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091",
-      img2: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091",
-    },
-    {
-      id: 8241,
-      name: "Skinny Jeans in Dark Wash",
-      price: 49.95,
-      qty: 2, // Example of optional quantity (e.g., buying 2 of the same item)
-      description: "A classic pair of skinny jeans in a dark wash. Perfect for everyday wear.",
-      detail: "Made from high-quality stretch denim for a comfortable and flattering fit. Features a five-pocket design.",
-      categoryId: 1, // Could reference a separate category table
-      stock: 30,
-      // ... (optional properties)
-      category: {
-        id: 1,
-        name: "Jeans",
-        description: "Find your perfect fit with our selection of jeans",
-        thumbnailImage: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091",
-      },
-      img1: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091",
-      img2: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091",
-    },
-  ];
-  numberOfProducts = 3;
-  // fetchedProducts.forEach((product: apiProductsType) => {
-  //   items.push(product);
-  // });
+  let items: apiProductsType[] = [];
+  fetchedProducts.forEach((product: apiProductsType) => {
+    items.push(product);
+  });
 
   return {
     props: {
@@ -221,7 +179,9 @@ const SortMenu: React.FC<{ orderby: OrderType }> = ({ orderby }) => {
           {({ active }) => (
             <button
               type="button"
-              onClick={() => router.push(`/product-category/${category}?orderby=latest`)}
+              onClick={() =>
+                router.push(`/product-category/${category}?orderby=latest`)
+              }
               className={`${
                 active ? "bg-gray100 text-gray500" : "bg-white"
               } py-2 px-4 text-left w-full focus:outline-none whitespace-nowrap ${
@@ -236,7 +196,9 @@ const SortMenu: React.FC<{ orderby: OrderType }> = ({ orderby }) => {
           {({ active }) => (
             <button
               type="button"
-              onClick={() => router.push(`/product-category/${category}?orderby=price`)}
+              onClick={() =>
+                router.push(`/product-category/${category}?orderby=price`)
+              }
               className={`${
                 active ? "bg-gray100 text-gray500" : "bg-white"
               } py-2 px-4 text-left w-full focus:outline-none whitespace-nowrap ${
@@ -251,11 +213,14 @@ const SortMenu: React.FC<{ orderby: OrderType }> = ({ orderby }) => {
           {({ active }) => (
             <button
               type="button"
-              onClick={() => router.push(`/product-category/${category}?orderby=price-desc`)}
+              onClick={() =>
+                router.push(`/product-category/${category}?orderby=price-desc`)
+              }
               className={`${
                 active ? "bg-gray100 text-gray500" : "bg-white"
               } py-2 px-4 text-left w-full focus:outline-none whitespace-nowrap ${
-                currentOrder === "sort_by_price_desc" && "bg-gray500 text-gray100"
+                currentOrder === "sort_by_price_desc" &&
+                "bg-gray500 text-gray100"
               }`}
             >
               {t("sort_by_price_desc")}
