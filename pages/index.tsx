@@ -95,16 +95,16 @@ const Home: React.FC<Props> = ({ products }) => {
               <h2 className="text-4xl mb-4">Nouveautés</h2>
               <div className="border-t border-gray-300 flex-grow"></div> */}
             {/* <span>{t("best_selling_desc")}</span> */}
-            <table width="100%" className="mb-4">
+            <table width="80%" className="mb-10">
               <tr>
                 <td>
-                  <hr style={{ opacity: "0.2" }} />
+                  <hr style={{ opacity: "0.4" }} />
                 </td>
                 <td style={{ width: "1px", padding: "0 25px", whiteSpace: "nowrap" }}>
                   <h2 className="text-4xl">Nouveautés</h2>
                 </td>
                 <td>
-                  <hr style={{ opacity: "0.2" }} />
+                  <hr style={{ opacity: "0.4" }} />
                 </td>
               </tr>
             </table>
