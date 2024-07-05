@@ -31,8 +31,10 @@ const TopNav = () => {
 
   return (
     <div className="bg-white text-black hidden lg:block">
-      <div className="text-center app-max-width p-1 ">
-        <p  className="underline decoration-sky-500 text-lg">Découvrez la nouvelle marque de streetwear ALAA</p>
+      <div className="text-center app-max-width p-2 ">
+        <p className=" decoration-sky-500 " style={{ fontWeight: "500", fontSize: "12px" }}>
+          Découvrez la nouvelle marque de streetwear ALAA
+        </p>
         {/* <ul className={`flex ${styles.topLeftMenu}`}>
           <li>
             <a href="#" aria-label="Haru Fashion Facebook Page">
