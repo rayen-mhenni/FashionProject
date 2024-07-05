@@ -29,13 +29,15 @@ const Wishlist = () => {
         {/* ===== Heading & Continue Shopping */}
         <div className="app-max-width px-4 sm:px-8 md:px-20 w-full border-t-2 border-gray100">
           <h1 className="text-2xl sm:text-4xl text-center sm:text-left mt-6 mb-2 animatee__animated animate__bounce">
-            {t("wishlist")}
+            {/* {t("wishlist")} */}
+            Liste de souhaits
           </h1>
           <div className="mt-6 mb-3">
             <Link href="/">
               <a className="inline-block">
                 <LeftArrow size="sm" extraClass="inline-block" />{" "}
-                {t("continue_shopping")}
+                {/* {t("continue_shopping")} */}
+                Continuer vos achats
               </a>
             </Link>
           </div>
@@ -48,10 +50,10 @@ const Wishlist = () => {
               <thead>
                 <tr className="border-t-2 border-b-2 border-gray200">
                   <th className="font-normal hidden md:table-cell text-left sm:text-center py-2 xl:w-72">
-                    {t("product_image")}
+                  Image du produit
                   </th>
                   <th className="font-normal hidden md:table-cell text-left sm:text-center py-2 xl:w-72">
-                    {t("product_name")}
+                   Nom du produit
                   </th>
                   <th className="font-normal md:hidden text-left sm:text-center py-2 xl:w-72">
                     {t("product_details")}
@@ -61,13 +63,13 @@ const Wishlist = () => {
                       wishlist.length === 0 ? "text-center" : "text-right"
                     }`}
                   >
-                    {t("unit_price")}
+             Prix unitaire
                   </th>
                   <th className="font-normal hidden sm:table-cell py-2 max-w-xs">
-                    {t("add")}
+                  Ajouter
                   </th>
                   <th className="font-normal hidden sm:table-cell py-2 text-right w-10 whitespace-nowrap">
-                    {t("remove")}
+                  Supprimer
                   </th>
                   <th className="font-normal sm:hidden py-2 text-right w-10">
                     {t("actions")}
@@ -77,7 +79,8 @@ const Wishlist = () => {
               <tbody>
                 {wishlist.length === 0 ? (
                   <tr className="w-full text-center h-60 border-b-2 border-gray200">
-                    <td colSpan={5}>{t("wishlist_is_empty")}</td>
+                    <td colSpan={5}>
+                    La liste de souhaits est vide !                      </td>
                   </tr>
                 ) : (
                   wishlist.map((item) => {
@@ -141,7 +144,7 @@ const Wishlist = () => {
                 onClick={clearWishlist}
                 extraClass="w-full sm:w-48 whitespace-nowrap"
               >
-                {t("clear_wishlist")}
+               Vider la liste de souhaits
               </GhostButton>
             </div>
           </div>

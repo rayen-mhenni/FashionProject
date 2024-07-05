@@ -91,10 +91,11 @@ const Home: React.FC<Props> = ({ products }) => {
         {/* ===== Best Selling Section ===== */}
         <section className="app-max-width w-full h-full flex flex-col justify-center mt-16 mb-20">
           <div className="flex justify-center">
-            <div className="w-3/4 sm:w-1/2 md:w-1/3 text-center mb-8">
-              <h2 className="text-3xl mb-4">{t("best_selling")}</h2>
-              <span>{t("best_selling_desc")}</span>
-            </div>
+            <div className="border-t border-gray-300 flex-grow"></div>
+              <h2 className="text-4xl mb-4">Nouveautés</h2>
+              <div className="border-t border-gray-300 flex-grow"></div>
+              {/* <span>{t("best_selling_desc")}</span> */}
+         
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-x-4 lg:gap-x-12 gap-y-6 mb-10 app-x-padding">
             <Card key={currentItems[1].id} item={currentItems[1]} />
@@ -174,13 +175,13 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     },
     {
       id: 3,
-      name: "Coffee Maker",
-      price: 39.99,
-      qty: 5,
+      name: "Veste de survêtement ALAA",
+      price: 59.99,
+      qty: 1,
       description: "Start your day with a delicious cup of coffee brewed with this stylish coffee maker.",
-      img1: "https://robohash.org/O7D.png?set=set2",
-      img2: "https://robohash.org/O7D.png?set=set2",
-      categoryName: "Kitchen",
+      img1: "https://celio.tn/media/catalog/product/cache/dd9d425ebb6d2ec92fb4ce41e2a39a01/t/-/t-shirt-col-rond-100-coton-bleu-1112713-3-product_1_11.jpg",
+      img2: "https://celio.tn/media/catalog/product/cache/dd9d425ebb6d2ec92fb4ce41e2a39a01/e/s/essentiel-le-t-shirt-slim-vert-1116523-3-product_1_5.jpg",
+      categoryName: "survêtement",
       stock: 100,
       createdAt: "2024-06-30T15:15:00Z",
       category: {

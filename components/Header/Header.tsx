@@ -133,11 +133,11 @@ const Header: React.FC<Props> = ({ title }) => {
               <li>
                 <SearchForm />
               </li>
-              <li>
+              {/* <li>
                 <AuthForm>
                   <UserIcon />
                 </AuthForm>
-              </li>
+              </li> */}
               <li>
                 <Link href="/wishlist" passHref>
                   {/* <a className="relative" aria-label="Wishlist"> */}
