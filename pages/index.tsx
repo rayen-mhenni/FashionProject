@@ -118,24 +118,31 @@ const Home: React.FC<Props> = ({ products }) => {
         </section>
 
         {/* ===== Testimonial Section ===== */}
-        <section className="w-full hidden h-full py-16 md:flex flex-col items-center bg-lightgreen">
+        {/* <section className="w-full hidden h-full py-16 md:flex flex-col items-center bg-lightgreen">
           <h2 className="text-3xl">{t("testimonial")}</h2>
           <TestiSlider />
-        </section>
+        </section> */}
+  <div className="border-gray100 border-b-2"></div>
 
         {/* ===== Featured Products Section ===== */}
         <section className="app-max-width app-x-padding my-16 flex flex-col">
           <div className="text-center mb-6">
-            <h2 className="text-3xl">{t("featured_products")}</h2>
+            
+            <h2 className="text-3xl">Collections</h2>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-x-4 gap-y-10 sm:gap-y-6 mb-10">
             {currentItems.map((item) => (
-              <Card key={item.id} item={item} />
+              <>
+              <div className="relative ">
+              <Card key={item.id} item={item} ></Card>
+              
+              <Button value={!isFetching ? 'DECOUVREZ LA COLLECTION' : 'Chargement...'} onClick={handleSeemore} />
+            </div>
+            </>
             ))}
+          
           </div>
-          <div className="flex justify-center">
-            <Button value={!isFetching ? t("see_more") : t("loading")} onClick={handleSeemore} />
-          </div>
+       
         </section>
 
         <div className="border-gray100 border-b-2"></div>

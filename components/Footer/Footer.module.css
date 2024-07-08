@@ -1,14 +1,15 @@
 .footerHead {
-  @apply text-gray400 text-lg mb-1 md:mb-3;
+  @apply text-white text-lg mb-1 md:mb-3;
 }
 
 .column {
-  @apply flex flex-col;
+  @apply flex text-gray400 flex-col;
 }
 
 .column a:hover {
-  @apply text-gray400 underline;
+  @apply text-white underline;
 }
+
 .fullFooter{
   @apply bg-gray500;
   @apply text-white

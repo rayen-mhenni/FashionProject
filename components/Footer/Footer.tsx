@@ -77,7 +77,7 @@ export default function Footer() {
           <Button
             size="lg"
             value={t("send")}
-            extraClass="ml-0 mt-4 sm:mt-0 tracking-widest sm:tracking-normal sm:mt-0 sm:ml-4 w-auto w-full sm:w-auto"
+            extraClass="size-20 ml-0 mt-4 sm:mt-0 tracking-widest sm:tracking-normal sm:ml-4 w-full sm:w-auto bg-white hover:bg-white text-slate-950"  
           />
         </div>
       </div>
