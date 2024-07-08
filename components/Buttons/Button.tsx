@@ -9,15 +9,7 @@ type Props = {
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
 };
 
-const Button: FC<Props> = ({
-  size = "sm",
-  value,
-  extraClass,
-  onClick,
-  children,
-  type = "button",
-  disabled = false,
-}) => {
+const Button: FC<Props> = ({ size = "sm", value, extraClass, onClick, children, type = "button", disabled = false }) => {
   let btnSize = "";
   if (size === "sm") {
     btnSize = "py-2 sm:py-1 px-5";
@@ -31,10 +23,10 @@ const Button: FC<Props> = ({
       type={type}
       onClick={onClick}
       disabled={disabled}
-      className={`text-xl sm:text-base ${btnSize} border border-gray500 ${
+      className={`text-xs sm:text-base ${btnSize} border border-gray500 ${
         disabled
-          ? "bg-gray400 text-gray300 cursor-not-allowed"
-          : "bg-gray500 text-gray100 hover:text-gray300"
+          ? "bg-gray400 text-gray300 font-semibold cursor-not-allowed"
+          : "bg-gray400 text-gray100 font-semibold hover:text-gray500"
       } ${extraClass}`}
     >
       {value} <span className="ml-1">{children}</span>

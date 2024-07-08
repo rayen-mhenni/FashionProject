@@ -10,9 +10,11 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.0.0",
+    "@types/lodash": "^4.17.6",
     "animate.css": "^4.1.1",
     "axios": "^0.26.0",
     "cookies-next": "^2.0.4",
+    "easy-magnify": "^1.1.4",
     "next": "^12.1.0",
     "next-intl": "^2.4.0",
     "next-pwa": "^5.4.4",

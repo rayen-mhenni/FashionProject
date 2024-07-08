@@ -57,37 +57,6 @@ const Home: React.FC<Props> = ({ products }) => {
       <Slideshow />
 
       <main id="main-content" className="-mt-20">
-        {/* ===== Category Section ===== */}
-        <section className="w-full h-auto py-10 border border-b-2 border-gray100">
-          <div className="app-max-width app-x-padding h-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="w-full sm:col-span-2 lg:col-span-2">
-              <OverlayContainer
-                imgSrc="/bg-img/banner_minipage1.jpg"
-                imgSrc2="/bg-img/banner_minipage1-tablet.jpg"
-                imgAlt="New Arrivals"
-              >
-                <LinkButton href="/product-category/new-arrivals" extraClass="absolute bottom-10-per sm:right-10-per z-20">
-                  {t("new_arrivals")}
-                </LinkButton>
-              </OverlayContainer>
-            </div>
-            <div className="w-full">
-              <OverlayContainer imgSrc="/bg-img/banner_minipage2.jpg" imgAlt="Women Collection">
-                <LinkButton href="/product-category/women" extraClass="absolute bottom-10-per z-20">
-                  {t("women_collection")}
-                </LinkButton>
-              </OverlayContainer>
-            </div>
-            <div className="w-full">
-              <OverlayContainer imgSrc="/bg-img/banner_minipage3.jpg" imgAlt="Men Collection">
-                <LinkButton href="/product-category/men" extraClass="absolute bottom-10-per z-20">
-                  {t("men_collection")}
-                </LinkButton>
-              </OverlayContainer>
-            </div>
-          </div>
-        </section>
-
         {/* ===== Best Selling Section ===== */}
         <section className="app-max-width w-full h-full flex flex-col justify-center mt-16 mb-20">
           <div className="flex justify-center">
@@ -122,33 +91,64 @@ const Home: React.FC<Props> = ({ products }) => {
           <h2 className="text-3xl">{t("testimonial")}</h2>
           <TestiSlider />
         </section> */}
-  <div className="border-gray100 border-b-2"></div>
+        {/* <div className="border-gray100 border-b-2"></div> */}
 
-        {/* ===== Featured Products Section ===== */}
-        <section className="app-max-width app-x-padding my-16 flex flex-col">
-          <div className="text-center mb-6">
-            
-            <h2 className="text-3xl">Collections</h2>
+        {/* ===== Category Section ===== */}
+        <section className="app-max-width w-full h-full flex flex-col justify-center mt-20 ">
+          <div className="flex justify-center">
+            {/* <div className="border-t border-gray-300 flex-grow"></div>
+              <h2 className="text-4xl mb-4">Nouveautés</h2>
+              <div className="border-t border-gray-300 flex-grow"></div> */}
+            {/* <span>{t("best_selling_desc")}</span> */}
+            <table width="90%">
+              <tr>
+                <td>
+                  <hr style={{ opacity: "0.2" }} />
+                </td>
+                <td style={{ width: "1px", padding: "0 25px", whiteSpace: "nowrap" }}>
+                  <h2 className="text-4xl">Collections</h2>
+                </td>
+                <td>
+                  <hr style={{ opacity: "0.2" }} />
+                </td>
+              </tr>
+            </table>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-x-4 gap-y-10 sm:gap-y-6 mb-10">
-            {currentItems.map((item) => (
-              <>
-              <div className="relative ">
-              <Card key={item.id} item={item} ></Card>
-              
-              <Button value={!isFetching ? 'DECOUVREZ LA COLLECTION' : 'Chargement...'} onClick={handleSeemore} />
+        </section>
+        <section className="w-full h-auto py-10 mb-20">
+          <div className="app-max-width app-x-padding h-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="w-full sm:col-span-2 lg:col-span-2">
+              <OverlayContainer
+                imgSrc="/bg-img/banner_minipage1.jpg"
+                imgSrc2="/bg-img/banner_minipage1-tablet.jpg"
+                imgAlt="New Arrivals"
+              >
+                <LinkButton href="/product-category/new-arrivals" extraClass="absolute bottom-10-per sm:right-10-per z-20">
+                  {t("new_arrivals")}
+                </LinkButton>
+              </OverlayContainer>
             </div>
-            </>
-            ))}
-          
+            <div className="w-full">
+              <OverlayContainer imgSrc="/bg-img/banner_minipage2.jpg" imgAlt="Women Collection">
+                <LinkButton href="/product-category/women" extraClass="absolute bottom-10-per z-20">
+                  {t("women_collection")}
+                </LinkButton>
+              </OverlayContainer>
+            </div>
+            <div className="w-full">
+              <OverlayContainer imgSrc="/bg-img/banner_minipage3.jpg" imgAlt="Men Collection">
+                <LinkButton href="/product-category/men" extraClass="absolute bottom-10-per z-20">
+                  {t("men_collection")}
+                </LinkButton>
+              </OverlayContainer>
+            </div>
           </div>
-       
         </section>
 
-        <div className="border-gray100 border-b-2"></div>
+        {/* <div className="border-gray100 border-b-2"></div> */}
 
         {/* ===== Our Shop Section */}
-        <section className="app-max-width mt-16 mb-20 flex flex-col justify-center items-center text-center">
+        {/* <section className="app-max-width mt-16 mb-20 flex flex-col justify-center items-center text-center">
           <div className="textBox w-3/4 md:w-2/4 lg:w-2/5 mb-6">
             <h2 className="text-3xl mb-6">{t("our_shop")}</h2>
             <span className="w-full">{t("our_shop_desc")}</span>
@@ -156,7 +156,7 @@ const Home: React.FC<Props> = ({ products }) => {
           <div className="w-full app-x-padding flex justify-center">
             <Image src={ourShop} alt="Our Shop" />
           </div>
-        </section>
+        </section> */}
       </main>
 
       {/* ===== Footer Section ===== */}

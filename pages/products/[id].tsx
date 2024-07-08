@@ -25,7 +25,7 @@ import { apiProductsType, itemType } from "../../context/cart/cart-types";
 import { useWishlist } from "../../context/wishlist/WishlistProvider";
 import { useCart } from "../../context/cart/CartProvider";
 import HeartSolid from "../../public/icons/HeartSolid";
-
+import { EasyZoomOnMove } from "easy-magnify";
 // install Swiper modules
 SwiperCore.use([Pagination]);
 
@@ -123,9 +123,19 @@ const Product: React.FC<Props> = ({ product, products }) => {
                   <Image className="each-slide w-full" src={img2 as string} width={1000} height={1282} alt={product.name} />
                 </SwiperSlide>
               </Swiper>
-              <div className="hidden sm:block h-full">
-                <Image className="w-full" src={mainImg as string} width={1000} height={1282} alt={product.name} />
-              </div>
+                <EasyZoomOnMove
+                  mainImage={{
+                    src: img1 ?? "",
+                    alt: "My Product",
+                    width: 466,
+                    height: 466,
+                  }}
+                  zoomImage={{
+                    src: img1 ?? "",
+                    alt: "My Product",
+                  }}
+                />
+                {/* <Image className="w-full" src={mainImg as string} width={1000} height={1282} alt={product.name} /> */}
             </div>
           </div>
           <div className="infoSection w-full md:w-1/2 h-auto py-8 sm:pl-4 flex flex-col">
