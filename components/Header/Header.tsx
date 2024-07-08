@@ -14,6 +14,10 @@ import AppHeader from "./AppHeader";
 import { useWishlist } from "../../context/wishlist/WishlistProvider";
 
 import styles from "./Header.module.css";
+import Dropdown from "rc-dropdown";
+import { Item as MenuItem, Divider } from "rc-menu";
+import MenuRC from "rc-menu";
+import "rc-dropdown/assets/index.css";
 
 type Props = {
   title?: string;
@@ -61,6 +65,87 @@ const Header: React.FC<Props> = ({ title }) => {
   if (!didMount) {
     return null;
   }
+
+  function onSelect({ key }: any) {
+    console.log(`${key} selected`);
+  }
+
+  function onVisibleChange(visible: any) {
+    console.log(visible);
+  }
+
+  const menuCol = (
+    <MenuRC onSelect={onSelect} className="p-10 cursor-pointer	">
+      <MenuItem
+        key="1"
+        className="cursor-pointer hover:text-gray400 text-base"
+        style={{ marginLeft: "25px", marginRight: "25px", marginTop: "15px" }}
+      >
+        Collection KKK
+      </MenuItem>
+      <hr className="mx-5 my-2	" style={{ opacity: "5%" }} />
+      <MenuItem
+        key="2"
+        className="cursor-pointer hover:text-gray400 text-base"
+        style={{ marginLeft: "25px", marginRight: "25px", marginTop: "15px" }}
+      >
+        Collection aaaa{" "}
+      </MenuItem>
+      <hr className="mx-5 my-2	" style={{ opacity: "5%" }} />
+      <MenuItem
+        key="3"
+        className="cursor-pointer hover:text-gray400 text-base"
+        style={{ marginLeft: "25px", marginRight: "25px", marginTop: "15px" }}
+      >
+        Collection sssss{" "}
+      </MenuItem>
+      <hr className="mx-5 my-2	" style={{ opacity: "5%" }} />
+      <MenuItem
+        key="4"
+        className="cursor-pointer hover:text-gray400 text-base"
+        style={{ marginLeft: "25px", marginRight: "25px", marginTop: "15px" }}
+      >
+        Collection KKKsss
+      </MenuItem>
+      <hr className="mx-5 my-2	" style={{ opacity: "0%" }} />
+    </MenuRC>
+  );
+  const menuCat = (
+    <MenuRC onSelect={onSelect} className="p-10 cursor-pointer	">
+      <MenuItem
+        key="1"
+        className="cursor-pointer hover:text-gray400 text-base"
+        style={{ marginLeft: "25px", marginRight: "25px", marginTop: "15px" }}
+      >
+        T shirt
+      </MenuItem>
+      <hr className="mx-5 my-2	" style={{ opacity: "5%" }} />
+      <MenuItem
+        key="2"
+        className="cursor-pointer hover:text-gray400 text-base"
+        style={{ marginLeft: "25px", marginRight: "25px", marginTop: "15px" }}
+      >
+        Robe soiree
+      </MenuItem>
+      <hr className="mx-5 my-2	" style={{ opacity: "5%" }} />
+      <MenuItem
+        key="3"
+        className="cursor-pointer hover:text-gray400 text-base"
+        style={{ marginLeft: "25px", marginRight: "25px", marginTop: "15px" }}
+      >
+        Klasen
+      </MenuItem>
+      <hr className="mx-5 my-2	" style={{ opacity: "5%" }} />
+      <MenuItem
+        key="4"
+        className="cursor-pointer hover:text-gray400 text-base"
+        style={{ marginLeft: "25px", marginRight: "25px", marginTop: "15px" }}
+      >
+        Slipett
+      </MenuItem>
+      <hr className="mx-5 my-2	" style={{ opacity: "0%" }} />
+    </MenuRC>
+  );
   return (
     <>
       {/* ===== <head> section ===== */}
@@ -89,24 +174,33 @@ const Header: React.FC<Props> = ({ title }) => {
             {/* Left Nav */}
             <ul className={`flex-0 lg:flex-1 flex ${styles.leftMenu}`}>
               <li>
-                <Link href={`/product-category/men`}>
-                  <a>{t("men")}</a>
+                <Link href={`/`}>
+                  <a>{"Accueil"}</a>
                 </Link>
               </li>
               <li>
-                <Link href={`/product-category/women`}>
-                  <a>{t("women")}</a>
-                </Link>
+                <Dropdown
+                  trigger={["hover", "click"]}
+                  overlay={menuCol}
+                  animation="slide-up"
+                  overlayClassName="w-60 pt-4 cursor-pointer	"
+                  openClassName="cursor-pointer	"
+                  onVisibleChange={onVisibleChange}
+                >
+                  <a>{"Nos Collection"}</a>
+                </Dropdown>
               </li>
               <li>
-                <Link href="/product-category/bags">
-                  <a>{t("bags")}</a>
-                </Link>
-              </li>
-              <li>
-                <Link href="/coming-soon">
-                  <a>{t("blogs")}</a>
-                </Link>
+                <Dropdown
+                  trigger={["hover", "click"]}
+                  overlay={menuCat}
+                  animation="slide-up"
+                  overlayClassName="w-60 pt-4 cursor-pointer	"
+                  openClassName="cursor-pointer	"
+                  onVisibleChange={onVisibleChange}
+                >
+                  <a>{"Catalogue"}</a>
+                </Dropdown>
               </li>
             </ul>
 

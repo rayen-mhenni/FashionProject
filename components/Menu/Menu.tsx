@@ -24,6 +24,8 @@ export default function Menu() {
   const { wishlist } = useWishlist();
   const auth = useAuth();
   const [open, setOpen] = useState(false);
+  const [openCol, setopenCol] = useState(false);
+  const [openCat, setopenCat] = useState(false);
   const [searchValue, setSearchValue] = useState("");
 
   // Calculate Number of Wishlist
@@ -50,12 +52,7 @@ export default function Menu() {
   return (
     <>
       <div className="relative">
-        <button
-          type="button"
-          aria-label="Hamburger Menu"
-          onClick={openModal}
-          className="focus:outline-none"
-        >
+        <button type="button" aria-label="Hamburger Menu" onClick={openModal} className="focus:outline-none">
           <MenuIcon />
         </button>
       </div>
@@ -88,20 +85,10 @@ export default function Menu() {
                 <div className="flex justify-between items-center p-6 pb-0">
                   <Link href="/">
                     <a>
-                      <Image
-                        className="justify-center"
-                        src="/logo.svg"
-                        alt="Picture of the author"
-                        width={85}
-                        height={22}
-                      />
+                      <Image className="justify-center" src="/logo.svg" alt="Picture of the author" width={85} height={22} />
                     </a>
                   </Link>
-                  <button
-                    type="button"
-                    className="outline-none focus:outline-none text-3xl sm:text-2xl"
-                    onClick={closeModal}
-                  >
+                  <button type="button" className="outline-none focus:outline-none text-3xl sm:text-2xl" onClick={closeModal}>
                     &#10005;
                   </button>
                 </div>
@@ -120,54 +107,78 @@ export default function Menu() {
                         onChange={handleChange}
                       />
                     </form>
-                    <Link href="/product-category/men">
-                      <a
-                        className="w-full text-xl hover:bg-gray100 text-left py-2"
-                        onClick={closeModal}
-                      >
-                        {t("men")}
+                    <Link href="/">
+                      <a className="w-full text-xl hover:bg-gray100 text-left py-2" onClick={closeModal}>
+                        {"Accueil"}
                       </a>
                     </Link>
+
                     <Link href="/product-category/women">
                       <a
                         className="w-full text-xl hover:bg-gray100 text-left py-2"
-                        onClick={closeModal}
+                        onClick={() => setopenCol(!openCol)}
                       >
-                        {t("women")}
+                        {"Nos Collection"}
                       </a>
                     </Link>
+                    {openCol && (
+                      <div className="itemContainer px-10 w-full flex flex-col justify-around items-center">
+                        <Link href="/product-category/women">
+                          <a className="w-full text-lg hover:bg-gray100 text-left py-2" onClick={closeModal}>
+                            {"Collection KKK"}
+                          </a>
+                        </Link>
+                        <Link href="/product-category/women">
+                          <a className="w-full text-lg hover:bg-gray100 text-left py-2" onClick={closeModal}>
+                            Collection aaaa{" "}
+                          </a>
+                        </Link>
+                        <Link href="/product-category/women">
+                          <a className="w-full text-lg hover:bg-gray100 text-left py-2" onClick={closeModal}>
+                            Collection sssss{" "}
+                          </a>
+                        </Link>
+                        <Link href="/product-category/women">
+                          <a className="w-full text-lg hover:bg-gray100 text-left py-2" onClick={closeModal}>
+                            Collection KKKsss
+                          </a>
+                        </Link>
+                      </div>
+                    )}
+
                     <Link href="/product-category/bags">
                       <a
                         className="w-full text-xl hover:bg-gray100 text-left py-2"
-                        onClick={closeModal}
+                        onClick={() => setopenCat(!openCat)}
                       >
-                        {t("bags")}
+                        {"Catalogue"}
                       </a>
                     </Link>
-                    <Link href="/blogs">
-                      <a
-                        className="w-full text-xl hover:bg-gray100 text-left py-2"
-                        onClick={closeModal}
-                      >
-                        {t("blogs")}
-                      </a>
-                    </Link>
-                    <Link href="/about">
-                      <a
-                        className="w-full text-xl hover:bg-gray100 text-left py-2"
-                        onClick={closeModal}
-                      >
-                        {t("about_us")}
-                      </a>
-                    </Link>
-                    <Link href="/contact">
-                      <a
-                        className="w-full text-xl hover:bg-gray100 text-left py-2"
-                        onClick={closeModal}
-                      >
-                        {t("contact_us")}
-                      </a>
-                    </Link>
+                    {openCat && (
+                      <div className="itemContainer px-10 w-full flex flex-col justify-around items-center">
+                        <Link href="/product-category/women">
+                          <a className="w-full text-lg hover:bg-gray100 text-left py-2" onClick={closeModal}>
+                            T shirt
+                          </a>
+                        </Link>
+                        <Link href="/product-category/women">
+                          <a className="w-full text-lg hover:bg-gray100 text-left py-2" onClick={closeModal}>
+                            Robe soiree
+                          </a>
+                        </Link>
+                        <Link href="/product-category/women">
+                          <a className="w-full text-lg hover:bg-gray100 text-left py-2" onClick={closeModal}>
+                            Klasen{" "}
+                          </a>
+                        </Link>
+                        <Link href="/product-category/women">
+                          <a className="w-full text-lg hover:bg-gray100 text-left py-2" onClick={closeModal}>
+                            Slipett{" "}
+                          </a>
+                        </Link>
+                      </div>
+                    )}
+
                     <hr className="border border-gray300 w-full mt-2" />
                     <div className="w-full text-xl py-2 my-3 flex justify-between">
                       <AuthForm extraClass="flex justify-between w-full">
@@ -182,9 +193,7 @@ export default function Menu() {
                         <div className="relative">
                           <WhistlistIcon />
                           {noOfWishlist > 0 && (
-                            <span
-                              className={`absolute text-xs -top-0 -left-7 bg-gray500 text-gray100 py-1 px-2 rounded-full`}
-                            >
+                            <span className={`absolute text-xs -top-0 -left-7 bg-gray500 text-gray100 py-1 px-2 rounded-full`}>
                               {noOfWishlist}
                             </span>
                           )}
@@ -194,7 +203,7 @@ export default function Menu() {
                     <hr className="border border-gray300 w-full" />
 
                     {/* Locale Dropdown */}
-                    <HMenu
+                    {/* <HMenu
                       as="div"
                       className="relative bg-gray100 mt-4 mb-2 w-full"
                     >
@@ -237,10 +246,10 @@ export default function Menu() {
                           </Link>
                         </HMenu.Item>
                       </HMenu.Items>
-                    </HMenu>
+                    </HMenu> */}
 
                     {/* Currency Dropdown */}
-                    <HMenu as="div" className="relative bg-gray100 my-2 w-full">
+                    {/* <HMenu as="div" className="relative bg-gray100 my-2 w-full">
                       <HMenu.Button
                         as="a"
                         href="#"
@@ -281,7 +290,7 @@ export default function Menu() {
                           )}
                         </HMenu.Item>
                       </HMenu.Items>
-                    </HMenu>
+                    </HMenu> */}
 
                     <div className="flex my-10 w-2/5 space-x-6 justify-center">
                       <a
