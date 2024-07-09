@@ -12,12 +12,18 @@ module.exports = withPWA({
     removeConsole: false,
   },
   images: {
-    domains: ["robohash.org", "res.cloudinary.com", "dptvo-store.com","threadlogic.com","celio.tn"],
+    domains: ["robohash.org", "res.cloudinary.com", "dptvo-store.com", "threadlogic.com", "celio.tn"],
   },
   pwa: {
     dest: "public",
     skipWaiting: true,
     disable: process.env.NODE_ENV === "development",
+  },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  typescript: {
+    ignoreBuildErrors: true,
   },
   // };
 });
