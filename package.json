@@ -14,6 +14,7 @@
     "animate.css": "^4.1.1",
     "axios": "^0.26.0",
     "cookies-next": "^2.0.4",
+    "copy-to-clipboard": "^3.3.3",
     "easy-magnify": "^1.1.4",
     "next": "^12.3.4",
     "next-intl": "^2.4.0",

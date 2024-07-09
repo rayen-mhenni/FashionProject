@@ -33,7 +33,7 @@ const GhostButton: FC<Props> = ({
       className={`bg-white text-center cursor-pointer text-xl sm:text-base tracking-widest text-gray500 ${
         !noBorder && "border border-gray500"
       } ${
-        inverted ? "hover:bg-gray500 hover:text-gray100" : "hover:text-gray400"
+        inverted ? " hover:text-gray100" : "hover:text-gray100"
       } ${btnSize} ${extraClass}`}
     >
       {children}

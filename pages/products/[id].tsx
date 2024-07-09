@@ -26,6 +26,9 @@ import { useWishlist } from "../../context/wishlist/WishlistProvider";
 import { useCart } from "../../context/cart/CartProvider";
 import HeartSolid from "../../public/icons/HeartSolid";
 import { EasyZoomOnMove } from "easy-magnify";
+import ShareLink from "../../public/icons/shareLink";
+import copy from "copy-to-clipboard";
+
 // install Swiper modules
 SwiperCore.use([Pagination]);
 
@@ -34,7 +37,7 @@ type Props = {
   products: itemType[];
 };
 
-const Product: React.FC<Props> = ({ product, products }) => {
+const Product: React.FC<Props> = ({ product, products, url }) => {
   const img1 = product.img1;
   const img2 = product.img2;
 
@@ -43,6 +46,7 @@ const Product: React.FC<Props> = ({ product, products }) => {
   const [size, setSize] = useState("M");
   const [mainImg, setMainImg] = useState(img1);
   const [currentQty, setCurrentQty] = useState(1);
+  const [copied, setcopied] = useState(false);
   const t = useTranslations("Category");
 
   const alreadyWishlisted = wishlist.filter((wItem) => wItem.id === product.id).length > 0;
@@ -123,19 +127,19 @@ const Product: React.FC<Props> = ({ product, products }) => {
                   <Image className="each-slide w-full" src={img2 as string} width={1000} height={1282} alt={product.name} />
                 </SwiperSlide>
               </Swiper>
-                <EasyZoomOnMove
-                  mainImage={{
-                    src: img1 ?? "",
-                    alt: "My Product",
-                    width: 466,
-                    height: 466,
-                  }}
-                  zoomImage={{
-                    src: img1 ?? "",
-                    alt: "My Product",
-                  }}
-                />
-                {/* <Image className="w-full" src={mainImg as string} width={1000} height={1282} alt={product.name} /> */}
+              <EasyZoomOnMove
+                mainImage={{
+                  src: img1 ?? "",
+                  alt: "My Product",
+                  width: 466,
+                  height: 466,
+                }}
+                zoomImage={{
+                  src: img1 ?? "",
+                  alt: "My Product",
+                }}
+              />
+              {/* <Image className="w-full" src={mainImg as string} width={1000} height={1282} alt={product.name} /> */}
             </div>
           </div>
           <div className="infoSection w-full md:w-1/2 h-auto py-8 sm:pl-4 flex flex-col">
@@ -196,10 +200,10 @@ const Product: React.FC<Props> = ({ product, products }) => {
                 <Button
                   value={t("add_to_cart")}
                   size="lg"
-                  extraClass={`flex-grow text-center whitespace-nowrap`}
+                  extraClass={`flex-grow text-center whitespace-nowrap hover:bg-gray200`}
                   onClick={() => addItem!(currentItem)}
                 />
-                <GhostButton onClick={handleWishlist}>
+                <GhostButton onClick={handleWishlist} extraClass="hover:bg-gray200">
                   {alreadyWishlisted ? <HeartSolid extraClass="inline" /> : <Heart extraClass="inline" />}
                 </GhostButton>
               </div>
@@ -217,10 +221,18 @@ const Product: React.FC<Props> = ({ product, products }) => {
                 </>
               )}
             </Disclosure>
-            <div className="flex items-center space-x-4 mt-4">
-              <span>{t("share")}</span>
-              <FacebookLogo extraClass="h-4 cursor-pointer text-gray400 hover:text-gray500" />
-              <InstagramLogo extraClass="h-4 cursor-pointer text-gray400 hover:text-gray500" />
+            <div className="flex items-center mt-4">
+              <span>{t("shareLink")}</span>
+              <div
+                className="ml-3 cursor-pointer rounded-full h-10 w-10 flex items-center justify-center hover:bg-gray200"
+                onClick={() => {
+                  copy(window.location.href);
+                  setcopied(true);
+                }}
+              >
+                <ShareLink extraClass="h-5 cursor-pointer" />
+              </div>
+              {copied && <p className="text-blue">copié!</p>}
             </div>
           </div>
         </div>
@@ -264,7 +276,7 @@ const Product: React.FC<Props> = ({ product, products }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({ params, locale }) => {
+export const getServerSideProps: GetServerSideProps = async ({ params, locale, req }) => {
   // const paramId = params!.id as string;
   // const res = await axios.get(
   //   `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/products/${paramId}?include=category`
@@ -356,6 +368,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params, locale })
       product,
       products,
       messages: (await import(`../../messages/common/${locale}.json`)).default,
+      url: req.headers.host + req.url,
     },
   };
 };

@@ -1,7 +1,7 @@
 const withPWA = require("next-pwa");
 
-module.exports = withPWA({
-  //  module.exports = {
+// module.exports = withPWA({
+module.exports = {
   i18n: {
     locales: ["en", "my"],
     defaultLocale: "en",
@@ -25,5 +25,5 @@ module.exports = withPWA({
   typescript: {
     ignoreBuildErrors: true,
   },
-  // };
-});
+};
+// });
