@@ -75,75 +75,45 @@ const Header: React.FC<Props> = ({ title }) => {
   }
 
   const menuCol = (
-    <MenuRC onSelect={onSelect} className="p-10 cursor-pointer	">
-      <MenuItem
-        key="1"
-        className="cursor-pointer hover:text-gray400 text-base"
-        style={{ marginLeft: "25px", marginRight: "25px", marginTop: "15px" }}
-      >
-        Collection KKK
-      </MenuItem>
-      <hr className="mx-5 my-2	" style={{ opacity: "5%" }} />
-      <MenuItem
-        key="2"
-        className="cursor-pointer hover:text-gray400 text-base"
-        style={{ marginLeft: "25px", marginRight: "25px", marginTop: "15px" }}
-      >
-        Collection aaaa{" "}
-      </MenuItem>
-      <hr className="mx-5 my-2	" style={{ opacity: "5%" }} />
-      <MenuItem
-        key="3"
-        className="cursor-pointer hover:text-gray400 text-base"
-        style={{ marginLeft: "25px", marginRight: "25px", marginTop: "15px" }}
-      >
-        Collection sssss{" "}
-      </MenuItem>
-      <hr className="mx-5 my-2	" style={{ opacity: "5%" }} />
-      <MenuItem
-        key="4"
-        className="cursor-pointer hover:text-gray400 text-base"
-        style={{ marginLeft: "25px", marginRight: "25px", marginTop: "15px" }}
-      >
-        Collection KKKsss
-      </MenuItem>
-      <hr className="mx-5 my-2	" style={{ opacity: "0%" }} />
+    <MenuRC onSelect={onSelect} className=" cursor-pointer	">
+      <div className="bg-white py-2">
+        <MenuItem key="1" className={styles.navBarSubItem} style={{ marginLeft: "25px", marginRight: "25px" }}>
+          Collection KKK
+        </MenuItem>
+        <hr className="mx-5 my-2	" style={{ opacity: "5%" }} />
+        <MenuItem key="2" className={styles.navBarSubItem} style={{ marginLeft: "25px", marginRight: "25px" }}>
+          Collection aaaa{" "}
+        </MenuItem>
+        <hr className="mx-5 my-2	" style={{ opacity: "5%" }} />
+        <MenuItem key="3" className={styles.navBarSubItem} style={{ marginLeft: "25px", marginRight: "25px" }}>
+          Collection sssss{" "}
+        </MenuItem>
+        <hr className="mx-5 my-2	" style={{ opacity: "5%" }} />
+        <MenuItem key="4" className={styles.navBarSubItem} style={{ marginLeft: "25px", marginRight: "25px" }}>
+          Collection KKKsss
+        </MenuItem>
+      </div>{" "}
     </MenuRC>
   );
   const menuCat = (
-    <MenuRC onSelect={onSelect} className="p-10 cursor-pointer	">
-      <MenuItem
-        key="1"
-        className="cursor-pointer hover:text-gray400 text-base"
-        style={{ marginLeft: "25px", marginRight: "25px", marginTop: "15px" }}
-      >
-        T shirt
-      </MenuItem>
-      <hr className="mx-5 my-2	" style={{ opacity: "5%" }} />
-      <MenuItem
-        key="2"
-        className="cursor-pointer hover:text-gray400 text-base"
-        style={{ marginLeft: "25px", marginRight: "25px", marginTop: "15px" }}
-      >
-        Robe soiree
-      </MenuItem>
-      <hr className="mx-5 my-2	" style={{ opacity: "5%" }} />
-      <MenuItem
-        key="3"
-        className="cursor-pointer hover:text-gray400 text-base"
-        style={{ marginLeft: "25px", marginRight: "25px", marginTop: "15px" }}
-      >
-        Klasen
-      </MenuItem>
-      <hr className="mx-5 my-2	" style={{ opacity: "5%" }} />
-      <MenuItem
-        key="4"
-        className="cursor-pointer hover:text-gray400 text-base"
-        style={{ marginLeft: "25px", marginRight: "25px", marginTop: "15px" }}
-      >
-        Slipett
-      </MenuItem>
-      <hr className="mx-5 my-2	" style={{ opacity: "0%" }} />
+    <MenuRC onSelect={onSelect} className="cursor-pointer ">
+      <div className="bg-white py-2">
+        <MenuItem key="1" className={styles.navBarSubItem} style={{ marginLeft: "25px", marginRight: "25px" }}>
+          T shirt
+        </MenuItem>
+        <hr className="mx-5 my-2	" style={{ opacity: "5%" }} />
+        <MenuItem key="2" className={styles.navBarSubItem} style={{ marginLeft: "25px", marginRight: "25px" }}>
+          Robe soiree
+        </MenuItem>
+        <hr className="mx-5 my-2	" style={{ opacity: "5%" }} />
+        <MenuItem key="3" className={styles.navBarSubItem} style={{ marginLeft: "25px", marginRight: "25px" }}>
+          Klasen
+        </MenuItem>
+        <hr className="mx-5 my-2	" style={{ opacity: "5%" }} />
+        <MenuItem key="4" className={styles.navBarSubItem} style={{ marginLeft: "25px", marginRight: "25px" }}>
+          Slipett
+        </MenuItem>
+      </div>
     </MenuRC>
   );
   return (
@@ -175,7 +145,7 @@ const Header: React.FC<Props> = ({ title }) => {
             <ul className={`flex-0 lg:flex-1 flex ${styles.leftMenu}`}>
               <li>
                 <Link href={`/`}>
-                  <a>{"Accueil"}</a>
+                  <a className={styles.navBarItem}>{"Accueil"}</a>
                 </Link>
               </li>
               <li>
@@ -183,11 +153,11 @@ const Header: React.FC<Props> = ({ title }) => {
                   trigger={["hover", "click"]}
                   overlay={menuCol}
                   animation="slide-up"
-                  overlayClassName="w-60 pt-4 cursor-pointer	"
+                  overlayClassName="w-60 pt-2 cursor-pointer	"
                   openClassName="cursor-pointer	"
                   onVisibleChange={onVisibleChange}
                 >
-                  <a>{"Nos Collection"}</a>
+                  <a className={styles.navBarItem}>{"Nos Collection"}</a>
                 </Dropdown>
               </li>
               <li>
@@ -195,11 +165,11 @@ const Header: React.FC<Props> = ({ title }) => {
                   trigger={["hover", "click"]}
                   overlay={menuCat}
                   animation="slide-up"
-                  overlayClassName="w-60 pt-4 cursor-pointer	"
-                  openClassName="cursor-pointer	"
+                  overlayClassName="w-60 pt-2 cursor-pointer"
+                  openClassName="cursor-pointer"
                   onVisibleChange={onVisibleChange}
                 >
-                  <a>{"Catalogue"}</a>
+                  <a className={styles.navBarItem}>{"Catalogue"}</a>
                 </Dropdown>
               </li>
             </ul>

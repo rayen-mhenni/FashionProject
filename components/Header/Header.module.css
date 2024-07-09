@@ -15,6 +15,60 @@
 .mainMenu {
   @apply py-6;
 }
+.navBarItem {
+  @apply text-base;
+  @apply font-semibold;
+}
+.navBarItem:hover {
+  position: relative;
+}
+.navBarItem:hover::after {
+  @apply text-gray400;
+  @apply bg-gray400;
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0px;
+  width: 100%;
+  height: 1px;
+  animation: underlineAnimation 0.5s forwards;
+}
+
+.navBarSubItem {
+  @apply cursor-pointer hover:text-gray400 text-sm;
+}
+
+.navBarSubItem:hover {
+  position: relative;
+}
+.navBarSubItem:hover::after {
+  @apply text-gray400;
+  @apply bg-gray400;
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0px;
+  width: 100%;
+  height: 1px;
+  animation: underlineAnimationSub 0.5s forwards;
+}
+
+@keyframes underlineAnimation {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+@keyframes underlineAnimationSub {
+  from {
+    width: 0;
+  }
+  to {
+    width: 20%;
+  }
+}
 /* .leftMenu {
   @apply ml-8 my-6;
 } */

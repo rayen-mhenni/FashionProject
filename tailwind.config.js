@@ -8,24 +8,11 @@ module.exports = {
       lg: "992px",
       xl: "1280px",
     },
-    fontFamily: {
-      sans: [
-        "Jost",
-        "ui-sans-serif",
-        "system-ui",
-        "-apple-system",
-        "BlinkMacSystemFont",
-        '"Segoe UI"',
-        "Roboto",
-        '"Helvetica Neue"',
-        "Arial",
-        '"Noto Sans"',
-        "sans-serif",
-        '"Apple Color Emoji"',
-        '"Segoe UI Emoji"',
-        '"Segoe UI Symbol"',
-        '"Noto Color Emoji"',
-      ],
+    extend:
+    {
+      fontFamily: {
+        'poppins': ['Poppins', 'sans-serif']
+      },
     },
     colors: {
       transparent: "transparent",
@@ -45,7 +32,6 @@ module.exports = {
       blue: "#66BFBF",
       lightgreen: "#F2FDFB",
     },
-    extend: {},
   },
   variants: {
     extend: {
