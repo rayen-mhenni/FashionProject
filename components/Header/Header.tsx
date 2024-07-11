@@ -76,20 +76,20 @@ const Header: React.FC<Props> = ({ title }) => {
 
   const menuCol = (
     <MenuRC onSelect={onSelect} className=" cursor-pointer	">
-      <div className="bg-white py-2">
-        <MenuItem key="1" className={styles.navBarSubItem} style={{ marginLeft: "25px", marginRight: "25px" }}>
+      <div className="bg-gray100 py-2" style={{ backgroundColor: "#f8f9fa" }}>
+        <MenuItem key="1" className={styles.navBarSubItem} style={{ marginLeft: "15px", marginRight: "25px" }}>
           Collection KKK
         </MenuItem>
         <hr className="mx-5 my-2	" style={{ opacity: "5%" }} />
-        <MenuItem key="2" className={styles.navBarSubItem} style={{ marginLeft: "25px", marginRight: "25px" }}>
+        <MenuItem key="2" className={styles.navBarSubItem} style={{ marginLeft: "15px", marginRight: "25px" }}>
           Collection aaaa{" "}
         </MenuItem>
         <hr className="mx-5 my-2	" style={{ opacity: "5%" }} />
-        <MenuItem key="3" className={styles.navBarSubItem} style={{ marginLeft: "25px", marginRight: "25px" }}>
+        <MenuItem key="3" className={styles.navBarSubItem} style={{ marginLeft: "15px", marginRight: "25px" }}>
           Collection sssss{" "}
         </MenuItem>
         <hr className="mx-5 my-2	" style={{ opacity: "5%" }} />
-        <MenuItem key="4" className={styles.navBarSubItem} style={{ marginLeft: "25px", marginRight: "25px" }}>
+        <MenuItem key="4" className={styles.navBarSubItem} style={{ marginLeft: "15px", marginRight: "25px" }}>
           Collection KKKsss
         </MenuItem>
       </div>{" "}
@@ -97,20 +97,20 @@ const Header: React.FC<Props> = ({ title }) => {
   );
   const menuCat = (
     <MenuRC onSelect={onSelect} className="cursor-pointer ">
-      <div className="bg-white py-2">
-        <MenuItem key="1" className={styles.navBarSubItem} style={{ marginLeft: "25px", marginRight: "25px" }}>
+      <div className="bg-gray100 py-2" style={{ backgroundColor: "#f8f9fa" }}>
+        <MenuItem key="1" className={styles.navBarSubItem} style={{ marginLeft: "15px", marginRight: "25px" }}>
           T shirt
         </MenuItem>
         <hr className="mx-5 my-2	" style={{ opacity: "5%" }} />
-        <MenuItem key="2" className={styles.navBarSubItem} style={{ marginLeft: "25px", marginRight: "25px" }}>
+        <MenuItem key="2" className={styles.navBarSubItem} style={{ marginLeft: "15px", marginRight: "25px" }}>
           Robe soiree
         </MenuItem>
         <hr className="mx-5 my-2	" style={{ opacity: "5%" }} />
-        <MenuItem key="3" className={styles.navBarSubItem} style={{ marginLeft: "25px", marginRight: "25px" }}>
+        <MenuItem key="3" className={styles.navBarSubItem} style={{ marginLeft: "15px", marginRight: "25px" }}>
           Klasen
         </MenuItem>
         <hr className="mx-5 my-2	" style={{ opacity: "5%" }} />
-        <MenuItem key="4" className={styles.navBarSubItem} style={{ marginLeft: "25px", marginRight: "25px" }}>
+        <MenuItem key="4" className={styles.navBarSubItem} style={{ marginLeft: "15px", marginRight: "25px" }}>
           Slipett
         </MenuItem>
       </div>
@@ -153,7 +153,7 @@ const Header: React.FC<Props> = ({ title }) => {
                   trigger={["hover", "click"]}
                   overlay={menuCol}
                   animation="slide-up"
-                  overlayClassName="w-60 pt-2 cursor-pointer	"
+                  overlayClassName="w-fit pt-2 cursor-pointer	"
                   openClassName="cursor-pointer	"
                   onVisibleChange={onVisibleChange}
                 >
@@ -165,7 +165,7 @@ const Header: React.FC<Props> = ({ title }) => {
                   trigger={["hover", "click"]}
                   overlay={menuCat}
                   animation="slide-up"
-                  overlayClassName="w-60 pt-2 cursor-pointer"
+                  overlayClassName="w-fit pt-2 cursor-pointer"
                   openClassName="cursor-pointer"
                   onVisibleChange={onVisibleChange}
                 >

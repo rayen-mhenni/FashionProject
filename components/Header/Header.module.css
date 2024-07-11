@@ -16,7 +16,7 @@
   @apply py-6;
 }
 .navBarItem {
-  @apply text-base;
+  @apply text-sm;
   @apply font-semibold;
 }
 .navBarItem:hover {
@@ -35,14 +35,15 @@
 }
 
 .navBarSubItem {
-  @apply cursor-pointer hover:text-gray400 text-sm;
+  @apply cursor-pointer text-gray400 hover:text-gray400 text-xs font-thin;
 }
 
 .navBarSubItem:hover {
   position: relative;
+  color: #007bff;
 }
 .navBarSubItem:hover::after {
-  @apply text-gray400;
+  /* @apply text-gray400;
   @apply bg-gray400;
   content: "";
   position: absolute;
@@ -50,7 +51,7 @@
   bottom: 0px;
   width: 100%;
   height: 1px;
-  animation: underlineAnimationSub 0.5s forwards;
+  animation: underlineAnimationSub 0.5s forwards; */
 }
 
 @keyframes underlineAnimation {
@@ -66,7 +67,7 @@
     width: 0;
   }
   to {
-    width: 20%;
+    width: 80%;
   }
 }
 /* .leftMenu {
