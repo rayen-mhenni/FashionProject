@@ -78,11 +78,11 @@ const Home: React.FC<Props> = ({ products }) => {
               </tr>
             </table>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-x-4 lg:gap-x-12 gap-y-6 mb-10 app-x-padding">
-            <Card key={currentItems[1].id} item={currentItems[1]} />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-x-4 lg:gap-x-12 gap-y-6 mb-10 app-x-padding">
+            <Card key={currentItems[1].id} item={currentItems[1]} outStock />
             <Card key={currentItems[2].id} item={currentItems[2]} />
             <Card key={currentItems[3].id} item={currentItems[3]} />
-            <Card key={currentItems[4].id} item={currentItems[4]} />
+            {/* <Card key={currentItems[4].id} item={currentItems[4]} /> */}
           </div>
         </section>
 

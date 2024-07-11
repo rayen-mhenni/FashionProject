@@ -8,10 +8,12 @@ module.exports = {
       lg: "992px",
       xl: "1280px",
     },
-    extend:
-    {
+    extend: {
       fontFamily: {
-        'poppins': ['Poppins', 'sans-serif']
+        poppins: ["Poppins", "sans-serif"],
+      },
+      screens: {
+        "2xl": "1920px",
       },
     },
     colors: {

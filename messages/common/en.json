@@ -49,6 +49,21 @@
     "sort_by_price_desc": "Trier par prix : élevé à bas"
   },
   "CartWishlist": {
+    "home": "Accueil",
+    "men": "Hommes",
+    "women": "Femmes",
+    "bags": "Sacs",
+    "new-arrivals": "Nouveautés",
+    "filter_by": "Filtrer par",
+    "sort_by": "Trier par",
+    "showing_from_to": "Affichage de {from} à {to} sur {all}",
+    "availability": "Disponibilité",
+    "in_stock": "En stock",
+    "size": "Taille",
+    "add_to_wishlist": "Ajouter à la liste de souhaits",
+    "details": "Détails",
+    "shareLink": "Partager le lien",
+    "you_may_also_like": "Vous pourriez aussi aimer",
     "wishlist": "Liste de souhaits",
     "continue_shopping": "Continuer vos achats",
     "product": "Produit",
@@ -147,6 +162,7 @@
     "shareLink": "Partager le lien",
     "you_may_also_like": "Vous pourriez aussi aimer"
   },
+
   "LoginRegister": {
     "login": "Connexion",
     "logout": "Déconnexion",
