@@ -120,7 +120,7 @@ const Card: FC<Props> = ({ item, outStock = false }) => {
       <Modal
         open={open}
         setOpen={() => {
-          setopen(!open);
+          setopen(false);
           setIsHovered(false);
         }}
         className="z-50 p-0"
