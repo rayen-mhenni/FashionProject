@@ -41,6 +41,11 @@
   @apply: bg-gray500;
   background-color: #282828;
 }
+
+.rc-slider-handle:active {
+  box-shadow: 0 0 5px #282828 !important;
+
+}
 /* @layer utilities { */
 /* .carousel {
     position: relative;

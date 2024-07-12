@@ -11,6 +11,15 @@ import Card from "../../components/Card/Card";
 import Pagination from "../../components/Util/Pagination";
 import { apiProductsType, itemType } from "../../context/cart/cart-types";
 import DownArrow from "../../public/icons/DownArrow";
+import "rc-collapse/assets/index.css";
+import Collapse from "rc-collapse";
+import SettingsIcon from "../../public/icons/SettingsIcon";
+import { useState } from "react";
+import { isEmpty } from "lodash";
+import CrossIcon from "../../public/icons/CrossIcon";
+import Circle from "@uiw/react-color-circle";
+import Slider from "rc-slider";
+import "rc-slider/assets/index.css";
 
 type OrderType = "latest" | "price" | "price-desc";
 
@@ -20,9 +29,15 @@ type Props = {
   numberOfProducts: number;
   orderby: OrderType;
 };
+const Panel = Collapse.Panel;
 
 const ProductCategory: React.FC<Props> = ({ items, page, numberOfProducts, orderby }) => {
   const t = useTranslations("Category");
+  const [open, setopen] = useState(false);
+  const [hex, setHex] = useState("#F44E3B");
+  const [size, setSize] = useState("M");
+  const [min, setmin] = useState(40);
+  const [max, setmax] = useState(150);
 
   const router = useRouter();
   const { category } = router.query;
@@ -32,7 +47,13 @@ const ProductCategory: React.FC<Props> = ({ items, page, numberOfProducts, order
 
   const firstIndex = page === 1 ? page : page * 10 - 9;
   const lastIndex = page * 10;
-
+  const handleSize = (value: string) => {
+    setSize(value);
+  };
+  const log = (value: any) => {
+    setmin(value[0]);
+    setmax(value[1]);
+  };
   return (
     <div>
       {/* ===== Head Section ===== */}
@@ -62,7 +83,103 @@ const ProductCategory: React.FC<Props> = ({ items, page, numberOfProducts, order
                 all: numberOfProducts,
               })}
             </span>
+
             {category !== "new-arrivals" && <SortMenu orderby={orderby} />}
+          </div>
+          <div className="w-full flex items-stretch">
+            <Collapse
+              className="my-4 mx-4 transition-transform transform hover:scale-105 duration-1000 elay-300 w-full"
+              expandIcon={() => (open ? <CrossIcon /> ?? null : <SettingsIcon extraClass="mr-3" /> ?? null)}
+              onChange={(val) => {
+                if (!isEmpty(val)) {
+                  setopen(true);
+                } else {
+                  setopen(false);
+                }
+              }}
+            >
+              <Panel header="filters" headerClass="place-content-center bg-gray100" className="w-full">
+                <div className="grid grid-cols-3 gap-4">
+                  <div>Filtrer par couleur</div>
+                  <div>Filtrer par Taille</div>
+                  <div>Filtrer par Prix</div>
+                  <div>
+                    <Circle
+                      colors={["#F44E3B", "#FE9200", "#FCDC00", "#DBDF00", "#000814", "#99582a", "#6a994e", "#003049", "#00b4d8"]}
+                      color={hex}
+                      pointProps={{
+                        style: {
+                          marginRight: 15,
+                        },
+                      }}
+                      onChange={(color) => {
+                        setHex(color.hex);
+                      }}
+                    />{" "}
+                  </div>
+                  <div>
+                    <div className="sizeContainer flex space-x-4 text-sm mb-4">
+                      <div
+                        onClick={() => handleSize("S")}
+                        className={`w-8 h-8 flex items-center justify-center border ${
+                          size === "S" ? "border-gray500" : "border-gray300 text-gray400"
+                        } cursor-pointer hover:bg-gray500 hover:text-gray100`}
+                      >
+                        S
+                      </div>
+                      <div
+                        onClick={() => handleSize("M")}
+                        className={`w-8 h-8 flex items-center justify-center border ${
+                          size === "M" ? "border-gray500" : "border-gray300 text-gray400"
+                        } cursor-pointer hover:bg-gray500 hover:text-gray100`}
+                      >
+                        M
+                      </div>
+                      <div
+                        onClick={() => handleSize("L")}
+                        className={`w-8 h-8 flex items-center justify-center border ${
+                          size === "L" ? "border-gray500" : "border-gray300 text-gray400"
+                        } cursor-pointer hover:bg-gray500 hover:text-gray100`}
+                      >
+                        L
+                      </div>
+                      <div
+                        onClick={() => handleSize("XL")}
+                        className={`w-8 h-8 flex items-center justify-center border ${
+                          size === "XL" ? "border-gray500" : "border-gray300 text-gray400"
+                        } cursor-pointer hover:bg-gray500 hover:text-gray100`}
+                      >
+                        XL
+                      </div>
+                      <div
+                        onClick={() => handleSize("XXL")}
+                        className={`w-8 h-8 flex items-center justify-center border ${
+                          size === "XXL" ? "border-gray500" : "border-gray300 text-gray400"
+                        } cursor-pointer hover:bg-gray500 hover:text-gray100`}
+                      >
+                        XXL
+                      </div>
+                    </div>
+                  </div>
+                  <div>
+                    <Slider
+                      range
+                      allowCross={false}
+                      min={0}
+                      max={1000}
+                      defaultValue={[50, 150]}
+                      onChange={log}
+                      styles={{
+                        track: { backgroundColor: "#282828" },
+                        handle: { borderColor: "#282828" },
+                      }}
+                      className="mb-2"
+                    />
+                    Min Prix: {min} € &nbsp;&nbsp;&nbsp; Max Prix: {max} €
+                  </div>
+                </div>
+              </Panel>
+            </Collapse>
           </div>
         </div>
 
