@@ -74,74 +74,76 @@ const ShoppingCart = () => {
     quantity: item.qty,
   }));
 
-  if (typeof document !== "undefined" && !isNil(document.getElementById("myinputfield")))
-    autocomplete<MyItem>({
-      input: document.getElementById("myinputfield") as any,
-      className: "autoComplete",
-      emptyMsg: "aucune addresse",
-      minLength: 1,
-      debounceWaitMs: 1000,
-      fetch: async (text: string, update: (items: Item[]) => void, Trigger: EventTrigger, cursorPos: number) => {
-        console.log("testtttttttttttt", text, Trigger, cursorPos);
-        let res1,
-          res2,
-          res3 = [];
-        if (text.length > 3) {
-          res1 = await fetch(`https://api-adresse.data.gouv.fr/search/?q=${text}&type=street&autocomplete=1`)
-            .then((res) => res.json())
-            .catch((res) => []);
+  useEffect(() => {
+    if (typeof document !== "undefined" && !isNil(document.getElementById("myinputfield")))
+      autocomplete<MyItem>({
+        input: document.getElementById("myinputfield") as any,
+        className: "autoComplete",
+        emptyMsg: "aucune addresse",
+        minLength: 1,
+        debounceWaitMs: 1000,
+        fetch: async (text: string, update: (items: Item[]) => void, Trigger: EventTrigger, cursorPos: number) => {
+          console.log("testtttttttttttt", text, Trigger, cursorPos);
+          let res1,
+            res2,
+            res3 = [];
+          if (text.length > 3) {
+            res1 = await fetch(`https://api-adresse.data.gouv.fr/search/?q=${text}&type=street&autocomplete=1`)
+              .then((res) => res.json())
+              .catch((res) => []);
 
-          res2 = await fetch(`https://api-adresse.data.gouv.fr/search/?q=${text}&type=locality&autocomplete=1`)
-            .then((res) => res.json())
-            .catch((res) => []);
+            res2 = await fetch(`https://api-adresse.data.gouv.fr/search/?q=${text}&type=locality&autocomplete=1`)
+              .then((res) => res.json())
+              .catch((res) => []);
 
-          res3 = await fetch(`https://api-adresse.data.gouv.fr/search/?q=${text}&type=municipality&autocomplete=1`)
-            .then((res) => res.json())
-            .catch((res) => []);
+            res3 = await fetch(`https://api-adresse.data.gouv.fr/search/?q=${text}&type=municipality&autocomplete=1`)
+              .then((res) => res.json())
+              .catch((res) => []);
 
-          const arrayOfRes = res1?.features
-            ?.map((el: any) => ({
-              name: el?.properties?.name,
-              postcode: el?.properties?.postcode,
-              city: el?.properties?.city,
-              context: el?.properties?.context,
-            }))
-            .concat(
-              res2?.features?.map((el: any) => ({
+            const arrayOfRes = res1?.features
+              ?.map((el: any) => ({
                 name: el?.properties?.name,
                 postcode: el?.properties?.postcode,
                 city: el?.properties?.city,
                 context: el?.properties?.context,
               }))
-            )
-            .concat(
-              res3?.features?.map((el: any) => ({
-                name: el?.properties?.name,
-                postcode: el?.properties?.postcode,
-                city: el?.properties?.city,
-                context: el?.properties?.context,
-              }))
-            );
+              .concat(
+                res2?.features?.map((el: any) => ({
+                  name: el?.properties?.name,
+                  postcode: el?.properties?.postcode,
+                  city: el?.properties?.city,
+                  context: el?.properties?.context,
+                }))
+              )
+              .concat(
+                res3?.features?.map((el: any) => ({
+                  name: el?.properties?.name,
+                  postcode: el?.properties?.postcode,
+                  city: el?.properties?.city,
+                  context: el?.properties?.context,
+                }))
+              );
 
-          const finalRes: any = _.uniqBy(_.compact(arrayOfRes), "context");
-          if (!isEmpty(finalRes)) update(finalRes);
-        }
-      },
-      onSelect: (item: Item) => {
-        setadrname(item?.name);
-        setcontext(item?.context);
-        setpostcode(item?.postcode);
-        setcity(item?.city);
+            const finalRes: any = _.uniqBy(_.compact(arrayOfRes), "context");
+            if (!isEmpty(finalRes)) update(finalRes);
+          }
+        },
+        onSelect: (item: Item) => {
+          setadrname(item?.name);
+          setcontext(item?.context);
+          setpostcode(item?.postcode);
+          setcity(item?.city);
 
-        document.getElementById("myinputfield")?.setAttribute("value", item?.context);
-      },
-      render: function (item: Item, currentValue: string): HTMLDivElement | undefined {
-        const itemElement = document.createElement("div");
-        itemElement.className = "subautocomplete";
-        itemElement.textContent = item.context;
-        return itemElement;
-      },
-    });
+          document.getElementById("myinputfield")?.setAttribute("value", item?.context);
+        },
+        render: function (item: Item, currentValue: string): HTMLDivElement | undefined {
+          const itemElement = document.createElement("div");
+          itemElement.className = "subautocomplete";
+          itemElement.textContent = item.context;
+          return itemElement;
+        },
+      });
+  }, [typeof document]);
 
   useEffect(() => {
     if (!isOrdering) return;
