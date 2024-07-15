@@ -25,13 +25,13 @@ const Input: FC<Props> = ({
   onChange,
   value,
   readOnly = false,
+  id,
 }) => (
   <input
     type={type}
+    id={id}
     readOnly={readOnly}
-    className={`${
-      border !== "" ? border : "border-2 border-gray500"
-    } py-2 px-4 outline-none ${extraClass}`}
+    className={`${border !== "" ? border : "border-2 border-gray500"} py-2 px-4 outline-none ${extraClass}`}
     name={name}
     placeholder={placeholder}
     required={required}

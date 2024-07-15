@@ -44,7 +44,15 @@
 
 .rc-slider-handle:active {
   box-shadow: 0 0 5px #282828 !important;
-
+}
+.autocomplete {
+  @apply bg-white rounded overflow-y-scroll pt-1	;
+}
+.subautocomplete{
+  @apply pl-5
+}
+.subautocomplete:hover{
+  @apply bg-gray200 cursor-pointer rounded
 }
 /* @layer utilities { */
 /* .carousel {

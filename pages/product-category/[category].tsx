@@ -99,11 +99,9 @@ const ProductCategory: React.FC<Props> = ({ items, page, numberOfProducts, order
               }}
             >
               <Panel header="filters" headerClass="place-content-center bg-gray100" className="w-full">
-                <div className="grid grid-cols-3 gap-4">
-                  <div>Filtrer par couleur</div>
-                  <div>Filtrer par Taille</div>
-                  <div>Filtrer par Prix</div>
+                <div className="grid md:grid-cols-3 sm:grid-rows gap-4">
                   <div>
+                    <div className="mb-2">Filtrer par couleur</div>
                     <Circle
                       colors={["#F44E3B", "#FE9200", "#FCDC00", "#DBDF00", "#000814", "#99582a", "#6a994e", "#003049", "#00b4d8"]}
                       color={hex}
@@ -118,6 +116,8 @@ const ProductCategory: React.FC<Props> = ({ items, page, numberOfProducts, order
                     />{" "}
                   </div>
                   <div>
+                    <div className="mb-2">Filtrer par Taille</div>
+
                     <div className="sizeContainer flex space-x-4 text-sm mb-4">
                       <div
                         onClick={() => handleSize("S")}
@@ -162,6 +162,7 @@ const ProductCategory: React.FC<Props> = ({ items, page, numberOfProducts, order
                     </div>
                   </div>
                   <div>
+                    <div className="mb-2">Filtrer par Prix</div>
                     <Slider
                       range
                       allowCross={false}

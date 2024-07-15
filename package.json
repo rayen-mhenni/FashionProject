@@ -11,9 +11,12 @@
   "dependencies": {
     "@headlessui/react": "^1.0.0",
     "@leafygreen-ui/modal": "^16.0.9",
+    "@stripe/react-stripe-js": "^2.7.3",
+    "@stripe/stripe-js": "^4.1.0",
     "@types/lodash": "4.17.5",
     "@uiw/react-color-circle": "^2.3.0",
     "animate.css": "^4.1.1",
+    "autocompleter": "^9.3.0",
     "axios": "^0.26.0",
     "cookies-next": "^2.0.4",
     "copy-to-clipboard": "^3.3.3",
