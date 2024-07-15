@@ -14,7 +14,7 @@ import { itemType } from "../context/wishlist/wishlist-type";
 import { useAuth } from "../context/AuthContext";
 import { PaymentElement, Elements, useStripe, useElements } from "@stripe/react-stripe-js";
 import autocomplete, { AutocompleteItem, EventTrigger } from "autocompleter";
-import _, { isEmpty } from "lodash";
+import _, { isEmpty, isNil } from "lodash";
 
 // this type will prevent typescript warnings
 
@@ -74,7 +74,7 @@ const ShoppingCart = () => {
     quantity: item.qty,
   }));
 
-  if (typeof document !== "undefined")
+  if (typeof document !== "undefined" && !isNil(document.getElementById("myinputfield")))
     autocomplete<MyItem>({
       input: document.getElementById("myinputfield") as any,
       className: "autoComplete",
