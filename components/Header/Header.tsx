@@ -18,6 +18,8 @@ import Dropdown from "rc-dropdown";
 import { Item as MenuItem, Divider } from "rc-menu";
 import MenuRC from "rc-menu";
 import "rc-dropdown/assets/index.css";
+import axios from "axios";
+import { useRouter } from "next/router";
 
 type Props = {
   title?: string;
@@ -28,8 +30,10 @@ const Header: React.FC<Props> = ({ title }) => {
   const { wishlist } = useWishlist();
   const [animate, setAnimate] = useState("");
   const [scrolled, setScrolled] = useState<boolean>(false);
+  const [collection, setcollection] = useState<Array<string>>([]);
+  const [categorie, setcategorie] = useState<Array<string>>([]);
   const [didMount, setDidMount] = useState<boolean>(false); // to disable Can't perform a React state Warning
-
+  const router = useRouter();
   // Calculate Number of Wishlist
   let noOfWishlist = wishlist.length;
 
@@ -46,6 +50,19 @@ const Header: React.FC<Props> = ({ title }) => {
       setAnimate("");
     }, 1000);
   }, [handleAnimate]);
+
+  useEffect(() => {
+    (async () => {
+      const res = await axios.get(`${process.env.NEXT_PUBLIC_COLLECTIONS_MODULE}`);
+
+      setcollection(res.data.data.map((el: any) => el.name));
+    })();
+    (async () => {
+      const res = await axios.get(`${process.env.NEXT_PUBLIC_CATEGORIE_MODULE}`);
+
+      setcategorie(res.data.data.map((el: any) => el.name));
+    })();
+  }, []);
 
   const handleScroll = useCallback(() => {
     const offset = window.scrollY;
@@ -77,42 +94,38 @@ const Header: React.FC<Props> = ({ title }) => {
   const menuCol = (
     <MenuRC onSelect={onSelect} className=" cursor-pointer	">
       <div className="bg-gray100 py-2" style={{ backgroundColor: "#f8f9fa" }}>
-        <MenuItem key="1" className={styles.navBarSubItem} style={{ marginLeft: "15px", marginRight: "25px" }}>
-          Collection KKK
-        </MenuItem>
-        <hr className="mx-5 my-2	" style={{ opacity: "5%" }} />
-        <MenuItem key="2" className={styles.navBarSubItem} style={{ marginLeft: "15px", marginRight: "25px" }}>
-          Collection aaaa{" "}
-        </MenuItem>
-        <hr className="mx-5 my-2	" style={{ opacity: "5%" }} />
-        <MenuItem key="3" className={styles.navBarSubItem} style={{ marginLeft: "15px", marginRight: "25px" }}>
-          Collection sssss{" "}
-        </MenuItem>
-        <hr className="mx-5 my-2	" style={{ opacity: "5%" }} />
-        <MenuItem key="4" className={styles.navBarSubItem} style={{ marginLeft: "15px", marginRight: "25px" }}>
-          Collection KKKsss
-        </MenuItem>
+        {collection.map((el, i) => (
+          <>
+            <MenuItem
+              onClick={() => router.push(`/product-category/${el}`)}
+              key={i}
+              className={styles.navBarSubItem}
+              style={{ marginLeft: "15px", marginRight: "25px" }}
+            >
+              {el}
+            </MenuItem>
+            {i !== collection.length - 1 && <hr className="mx-5 my-2	" style={{ opacity: "5%" }} />}
+          </>
+        ))}
       </div>{" "}
     </MenuRC>
   );
   const menuCat = (
     <MenuRC onSelect={onSelect} className="cursor-pointer ">
       <div className="bg-gray100 py-2" style={{ backgroundColor: "#f8f9fa" }}>
-        <MenuItem key="1" className={styles.navBarSubItem} style={{ marginLeft: "15px", marginRight: "25px" }}>
-          T shirt
-        </MenuItem>
-        <hr className="mx-5 my-2	" style={{ opacity: "5%" }} />
-        <MenuItem key="2" className={styles.navBarSubItem} style={{ marginLeft: "15px", marginRight: "25px" }}>
-          Robe soiree
-        </MenuItem>
-        <hr className="mx-5 my-2	" style={{ opacity: "5%" }} />
-        <MenuItem key="3" className={styles.navBarSubItem} style={{ marginLeft: "15px", marginRight: "25px" }}>
-          Klasen
-        </MenuItem>
-        <hr className="mx-5 my-2	" style={{ opacity: "5%" }} />
-        <MenuItem key="4" className={styles.navBarSubItem} style={{ marginLeft: "15px", marginRight: "25px" }}>
-          Slipett
-        </MenuItem>
+        {categorie.map((el, i) => (
+          <>
+            <MenuItem
+              onClick={() => router.push(`/product-category/${el}`)}
+              key={i}
+              className={styles.navBarSubItem}
+              style={{ marginLeft: "15px", marginRight: "25px" }}
+            >
+              {el}
+            </MenuItem>
+            {i !== categorie.length - 1 && <hr className="mx-5 my-2	" style={{ opacity: "5%" }} />}
+          </>
+        ))}
       </div>
     </MenuRC>
   );
