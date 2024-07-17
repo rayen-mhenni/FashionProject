@@ -44,8 +44,7 @@ const ShoppingCart = () => {
           <div className="mt-6 mb-3">
             <Link href="/">
               <a className="inline-block">
-                <LeftArrow size="sm" extraClass="inline-block" />{" "}
-                {t("continue_shopping")}
+                <LeftArrow size="sm" extraClass="inline-block" /> {t("continue_shopping")}
               </a>
             </Link>
           </div>
@@ -57,22 +56,13 @@ const ShoppingCart = () => {
             <table className="w-full mb-6">
               <thead>
                 <tr className="border-t-2 border-b-2 border-gray200">
-                  <th className="font-normal text-left sm:text-center py-2 xl:w-72">
-                    {t("product_details")}
-                  </th>
-                  <th
-                    className={`font-normal py-2 hidden sm:block ${
-                      cart.length === 0 ? "text-center" : "text-right"
-                    }`}
-                  >
+                  <th className="font-normal text-left sm:text-center py-2 xl:w-72">{t("product_details")}</th>
+                  <th className={`font-normal py-2 hidden sm:block ${cart.length === 0 ? "text-center" : "text-right"}`}>
                     {t("unit_price")}
                   </th>
                   <th className="font-normal py-2">{t("quantity")}</th>
                   <th className="font-normal py-2 text-right">{t("amount")}</th>
-                  <th
-                    className="font-normal py-2 text-right"
-                    style={{ minWidth: "3rem" }}
-                  ></th>
+                  <th className="font-normal py-2 text-right" style={{ minWidth: "3rem" }}></th>
                 </tr>
               </thead>
               <tbody>
@@ -86,24 +76,14 @@ const ShoppingCart = () => {
                     return (
                       <tr className="border-b-2 border-gray200" key={item.id}>
                         <td className="my-3 flex flex-col xl:flex-row items-start sm:items-center xl:space-x-2 text-center xl:text-left">
-                          <Link
-                            href={`/products/${encodeURIComponent(item.id)}`}
-                          >
+                          <Link href={`/products/${encodeURIComponent(item.id)}`}>
                             <a>
-                              <Image
-                                src={item.img1 as string}
-                                alt={item.name}
-                                width={95}
-                                height={128}
-                                className="h-32 xl:mr-4"
-                              />
+                              <Image src={item.img1 as string} alt={item.name} width={95} height={128} className="h-32 xl:mr-4" />
                             </a>
                           </Link>
                           <span>{item.name}</span>
                         </td>
-                        <td className="text-right text-gray400 hidden sm:table-cell">
-                          $ {roundDecimal(item.price)}
-                        </td>
+                        <td className="text-right text-gray400 hidden sm:table-cell">$ {roundDecimal(item.price)}</td>
                         <td>
                           <div className="w-12 h-32 sm:h-auto sm:w-3/4 md:w-2/6 mx-auto flex flex-col-reverse sm:flex-row border border-gray300 sm:divide-x-2 divide-gray300">
                             <div
@@ -112,9 +92,7 @@ const ShoppingCart = () => {
                             >
                               -
                             </div>
-                            <div className="h-full w-12 flex justify-center items-center pointer-events-none">
-                              {item.qty}
-                            </div>
+                            <div className="h-full w-12 flex justify-center items-center pointer-events-none">{item.qty}</div>
                             <div
                               onClick={() => addOne!(item)}
                               className="h-full w-12 flex justify-center items-center cursor-pointer hover:bg-gray500 hover:text-gray100"
@@ -126,9 +104,7 @@ const ShoppingCart = () => {
                         <td className="text-right text-gray400">
                           $ {roundDecimal(item.price * item.qty!)}
                           <br />
-                          <span className="text-xs">
-                            ($ {roundDecimal(item.price)})
-                          </span>
+                          <span className="text-xs">($ {roundDecimal(item.price)})</span>
                         </td>
                         <td className="text-right" style={{ minWidth: "3rem" }}>
                           <button
@@ -146,10 +122,7 @@ const ShoppingCart = () => {
               </tbody>
             </table>
             <div>
-              <GhostButton
-                onClick={clearCart}
-                extraClass="hidden sm:inline-block"
-              >
+              <GhostButton onClick={clearCart} extraClass="hidden sm:inline-block">
                 {t("clear_cart")}
               </GhostButton>
             </div>
@@ -170,49 +143,32 @@ const ShoppingCart = () => {
                       <input
                         type="radio"
                         name="deli"
-                        value="Pickup"
-                        id="pickup"
-                        checked={deli === "Pickup"}
-                        onChange={() => setDeli("Pickup")}
+                        value="POINT_RELE"
+                        id="POINT_RELE"
+                        checked={deli === "POINT_RELE"}
+                        onChange={() => setDeli("POINT_RELE")}
                       />{" "}
-                      <label htmlFor="pickup" className="cursor-pointer">
-                        {t("store_pickup")}
+                      <label htmlFor="POINT_RELE" className="cursor-pointer">
+                        {"Livraison en point relais (Mondial Relay)"}
                       </label>
                     </div>
-                    <span>{t("free")}</span>
+                    <span> € 3.80</span>
                   </div>
                   <div className="flex justify-between">
                     <div>
                       <input
                         type="radio"
                         name="deli"
-                        value="Yangon"
-                        id="ygn"
-                        checked={deli === "Yangon"}
-                        onChange={() => setDeli("Yangon")}
-                        // defaultChecked
+                        value="DOMICILE"
+                        id="DOMICILE"
+                        checked={deli === "DOMICILE"}
+                        onChange={() => setDeli("DOMICILE")}
                       />{" "}
-                      <label htmlFor="ygn" className="cursor-pointer">
-                        {t("within_yangon")}
+                      <label htmlFor="DOMICILE" className="cursor-pointer">
+                        {"Livraison à domicile"}
                       </label>
                     </div>
-                    <span>$ 2.00</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <div>
-                      <input
-                        type="radio"
-                        name="deli"
-                        value="Others"
-                        id="others"
-                        checked={deli === "Others"}
-                        onChange={() => setDeli("Others")}
-                      />{" "}
-                      <label htmlFor="others" className="cursor-pointer">
-                        {t("other_cities")}
-                      </label>
-                    </div>
-                    <span>$ 7.00</span>
+                    <span> € 8.80</span>
                   </div>
                 </div>
               </div>

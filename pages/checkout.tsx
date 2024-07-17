@@ -146,7 +146,7 @@ const ShoppingCart = () => {
           setpostcode(item?.postcode);
           setcity(item?.city);
 
-          document.getElementById("myinputfield")?.setAttribute("value", item?.context);
+          document.getElementById("myinputfield")!.value = item?.name + " " + item?.context ?? "";
         },
         render: function (item: Item, currentValue: string): HTMLDivElement | undefined {
           const itemElement = document.createElement("div");
