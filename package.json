@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 8080",
+    "dev": "next dev -p 8081",
     "lint": "next lint",
     "build": "next build",
-    "start": "next start -p 8080"
+    "start": "next start -p 8081"
   },
   "dependencies": {
     "@headlessui/react": "^1.0.0",
