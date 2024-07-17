@@ -151,7 +151,7 @@ const ShoppingCart = () => {
         render: function (item: Item, currentValue: string): HTMLDivElement | undefined {
           const itemElement = document.createElement("div");
           itemElement.className = "subautocomplete";
-          itemElement.textContent = item.context;
+          itemElement.textContent = item?.name + " " + item.context;
           return itemElement;
         },
       });
