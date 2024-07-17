@@ -86,8 +86,9 @@ const ShoppingCart = () => {
           console.log("testtttttttttttt", text, Trigger, cursorPos);
           let res1,
             res2,
-            res3 = [];
-          if (text.length > 3) {
+            res3,
+            res4 = [];
+          if (text.length >= 3) {
             res1 = await fetch(`https://api-adresse.data.gouv.fr/search/?q=${text}&type=street&autocomplete=1`)
               .then((res) => res.json())
               .catch((res) => []);
@@ -97,6 +98,9 @@ const ShoppingCart = () => {
               .catch((res) => []);
 
             res3 = await fetch(`https://api-adresse.data.gouv.fr/search/?q=${text}&type=municipality&autocomplete=1`)
+              .then((res) => res.json())
+              .catch((res) => []);
+            res4 = await fetch(`https://api-adresse.data.gouv.fr/search/?q=${text}&type=housenumber&autocomplete=1`)
               .then((res) => res.json())
               .catch((res) => []);
 
@@ -117,6 +121,14 @@ const ShoppingCart = () => {
               )
               .concat(
                 res3?.features?.map((el: any) => ({
+                  name: el?.properties?.name,
+                  postcode: el?.properties?.postcode,
+                  city: el?.properties?.city,
+                  context: el?.properties?.context,
+                }))
+              )
+              .concat(
+                res4?.features?.map((el: any) => ({
                   name: el?.properties?.name,
                   postcode: el?.properties?.postcode,
                   city: el?.properties?.city,
