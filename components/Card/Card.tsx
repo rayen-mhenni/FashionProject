@@ -123,7 +123,6 @@ const Card: FC<Props> = ({ item, outStock = false }) => {
           setopen(false);
           setIsHovered(false);
         }}
-        darkMode
         className="z-50 p-0"
         contentClassName={styles.contentClass}
       >
@@ -149,7 +148,7 @@ const Card: FC<Props> = ({ item, outStock = false }) => {
         <div className=" h-auto py-8 sm:pl-4 flex flex-col">
           <h1 className="text-3xl mb-4">{item.name}</h1>
           <span className="text-2xl text-gray400 mb-2">$ {item.price}</span>
-          <span className="mb-2 text-justify">{item.description}</span>
+          <span className="mb-2 text-justify break-words">{item.description}</span>
           <span className="mb-2">
             {t("availability")}: {t("in_stock")}
           </span>
@@ -220,7 +219,7 @@ const Card: FC<Props> = ({ item, outStock = false }) => {
                   <span>{t("details")}</span>
                   <DownArrow extraClass={`${open ? "" : "transform rotate-180"} w-5 h-5 text-purple-500`} />
                 </Disclosure.Button>
-                <Disclosure.Panel className={`text-gray400 animate__animated animate__bounceIn`}>{item.detail}</Disclosure.Panel>
+                <Disclosure.Panel className={`text-gray400 animate__animated animate__bounceIn break-words`}>{item.detail}</Disclosure.Panel>
               </>
             )}
           </Disclosure>
