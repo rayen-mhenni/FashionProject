@@ -162,6 +162,42 @@
     "shareLink": "Partager le lien",
     "you_may_also_like": "Vous pourriez aussi aimer"
   },
+  "Categorie": {
+    "home": "Accueil",
+    "men": "Hommes",
+    "women": "Femmes",
+    "bags": "Sacs",
+    "new-arrivals": "Nouveautés",
+    "filter_by": "Filtrer par",
+    "sort_by": "Trier par",
+    "showing_from_to": "Affichage de {from} à {to} sur {all}",
+    "availability": "Disponibilité",
+    "in_stock": "En stock",
+    "size": "Taille",
+    "add_to_cart": "Ajouter au panier",
+    "add_to_wishlist": "Ajouter à la liste de souhaits",
+    "details": "Détails",
+    "shareLink": "Partager le lien",
+    "you_may_also_like": "Vous pourriez aussi aimer"
+  },
+  "Collection": {
+    "home": "Accueil",
+    "men": "Hommes",
+    "women": "Femmes",
+    "bags": "Sacs",
+    "new-arrivals": "Nouveautés",
+    "filter_by": "Filtrer par",
+    "sort_by": "Trier par",
+    "showing_from_to": "Affichage de {from} à {to} sur {all}",
+    "availability": "Disponibilité",
+    "in_stock": "En stock",
+    "size": "Taille",
+    "add_to_cart": "Ajouter au panier",
+    "add_to_wishlist": "Ajouter à la liste de souhaits",
+    "details": "Détails",
+    "shareLink": "Partager le lien",
+    "you_may_also_like": "Vous pourriez aussi aimer"
+  },
 
   "LoginRegister": {
     "login": "Connexion",

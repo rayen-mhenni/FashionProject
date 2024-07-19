@@ -3,7 +3,7 @@ import Link from "next/link";
 
 type Props = {
   extraClass?: string;
-  href: string;
+  href?: string;
   aria_label?: string;
   size?: "sm" | "normal" | "xl";
   inverted?: boolean;
@@ -19,6 +19,7 @@ const LinkButton: FC<Props> = ({
   children,
   noBorder = true,
   inverted = true,
+  ...otherprops
 }) => {
   let btnSize = "";
   if (size === "sm") {
@@ -29,20 +30,29 @@ const LinkButton: FC<Props> = ({
     btnSize = "py-3 sm:py-2 px-6";
   }
 
-  return (
+  return href ? (
     <Link href={href}>
       <a
         role="button"
         aria-label={aria_label}
         className={`bg-white group text-center inline-block cursor-pointe ${
-          inverted
-            ? "hover:bg-gray500 hover:text-gray100"
-            : "hover:text-gray400"
+          inverted ? "hover:bg-gray500 hover:text-gray100" : "hover:text-gray400"
         } ${!noBorder && "border border-gray500"} ${btnSize} ${extraClass}`}
       >
         {children}
       </a>
     </Link>
+  ) : (
+    <a
+      role="button"
+      aria-label={aria_label}
+      className={`bg-white group text-center inline-block cursor-pointe ${
+        inverted ? "hover:bg-gray500 hover:text-gray100" : "hover:text-gray400"
+      } ${!noBorder && "border border-gray500"} ${btnSize} ${extraClass}`}
+      {...otherprops}
+    >
+      {children}
+    </a>
   );
 };
 

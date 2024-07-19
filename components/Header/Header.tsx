@@ -30,8 +30,8 @@ const Header: React.FC<Props> = ({ title }) => {
   const { wishlist } = useWishlist();
   const [animate, setAnimate] = useState("");
   const [scrolled, setScrolled] = useState<boolean>(false);
-  const [collection, setcollection] = useState<Array<string>>([]);
-  const [categorie, setcategorie] = useState<Array<string>>([]);
+  const [collection, setcollection] = useState<Array<{ id: number; name: string }>>([]);
+  const [categorie, setcategorie] = useState<Array<{ id: number; name: string }>>([]);
   const [didMount, setDidMount] = useState<boolean>(false); // to disable Can't perform a React state Warning
   const router = useRouter();
   // Calculate Number of Wishlist
@@ -55,12 +55,12 @@ const Header: React.FC<Props> = ({ title }) => {
     (async () => {
       const res = await axios.get(`${process.env.NEXT_PUBLIC_COLLECTIONS_MODULE}`);
 
-      setcollection(res.data.data.map((el: any) => el.name));
+      setcollection(res.data.data.map((el: any) => ({ name: el.name, id: el?.id })));
     })();
     (async () => {
       const res = await axios.get(`${process.env.NEXT_PUBLIC_CATEGORIE_MODULE}`);
 
-      setcategorie(res.data.data.map((el: any) => el.name));
+      setcategorie(res.data.data.map((el: any) => ({ name: el.name, id: el?.id })));
     })();
   }, []);
 
@@ -97,12 +97,12 @@ const Header: React.FC<Props> = ({ title }) => {
         {collection.map((el, i) => (
           <>
             <MenuItem
-              onClick={() => router.push(`/product-category/${el}`)}
+              onClick={() => router.push(`/product-collection/${el.id}/${el?.name}`)}
               key={i}
               className={styles.navBarSubItem}
               style={{ marginLeft: "15px", marginRight: "25px" }}
             >
-              {el}
+              {el.name}
             </MenuItem>
             {i !== collection.length - 1 && <hr className="mx-5 my-2	" style={{ opacity: "5%" }} />}
           </>
@@ -116,12 +116,12 @@ const Header: React.FC<Props> = ({ title }) => {
         {categorie.map((el, i) => (
           <>
             <MenuItem
-              onClick={() => router.push(`/product-category/${el}`)}
+              onClick={() => router.push(`/product-category/${el.id}/${el?.name}`)}
               key={i}
               className={styles.navBarSubItem}
               style={{ marginLeft: "15px", marginRight: "25px" }}
             >
-              {el}
+              {el.name}
             </MenuItem>
             {i !== categorie.length - 1 && <hr className="mx-5 my-2	" style={{ opacity: "5%" }} />}
           </>
@@ -137,7 +137,7 @@ const Header: React.FC<Props> = ({ title }) => {
       {/* ===== Skip to main content button ===== */}
       <a
         href="#main-content"
-        className="whitespace-nowrap absolute z-50 left-4 opacity-90 rounded-md bg-white px-4 py-3 transform -translate-y-40 focus:translate-y-0 transition-all duration-300"
+        className="whitespace-nowrap absolute z-40 left-4 opacity-90 rounded-md bg-white px-4 py-3 transform -translate-y-40 focus:translate-y-0 transition-all duration-300"
       >
         {t("skip_to_main_content")}
       </a>
@@ -146,7 +146,7 @@ const Header: React.FC<Props> = ({ title }) => {
       <TopNav />
 
       {/* ===== Main Navigation ===== */}
-      <nav className={`${scrolled ? "bg-white sticky top-0 shadow-md z-50" : "bg-transparent"} w-full z-50 h-20 relative`}>
+      <nav className={`${scrolled ? "bg-white sticky top-0 shadow-md z-40" : "bg-transparent"} w-full z-40 h-20 relative`}>
         <div className="app-max-width w-full">
           <div className={`flex justify-between align-baseline app-x-padding ${styles.mainMenu}`}>
             {/* Hamburger Menu and Mobile Nav */}
