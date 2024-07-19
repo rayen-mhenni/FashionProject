@@ -123,6 +123,7 @@ const Card: FC<Props> = ({ item, outStock = false }) => {
           setopen(false);
           setIsHovered(false);
         }}
+        darkMode
         className="z-50 p-0"
         contentClassName={styles.contentClass}
       >
