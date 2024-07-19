@@ -82,9 +82,9 @@ const Home: React.FC<Props> = ({ products, collections }) => {
             </table>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-x-4 lg:gap-x-12 gap-y-6 mb-10 app-x-padding">
-            <Card key={currentItems[0].id} item={currentItems[0]} outStock />
-            <Card key={currentItems[1].id} item={currentItems[1]} />
-            <Card key={currentItems[2].id} item={currentItems[2]} />
+            {currentItems[0] && <Card key={currentItems[0]?.id} item={currentItems[0]} outStock />}
+            {currentItems[1] && <Card key={currentItems[1]?.id} item={currentItems[1]} />}
+            {currentItems[2] && <Card key={currentItems[2]?.id} item={currentItems[2]} />}
             {/* <Card key={currentItems[4].id} item={currentItems[4]} /> */}
           </div>
         </section>
@@ -120,13 +120,16 @@ const Home: React.FC<Props> = ({ products, collections }) => {
         </section>
         <section className="w-full h-auto py-10 mb-20">
           <div className="app-max-width app-x-padding h-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="w-full sm:col-span-2 lg:col-span-2 " >
+            <div className="w-full sm:col-span-2 lg:col-span-2 ">
               <OverlayContainer
                 imgSrc={collections[0]?.thumbnailImage}
                 imgSrc2={collections[0]?.thumbnailImage}
                 imgAlt="New Arrivals"
               >
-                <LinkButton href={`/product-category/${collections[0]?.name}`} extraClass="absolute bottom-10-per sm:right-10-per z-20">
+                <LinkButton
+                  href={`/product-category/${collections[0]?.name}`}
+                  extraClass="absolute bottom-10-per sm:right-10-per z-20"
+                >
                   {collections[0]?.name}
                 </LinkButton>
               </OverlayContainer>
