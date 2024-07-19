@@ -187,7 +187,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     id: el?.id,
     name: el?.name,
     price: el?.option[0].price,
-    qty: el?.option[0].stock,
+    qty: 1,
     description: el?.description,
     detail: el?.detail,
     img1: el?.option[0].images.split(",")[0],
