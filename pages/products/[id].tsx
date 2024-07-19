@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-key */
 import { useEffect, useState } from "react";
 import { GetServerSideProps } from "next";
 import Link from "next/link";
@@ -15,6 +16,8 @@ import Footer from "../../components/Footer/Footer";
 import GhostButton from "../../components/Buttons/GhostButton";
 import Button from "../../components/Buttons/Button";
 import Card from "../../components/Card/Card";
+import Circle from "@uiw/react-color-circle";
+import _, { isEmpty } from "lodash";
 
 // swiperjs
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -33,27 +36,30 @@ import copy from "copy-to-clipboard";
 SwiperCore.use([Pagination]);
 
 type Props = {
-  product: itemType;
-  products: itemType[];
+  product: any;
+  products: any[];
 };
 
 const Product: React.FC<Props> = ({ product, products, url }) => {
-  const img1 = product.img1;
-  const img2 = product.img2;
+  // const img1 = product?.option[0]?.images?.split(",")[0];
+  // const img2 = product?.option[1]?.images?.split(",")[0];
 
   const { addItem } = useCart();
   const { wishlist, addToWishlist, deleteWishlistItem } = useWishlist();
-  const [size, setSize] = useState("M");
-  const [mainImg, setMainImg] = useState(img1);
+  const [size, setSize] = useState("S");
+  const [mainImg, setMainImg] = useState(product?.mainImg);
   const [currentQty, setCurrentQty] = useState(1);
   const [copied, setcopied] = useState(false);
+  const [color, setcolor] = useState(product?.option[0]?.color);
+  const [productOption, setproductOption] = useState(product?.option[0]);
   const t = useTranslations("Category");
 
-  const alreadyWishlisted = wishlist.filter((wItem) => wItem.id === product.id).length > 0;
+  const alreadyWishlisted =
+    wishlist.filter((wItem) => wItem.id === product.id).length > 0;
 
-  useEffect(() => {
-    setMainImg(product.img1);
-  }, [product]);
+  // useEffect(() => {
+  //   setMainImg(product?.mainImg);
+  // }, []);
 
   const handleSize = (value: string) => {
     setSize(value);
@@ -61,11 +67,16 @@ const Product: React.FC<Props> = ({ product, products, url }) => {
 
   const currentItem = {
     ...product,
+    price: productOption.price,
+    
+    img1:productOption.images.split(',')[0],
     qty: currentQty,
   };
 
   const handleWishlist = () => {
-    alreadyWishlisted ? deleteWishlistItem!(currentItem) : addToWishlist!(currentItem);
+    alreadyWishlisted
+      ? deleteWishlistItem!(currentItem)
+      : addToWishlist!(currentItem);
   };
 
   return (
@@ -83,7 +94,9 @@ const Product: React.FC<Props> = ({ product, products, url }) => {
               </Link>{" "}
               /{" "}
               <Link href={`/product-category/${product.categoryName}`}>
-                <a className="text-gray400 capitalize">{t(product.categoryName as string)}</a>
+                <a className="text-gray400 capitalize">
+                  {t(product.categoryName as string)}
+                </a>
               </Link>{" "}
               / <span>{product.name}</span>
             </div>
@@ -93,59 +106,44 @@ const Product: React.FC<Props> = ({ product, products, url }) => {
         <div className="itemSection app-max-width app-x-padding flex flex-col md:flex-row">
           <div className="imgSection w-full md:w-1/2 h-full flex">
             <div className="hidden sm:block w-full sm:w-1/4 h-full space-y-4 my-4">
-              <Image
-                className={`cursor-pointer ${mainImg === img1 ? "opacity-100 border border-gray300" : "opacity-50"}`}
-                onClick={() => setMainImg(img1)}
-                src={img1 as string}
-                alt={product.name}
-                width={1000}
-                height={1282}
-              />
-              <Image
-                className={`cursor-pointer ${mainImg === img2 ? "opacity-100 border border-gray300" : "opacity-50"}`}
-                onClick={() => setMainImg(img2)}
-                src={img2 as string}
-                alt={product.name}
-                width={1000}
-                height={1282}
-              />
+              {productOption?.images?.split(",").map((el) => (
+                <Image
+                  className={`cursor-pointer ${
+                    mainImg === el
+                      ? "opacity-100 border border-gray300"
+                      : "opacity-50"
+                  }`}
+                  onClick={() => setMainImg(el)}
+                  src={el as string}
+                  alt={product.name}
+                  width={1000}
+                  height={1282}
+                />
+              ))}
             </div>
             <div className="w-full sm:w-3/4 h-full m-0 sm:m-4">
-              <Swiper
-                slidesPerView={1}
-                spaceBetween={0}
-                loop={true}
-                pagination={{
-                  clickable: true,
-                }}
-                className="mySwiper sm:hidden"
-              >
-                <SwiperSlide>
-                  <Image className="each-slide w-full" src={img1 as string} width={1000} height={1282} alt={product.name} />
-                </SwiperSlide>
-                <SwiperSlide>
-                  <Image className="each-slide w-full" src={img2 as string} width={1000} height={1282} alt={product.name} />
-                </SwiperSlide>
-              </Swiper>
               <EasyZoomOnMove
                 mainImage={{
-                  src: img1 ?? "",
+                  src: mainImg,
                   alt: "My Product",
                   width: 466,
                   height: 466,
                 }}
                 zoomImage={{
-                  src: img1 ?? "",
+                  src: mainImg,
                   alt: "My Product",
                 }}
               />
-              {/* <Image className="w-full" src={mainImg as string} width={1000} height={1282} alt={product.name} /> */}
             </div>
           </div>
           <div className="infoSection w-full md:w-1/2 h-auto py-8 sm:pl-4 flex flex-col">
             <h1 className="text-3xl mb-4">{product.name}</h1>
-            <span className="text-2xl text-gray400 mb-2">$ {product.price}</span>
-            <span className="mb-2 text-justify">{product.description}</span>
+            <span className="text-2xl text-gray400 mb-2">
+              $ {productOption.price}
+            </span>
+            <span className="mb-2 text-justify break-words">
+              {product.description}
+            </span>
             <span className="mb-2">
               {t("availability")}: {t("in_stock")}
             </span>
@@ -153,31 +151,58 @@ const Product: React.FC<Props> = ({ product, products, url }) => {
               {t("size")}: {size}
             </span>
             <div className="sizeContainer flex space-x-4 text-sm mb-4">
-              <div
-                onClick={() => handleSize("S")}
-                className={`w-8 h-8 flex items-center justify-center border ${
-                  size === "S" ? "border-gray500" : "border-gray300 text-gray400"
-                } cursor-pointer hover:bg-gray500 hover:text-gray100`}
-              >
-                S
-              </div>
-              <div
-                onClick={() => handleSize("M")}
-                className={`w-8 h-8 flex items-center justify-center border ${
-                  size === "M" ? "border-gray500" : "border-gray300 text-gray400"
-                } cursor-pointer hover:bg-gray500 hover:text-gray100`}
-              >
-                M
-              </div>
-              <div
-                onClick={() => handleSize("L")}
-                className={`w-8 h-8 flex items-center justify-center border ${
-                  size === "L" ? "border-gray500" : "border-gray300 text-gray400"
-                } cursor-pointer hover:bg-gray500 hover:text-gray100`}
-              >
-                L
-              </div>
+              {productOption?.size?.split(",")?.map((el: any) => (
+                <div
+                  onClick={() => handleSize(el)}
+                  className={`w-8 h-8 flex items-center justify-center border ${
+                    size === el
+                      ? "border-gray500"
+                      : "border-gray300 text-gray400"
+                  } cursor-pointer hover:bg-gray500 hover:text-gray100`}
+                >
+                  {el}
+                </div>
+              ))}
             </div>
+            <span className="mb-2">
+              {"Couleur"}: {color}
+            </span>
+            <Circle
+              colors={product?.option?.map((el:any) => el.color)}
+              color={color}
+              pointProps={{
+                style: {
+                  marginRight: 15,
+                  marginTop: 15,
+                  marginBottom: 25,
+                  borderRadius: "50%",
+                  height: "20px",
+                  width: "20px",
+                  // border:"1px solid black",
+                  // boxShadow: "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px"
+                  // boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px"
+                  boxShadow:
+                    " rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px",
+                },
+              }}
+              onChange={(color) => {
+                setcolor(color.hex);
+                setproductOption(
+                  product?.option?.find((el:any) => color.hex === el.color)
+                );
+                setMainImg(
+                  product?.option
+                    ?.find((el:any) => color.hex === el.color)
+                    .images.split(",")[0]
+                );
+                setSize(
+                  product?.option
+                    ?.find((el:any) => color.hex === el.color)
+                    .size.split(",")[0]
+                );
+              }}
+              // }}
+            />{" "}
             <div className="addToCart flex flex-col sm:flex-row md:flex-col lg:flex-row space-y-4 sm:space-y-0 mb-4">
               <div className="plusOrMinus h-12 flex border justify-center border-gray300 divide-x-2 divide-gray300 mb-4 mr-0 sm:mr-4 md:mr-0 lg:mr-4">
                 <div
@@ -188,7 +213,9 @@ const Product: React.FC<Props> = ({ product, products, url }) => {
                 >
                   -
                 </div>
-                <div className="h-full w-28 sm:w-12 flex justify-center items-center pointer-events-none">{currentQty}</div>
+                <div className="h-full w-28 sm:w-12 flex justify-center items-center pointer-events-none">
+                  {currentQty}
+                </div>
                 <div
                   onClick={() => setCurrentQty((prevState) => prevState + 1)}
                   className="h-full w-full sm:w-12 flex justify-center items-center cursor-pointer hover:bg-gray500 hover:text-gray100"
@@ -203,8 +230,15 @@ const Product: React.FC<Props> = ({ product, products, url }) => {
                   extraClass={`flex-grow text-center whitespace-nowrap hover:bg-gray200`}
                   onClick={() => addItem!(currentItem)}
                 />
-                <GhostButton onClick={handleWishlist} extraClass="hover:bg-gray200">
-                  {alreadyWishlisted ? <HeartSolid extraClass="inline" /> : <Heart extraClass="inline" />}
+                <GhostButton
+                  onClick={handleWishlist}
+                  extraClass="hover:bg-gray200"
+                >
+                  {alreadyWishlisted ? (
+                    <HeartSolid extraClass="inline" />
+                  ) : (
+                    <Heart extraClass="inline" />
+                  )}
                 </GhostButton>
               </div>
             </div>
@@ -213,9 +247,15 @@ const Product: React.FC<Props> = ({ product, products, url }) => {
                 <>
                   <Disclosure.Button className="py-2 focus:outline-none text-left mb-4 border-b-2 border-gray200 flex items-center justify-between">
                     <span>{t("details")}</span>
-                    <DownArrow extraClass={`${open ? "" : "transform rotate-180"} w-5 h-5 text-purple-500`} />
+                    <DownArrow
+                      extraClass={`${
+                        open ? "" : "transform rotate-180"
+                      } w-5 h-5 text-purple-500`}
+                    />
                   </Disclosure.Button>
-                  <Disclosure.Panel className={`text-gray400 animate__animated animate__bounceIn`}>
+                  <Disclosure.Panel
+                    className={`text-gray400 animate__animated animate__bounceIn`}
+                  >
                     {product.detail}
                   </Disclosure.Panel>
                 </>
@@ -276,22 +316,28 @@ const Product: React.FC<Props> = ({ product, products, url }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({ params, locale, req }) => {
-  // const paramId = params!.id as string;
-  // const res = await axios.get(
-  //   `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/products/${paramId}?include=category`
-  // );
-  // const fetchedProduct: apiProductsType = res.data.data;
+export const getServerSideProps: GetServerSideProps = async ({
+  params,
+  locale,
+  req,
+}) => {
+  const paramId = params!.id as string;
+  const res = await axios.get(
+    `${process.env.NEXT_PUBLIC_PRODUCTS_MODULE}/${paramId}`
+  );
 
-  let product: itemType = {
-    id: 1234,
-    name: "Blue Cotton T-Shirt",
-    price: 29.99,
-    detail: "A comfortable and stylish blue cotton t-shirt. Perfect for casual wear.",
-    img1: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091", // Replace with actual image path
-    img2: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091", // Replace with actual image path (optional)
-    categoryName: "Shirts",
-  };
+  const fetchedProduct: any = res.data.data;
+
+  // let product: itemType = {
+  //   id: 1234,
+  //   name: "Blue Cotton T-Shirt",
+  //   price: 29.99,
+  //   detail:
+  //     "A comfortable and stylish blue cotton t-shirt. Perfect for casual wear.",
+  //   img1: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091", // Replace with actual image path
+  //   img2: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091", // Replace with actual image path (optional)
+  //   categoryName: "Shirts",
+  // };
 
   // Might be temporary solution for suggested products
   // const randomProductRes = await axios.get(
@@ -310,7 +356,8 @@ export const getServerSideProps: GetServerSideProps = async ({ params, locale, r
       id: 1234,
       name: "Blue Cotton T-Shirt",
       price: 29.99,
-      detail: "A comfortable and stylish blue cotton t-shirt. Perfect for casual wear.",
+      detail:
+        "A comfortable and stylish blue cotton t-shirt. Perfect for casual wear.",
       img1: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091", // Replace with actual image path
       img2: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091", // Replace with actual image path (optional)
       categoryName: "Shirts",
@@ -319,7 +366,8 @@ export const getServerSideProps: GetServerSideProps = async ({ params, locale, r
       id: 1234,
       name: "Blue Cotton T-Shirt",
       price: 29.99,
-      detail: "A comfortable and stylish blue cotton t-shirt. Perfect for casual wear.",
+      detail:
+        "A comfortable and stylish blue cotton t-shirt. Perfect for casual wear.",
       img1: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091", // Replace with actual image path
       img2: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091", // Replace with actual image path (optional)
       categoryName: "Shirts",
@@ -328,7 +376,8 @@ export const getServerSideProps: GetServerSideProps = async ({ params, locale, r
       id: 1234,
       name: "Blue Cotton T-Shirt",
       price: 29.99,
-      detail: "A comfortable and stylish blue cotton t-shirt. Perfect for casual wear.",
+      detail:
+        "A comfortable and stylish blue cotton t-shirt. Perfect for casual wear.",
       img1: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091", // Replace with actual image path
       img2: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091", // Replace with actual image path (optional)
       categoryName: "Shirts",
@@ -337,7 +386,8 @@ export const getServerSideProps: GetServerSideProps = async ({ params, locale, r
       id: 1234,
       name: "Blue Cotton T-Shirt",
       price: 29.99,
-      detail: "A comfortable and stylish blue cotton t-shirt. Perfect for casual wear.",
+      detail:
+        "A comfortable and stylish blue cotton t-shirt. Perfect for casual wear.",
       img1: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091", // Replace with actual image path
       img2: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091", // Replace with actual image path (optional)
       categoryName: "Shirts",
@@ -346,7 +396,8 @@ export const getServerSideProps: GetServerSideProps = async ({ params, locale, r
       id: 1234,
       name: "Blue Cotton T-Shirt",
       price: 29.99,
-      detail: "A comfortable and stylish blue cotton t-shirt. Perfect for casual wear.",
+      detail:
+        "A comfortable and stylish blue cotton t-shirt. Perfect for casual wear.",
       img1: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091", // Replace with actual image path
       img2: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091", // Replace with actual image path (optional)
       categoryName: "Shirts",
@@ -365,8 +416,11 @@ export const getServerSideProps: GetServerSideProps = async ({ params, locale, r
   // Pass data to the page via props
   return {
     props: {
-      product,
-      products,
+      product: {
+        ...fetchedProduct,
+        mainImg: fetchedProduct.option[0]?.images?.split(",")[0],
+      },
+      products: [],
       messages: (await import(`../../messages/common/${locale}.json`)).default,
       url: req.headers.host + req.url,
     },
