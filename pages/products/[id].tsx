@@ -57,9 +57,11 @@ const Product: React.FC<Props> = ({ product, products, url }) => {
   const alreadyWishlisted =
     wishlist.filter((wItem) => wItem.id === product.id).length > 0;
 
-  // useEffect(() => {
-  //   setMainImg(product?.mainImg);
-  // }, []);
+  useEffect(() => {
+    setMainImg(product?.mainImg);
+    setcolor(product?.option[0]?.color);
+    setproductOption(product?.option[0]);
+  }, [product]);
 
   const handleSize = (value: string) => {
     setSize(value);
@@ -68,8 +70,8 @@ const Product: React.FC<Props> = ({ product, products, url }) => {
   const currentItem = {
     ...product,
     price: productOption.price,
-    
-    img1:productOption.images.split(',')[0],
+
+    img1: productOption.images.split(",")[0],
     qty: currentQty,
   };
 
@@ -168,7 +170,7 @@ const Product: React.FC<Props> = ({ product, products, url }) => {
               {"Couleur"}: {color}
             </span>
             <Circle
-              colors={product?.option?.map((el:any) => el.color)}
+              colors={product?.option?.map((el: any) => el.color)}
               color={color}
               pointProps={{
                 style: {
@@ -188,16 +190,16 @@ const Product: React.FC<Props> = ({ product, products, url }) => {
               onChange={(color) => {
                 setcolor(color.hex);
                 setproductOption(
-                  product?.option?.find((el:any) => color.hex === el.color)
+                  product?.option?.find((el: any) => color.hex === el.color)
                 );
                 setMainImg(
                   product?.option
-                    ?.find((el:any) => color.hex === el.color)
+                    ?.find((el: any) => color.hex === el.color)
                     .images.split(",")[0]
                 );
                 setSize(
                   product?.option
-                    ?.find((el:any) => color.hex === el.color)
+                    ?.find((el: any) => color.hex === el.color)
                     .size.split(",")[0]
                 );
               }}
@@ -328,7 +330,12 @@ export const getServerSideProps: GetServerSideProps = async ({
 
   const fetchedProduct: any = res.data.data;
 
-  // let product: itemType = {
+  const resProduct = await axios.get(
+    `${process.env.NEXT_PUBLIC_PRODUCTS_MODULE}/col/${fetchedProduct?.collectionId}`
+  );
+
+  const products: any = resProduct.data.data;
+
   //   id: 1234,
   //   name: "Blue Cotton T-Shirt",
   //   price: 29.99,
@@ -351,58 +358,58 @@ export const getServerSideProps: GetServerSideProps = async ({
   // // Get sub-array of first 5 elements after shuffled
   // let randomFetchedProducts = shuffled.slice(0, 5);
 
-  let products: itemType[] = [
-    {
-      id: 1234,
-      name: "Blue Cotton T-Shirt",
-      price: 29.99,
-      detail:
-        "A comfortable and stylish blue cotton t-shirt. Perfect for casual wear.",
-      img1: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091", // Replace with actual image path
-      img2: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091", // Replace with actual image path (optional)
-      categoryName: "Shirts",
-    },
-    {
-      id: 1234,
-      name: "Blue Cotton T-Shirt",
-      price: 29.99,
-      detail:
-        "A comfortable and stylish blue cotton t-shirt. Perfect for casual wear.",
-      img1: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091", // Replace with actual image path
-      img2: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091", // Replace with actual image path (optional)
-      categoryName: "Shirts",
-    },
-    {
-      id: 1234,
-      name: "Blue Cotton T-Shirt",
-      price: 29.99,
-      detail:
-        "A comfortable and stylish blue cotton t-shirt. Perfect for casual wear.",
-      img1: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091", // Replace with actual image path
-      img2: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091", // Replace with actual image path (optional)
-      categoryName: "Shirts",
-    },
-    {
-      id: 1234,
-      name: "Blue Cotton T-Shirt",
-      price: 29.99,
-      detail:
-        "A comfortable and stylish blue cotton t-shirt. Perfect for casual wear.",
-      img1: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091", // Replace with actual image path
-      img2: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091", // Replace with actual image path (optional)
-      categoryName: "Shirts",
-    },
-    {
-      id: 1234,
-      name: "Blue Cotton T-Shirt",
-      price: 29.99,
-      detail:
-        "A comfortable and stylish blue cotton t-shirt. Perfect for casual wear.",
-      img1: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091", // Replace with actual image path
-      img2: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091", // Replace with actual image path (optional)
-      categoryName: "Shirts",
-    },
-  ];
+  // let products: itemType[] = [
+  //   {
+  //     id: 1234,
+  //     name: "Blue Cotton T-Shirt",
+  //     price: 29.99,
+  //     detail:
+  //       "A comfortable and stylish blue cotton t-shirt. Perfect for casual wear.",
+  //     img1: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091", // Replace with actual image path
+  //     img2: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091", // Replace with actual image path (optional)
+  //     categoryName: "Shirts",
+  //   },
+  //   {
+  //     id: 1234,
+  //     name: "Blue Cotton T-Shirt",
+  //     price: 29.99,
+  //     detail:
+  //       "A comfortable and stylish blue cotton t-shirt. Perfect for casual wear.",
+  //     img1: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091", // Replace with actual image path
+  //     img2: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091", // Replace with actual image path (optional)
+  //     categoryName: "Shirts",
+  //   },
+  //   {
+  //     id: 1234,
+  //     name: "Blue Cotton T-Shirt",
+  //     price: 29.99,
+  //     detail:
+  //       "A comfortable and stylish blue cotton t-shirt. Perfect for casual wear.",
+  //     img1: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091", // Replace with actual image path
+  //     img2: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091", // Replace with actual image path (optional)
+  //     categoryName: "Shirts",
+  //   },
+  //   {
+  //     id: 1234,
+  //     name: "Blue Cotton T-Shirt",
+  //     price: 29.99,
+  //     detail:
+  //       "A comfortable and stylish blue cotton t-shirt. Perfect for casual wear.",
+  //     img1: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091", // Replace with actual image path
+  //     img2: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091", // Replace with actual image path (optional)
+  //     categoryName: "Shirts",
+  //   },
+  //   {
+  //     id: 1234,
+  //     name: "Blue Cotton T-Shirt",
+  //     price: 29.99,
+  //     detail:
+  //       "A comfortable and stylish blue cotton t-shirt. Perfect for casual wear.",
+  //     img1: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091", // Replace with actual image path
+  //     img2: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091", // Replace with actual image path (optional)
+  //     categoryName: "Shirts",
+  //   },
+  // ];
   // randomFetchedProducts.forEach((randomProduct: apiProductsType) => {
   //   products.push({
   //     id: randomProduct.id,
@@ -420,9 +427,21 @@ export const getServerSideProps: GetServerSideProps = async ({
         ...fetchedProduct,
         mainImg: fetchedProduct.option[0]?.images?.split(",")[0],
       },
-      products: [],
+      products: products.map((el: any) => ({
+        id: el?.id,
+        name: el?.name,
+        price: el?.option[0]?.price,
+        detail: el?.detail,
+        img1: el?.option[0]?.images?.split(",")[0],
+        img2:
+          el?.option[0]?.images?.split(",")?.length > 1
+            ? el?.option[0]?.images?.split(",")[1]
+            : el?.option[0]?.images?.split(",")[0],
+        // categoryName: "Shirts",
+        stock: el?.option[0]?.stock,
+      })),
       messages: (await import(`../../messages/common/${locale}.json`)).default,
-      url: req.headers.host + req.url,
+      url: req?.headers?.host + req?.url,
     },
   };
 };
