@@ -1,12 +1,23 @@
 import { itemType } from "../cart/cart-types";
 
-const removeItemFromCart = (cartItems: itemType[], item: itemType) => {
+const removeItemFromCart = (cartItems: any[], item: any) => {
   //   const duplicate = cartItems.some((cartItem) => cartItem.id === item.id);
   if (item.qty === 1) {
-    return cartItems.filter((cartItem) => cartItem.id !== item.id);
+    return cartItems.filter(
+      (cartItem) =>
+        !(
+          cartItem.option === item.option &&
+          cartItem.id === item.id &&
+          cartItem.size === item.size
+        )
+    );
   }
   return cartItems.map((cartItem) =>
-    cartItem.id === item.id ? { ...cartItem, qty: cartItem.qty! - 1 } : cartItem
+    cartItem.id === item.id &&
+    cartItem.option === item.option &&
+    cartItem.size === item.size
+      ? { ...cartItem, qty: cartItem.qty! - 1 }
+      : cartItem
   );
   //   if (duplicate) {
   //     return cartItems.map((cartItem) =>

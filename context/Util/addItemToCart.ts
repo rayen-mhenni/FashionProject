@@ -2,7 +2,10 @@ import { itemType } from "../cart/cart-types";
 
 const addItemToCart = (cartItems: any[], item: any, add_one = false) => {
   const duplicate = cartItems.some(
-    (cartItem) => cartItem.option === item.option && cartItem.id === item.id
+    (cartItem) =>
+      cartItem.option === item.option &&
+      cartItem.id === item.id &&
+      cartItem.size === item.size
   );
 
   if (duplicate) {
@@ -13,7 +16,9 @@ const addItemToCart = (cartItems: any[], item: any, add_one = false) => {
         : (itemQty = item.qty);
 
       console.log(itemQty);
-      return cartItem.option === item.option && cartItem.id === item.id
+      return cartItem.option === item.option &&
+        cartItem.id === item.id &&
+        cartItem.size === item.size
         ? { ...cartItem, qty: itemQty }
         : cartItem;
     });
