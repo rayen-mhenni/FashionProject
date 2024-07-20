@@ -35,23 +35,29 @@ export default function SearchForm() {
   useEffect(() => {
     if (!isFetching) return;
     const fetchData = async () => {
-      const res = await axios.get(`${process.env.NEXT_PUBLIC_PRODUCTS_MODULE}/search?q=${searchValue}`);
-      const fetchedProducts: apiProductsType[] = res.data.data.map((product: any) => ({
-        id: product?.id,
-        name: product?.name,
-        price: product?.option[0].price,
-        qty: product?.option[0].stock,
-        description: product?.description,
-        detail: product?.detail,
-        img1: product?.option[0].images.split(",")[0],
-        img2:
-          product?.option[0].images.split(",").length > 1
-            ? product?.option[0].images.split(",")[1]
-            : product?.option[0].images.split(",")[0],
-        // categoryName: ,
-        stock: product?.option[0].stock,
-        createdAt: product?.createdAt,
-      }));
+      const res = await axios.get(
+        `${process.env.NEXT_PUBLIC_PRODUCTS_MODULE}/search?q=${searchValue}`
+      );
+      const fetchedProducts: apiProductsType[] = res.data.data.map(
+        (product: any) => ({
+          id: product?.id,
+          name: product?.name,
+          price: product?.option[0].price,
+          qty: product?.option[0].stock,
+          description: product?.description,
+          detail: product?.detail,
+          img1: product?.option[0].images.split(",")[0],
+          img2:
+            product?.option[0].images.split(",").length > 1
+              ? product?.option[0].images.split(",")[1]
+              : product?.option[0].images.split(",")[0],
+          // categoryName: ,
+          stock: product?.option[0].stock,
+          option: product?.option[0].id,
+          size: product?.option[0].size.split(",")[0],
+          createdAt: product?.createdAt,
+        })
+      );
       if (fetchedProducts.length < 1) setNoResult(true);
       fetchedProducts.map((product, index) => {
         if (index < 4) {
@@ -127,12 +133,23 @@ export default function SearchForm() {
                 <div className="app-max-width app-x-padding">
                   <div className="w-3/5 m-auto">
                     <div className="flex justify-end mb-8">
-                      <button type="button" className="outline-none focus:outline-none text-2xl" onClick={closeModal}>
+                      <button
+                        type="button"
+                        className="outline-none focus:outline-none text-2xl"
+                        onClick={closeModal}
+                      >
                         &#10005;
                       </button>
                     </div>
-                    <form className="mt-2 flex items-center" onSubmit={handleSubmit}>
-                      {isFetching ? <Loading /> : <SearchIcon extraClass="text-gray300 w-8 h-8" />}
+                    <form
+                      className="mt-2 flex items-center"
+                      onSubmit={handleSubmit}
+                    >
+                      {isFetching ? (
+                        <Loading />
+                      ) : (
+                        <SearchIcon extraClass="text-gray300 w-8 h-8" />
+                      )}
                       <input
                         type="search"
                         placeholder={t("search_anything")}
@@ -151,7 +168,8 @@ export default function SearchForm() {
                       <div
                         className="grid gap-x-4 justify-center my-8"
                         style={{
-                          gridTemplateColumns: "repeat( auto-fit, minmax(120px, 170px) )",
+                          gridTemplateColumns:
+                            "repeat( auto-fit, minmax(120px, 170px) )",
                         }}
                       >
                         {searchItems.map((item) => (
@@ -159,7 +177,13 @@ export default function SearchForm() {
                         ))}
                       </div>
                       {moreThanFour && (
-                        <GhostButton onClick={() => router.push(`/search?q=${searchValue}`)}>{t("view_all")}</GhostButton>
+                        <GhostButton
+                          onClick={() =>
+                            router.push(`/search?q=${searchValue}`)
+                          }
+                        >
+                          {t("view_all")}
+                        </GhostButton>
                       )}
                     </div>
                   )}

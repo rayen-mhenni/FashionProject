@@ -37,7 +37,14 @@ type Props = {
 };
 const Panel = Collapse.Panel;
 
-const ProductCollection: React.FC<Props> = ({ items, page, numberOfProducts, orderby, colors, sizes }) => {
+const ProductCollection: React.FC<Props> = ({
+  items,
+  page,
+  numberOfProducts,
+  orderby,
+  colors,
+  sizes,
+}) => {
   const t = useTranslations("Collection");
   const [open, setopen] = useState(false);
   const [hex, setHex] = useState("");
@@ -51,7 +58,9 @@ const ProductCollection: React.FC<Props> = ({ items, page, numberOfProducts, ord
 
   const lastPage = Math.ceil(numberOfProducts / 10);
 
-  const capitalizedCategory = collection!.toString().charAt(0).toUpperCase() + collection!.toString().slice(1);
+  const capitalizedCategory =
+    collection!.toString().charAt(0).toUpperCase() +
+    collection!.toString().slice(1);
 
   const firstIndex = page === 1 ? page : page * 10 - 9;
   const lastIndex = page * 10;
@@ -91,7 +100,10 @@ const ProductCollection: React.FC<Props> = ({ items, page, numberOfProducts, ord
         } else {
           isValidSize = true;
         }
-        if (Number(el?.price) >= Number(min) && Number(el?.price) <= Number(max)) {
+        if (
+          Number(el?.price) >= Number(min) &&
+          Number(el?.price) <= Number(max)
+        ) {
           isValidPrice = true;
         }
 
@@ -145,7 +157,9 @@ const ProductCollection: React.FC<Props> = ({ items, page, numberOfProducts, ord
               })}
             </span>
 
-            {collection !== "new-arrivals" && <SortMenu orderby={orderby} openModal={openModal} />}
+            {collection !== "new-arrivals" && (
+              <SortMenu orderby={orderby} openModal={openModal} />
+            )}
           </div>
         </div>
 
@@ -203,7 +217,11 @@ const ProductCollection: React.FC<Props> = ({ items, page, numberOfProducts, ord
               >
                 <div className="bg-white flex justify-between items-center p-6">
                   <h3 className="text-xl">Filtrer</h3>
-                  <button type="button" className="outline-none focus:outline-none text-3xl sm:text-2xl" onClick={closeModal}>
+                  <button
+                    type="button"
+                    className="outline-none focus:outline-none text-3xl sm:text-2xl"
+                    onClick={closeModal}
+                  >
                     &#10005;
                   </button>
                 </div>
@@ -243,7 +261,9 @@ const ProductCollection: React.FC<Props> = ({ items, page, numberOfProducts, ord
                               key={i}
                               onClick={() => handleSize(el)}
                               className={`w-8 h-8 flex items-center justify-center border ${
-                                size === el ? "border-gray500 bg-gray300" : "border-gray300 text-gray400"
+                                size === el
+                                  ? "border-gray500 bg-gray300"
+                                  : "border-gray300 text-gray400"
                               } cursor-pointer hover:bg-gray500 hover:text-gray100`}
                             >
                               {el}
@@ -306,14 +326,20 @@ const ProductCollection: React.FC<Props> = ({ items, page, numberOfProducts, ord
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({ params, locale, query: { page = 1, orderby = "latest" } }) => {
+export const getServerSideProps: GetServerSideProps = async ({
+  params,
+  locale,
+  query: { page = 1, orderby = "latest" },
+}) => {
   const paramCategory: any = params!.collection;
 
   // const start = +page === 1 ? 0 : (+page - 1) * 10;
 
   let numberOfProducts = 0;
 
-  const res = await axios.get(`${process.env.NEXT_PUBLIC_PRODUCTS_MODULE}/col/${paramCategory[0]}`);
+  const res = await axios.get(
+    `${process.env.NEXT_PUBLIC_PRODUCTS_MODULE}/col/${paramCategory[0]}`
+  );
   numberOfProducts = res.data.data.length;
 
   let order_by: string;
@@ -334,15 +360,23 @@ export const getServerSideProps: GetServerSideProps = async ({ params, locale, q
     description: el?.description,
     detail: el?.detail,
     img1: el?.option[0].images.split(",")[0],
-    img2: el?.option[0].images.split(",").length > 1 ? el?.option[0].images.split(",")[1] : el?.option[0].images.split(",")[0],
+    img2:
+      el?.option[0].images.split(",").length > 1
+        ? el?.option[0].images.split(",")[1]
+        : el?.option[0].images.split(",")[0],
     // categoryName: ,
     stock: el?.option[0].stock,
+    option: el?.option[0].id,
+    size: el?.option[0].size.split(",")[0],
     createdAt: el?.createdAt,
     details: el?.option?.map((col: any) => {
       return {
         color: col?.color,
         img1: col?.images.split(",")[0],
-        img2: col?.images.split(",").length > 1 ? col?.images.split(",")[1] : col?.images.split(",")[0],
+        img2:
+          col?.images.split(",").length > 1
+            ? col?.images.split(",")[1]
+            : col?.images.split(",")[0],
         price: col?.price,
         size: col?.size.split(",").map((size: any) => size),
       };
@@ -375,7 +409,10 @@ export const getServerSideProps: GetServerSideProps = async ({ params, locale, q
   };
 };
 
-const SortMenu: React.FC<{ orderby: OrderType; openModal: () => void }> = ({ orderby, openModal }) => {
+const SortMenu: React.FC<{ orderby: OrderType; openModal: () => void }> = ({
+  orderby,
+  openModal,
+}) => {
   const t = useTranslations("Navigation");
   const router = useRouter();
   const { collection }: any = router.query;
@@ -407,11 +444,16 @@ const SortMenu: React.FC<{ orderby: OrderType; openModal: () => void }> = ({ ord
             {({ active }) => (
               <button
                 type="button"
-                onClick={() => router.push(`/product-collection/${collection[0]}/${collection[1]}?orderby=latest`)}
+                onClick={() =>
+                  router.push(
+                    `/product-collection/${collection[0]}/${collection[1]}?orderby=latest`
+                  )
+                }
                 className={`${
                   active ? "bg-gray100 text-gray500" : "bg-white"
                 } py-2 px-4 text-left w-full focus:outline-none whitespace-nowrap ${
-                  currentOrder === "sort_by_latest" && "bg-gray500 text-gray100 hover:text-white"
+                  currentOrder === "sort_by_latest" &&
+                  "bg-gray500 text-gray100 hover:text-white"
                 }`}
               >
                 {t("sort_by_latest")}
@@ -422,11 +464,16 @@ const SortMenu: React.FC<{ orderby: OrderType; openModal: () => void }> = ({ ord
             {({ active }) => (
               <button
                 type="button"
-                onClick={() => router.push(`/product-collection/${collection[0]}/${collection[1]}?orderby=price`)}
+                onClick={() =>
+                  router.push(
+                    `/product-collection/${collection[0]}/${collection[1]}?orderby=price`
+                  )
+                }
                 className={`${
                   active ? "bg-gray100 text-gray500 " : "bg-white"
                 } py-2 px-4 text-left w-full focus:outline-none whitespace-nowrap ${
-                  currentOrder === "sort_by_price" && "bg-gray500 text-gray100 hover:text-white"
+                  currentOrder === "sort_by_price" &&
+                  "bg-gray500 text-gray100 hover:text-white"
                 }`}
               >
                 {t("sort_by_price")}
@@ -437,11 +484,16 @@ const SortMenu: React.FC<{ orderby: OrderType; openModal: () => void }> = ({ ord
             {({ active }) => (
               <button
                 type="button"
-                onClick={() => router.push(`/product-collection/${collection[0]}/${collection[1]}?orderby=price-desc`)}
+                onClick={() =>
+                  router.push(
+                    `/product-collection/${collection[0]}/${collection[1]}?orderby=price-desc`
+                  )
+                }
                 className={`${
                   active ? "bg-gray100 text-gray500 " : "bg-white"
                 } py-2 px-4 text-left w-full focus:outline-none whitespace-nowrap ${
-                  currentOrder === "sort_by_price_desc" && "bg-gray500 text-gray100 hover:text-white"
+                  currentOrder === "sort_by_price_desc" &&
+                  "bg-gray500 text-gray100 hover:text-white"
                 }`}
               >
                 {t("sort_by_price_desc")}

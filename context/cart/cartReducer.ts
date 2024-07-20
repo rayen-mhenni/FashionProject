@@ -13,7 +13,7 @@ import removeItemFromCart from "../Util/removeItemFromCart";
 
 type actionType = {
   type: string;
-  payload?: itemType | itemType[];
+  payload?: any | any[];
 };
 
 const cartReducer = (state: cartType, action: actionType) => {
@@ -37,7 +37,10 @@ const cartReducer = (state: cartType, action: actionType) => {
       return {
         ...state,
         cart: state.cart.filter(
-          (cartItem) => cartItem.id !== (action.payload as itemType).id
+          (cartItem) =>
+            !(cartItem.option === (action.payload as itemType).option &&
+            cartItem.id === (action.payload as itemType).id &&
+            cartItem.size === (action.payload as itemType).size)
         ),
       };
     case SET_CART:

@@ -83,11 +83,13 @@ export const getServerSideProps: GetServerSideProps = async ({
   const res = await axios.get(
     `${process.env.NEXT_PUBLIC_PROD_BACKEND_URL}/api/v1/products/search?q=${q}`
   );
-  const fetchedProducts: apiProductsType[] = res.data.data.map(
-    (product: apiProductsType) => ({
+  const fetchedProducts: any[] = res.data.data.map(
+    (product: any) => ({
       ...product,
       img1: product.image1,
       img2: product.image2,
+      option: product?.option[0]?.id,
+      size: product?.option[0].size.split(",")[0],
     })
   );
 

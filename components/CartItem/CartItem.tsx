@@ -125,6 +125,7 @@ export default function CartItem() {
                         <Item
                           key={item.id}
                           name={item.name}
+                          size={item.size}
                           price={item.price * item.qty!}
                           qty={item.qty!}
                           img={item.img1 as string}

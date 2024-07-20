@@ -12,7 +12,12 @@ import { useCart } from "../context/cart/CartProvider";
 import Input from "../components/Input/Input";
 import { itemType } from "../context/wishlist/wishlist-type";
 import { useAuth } from "../context/AuthContext";
-import { PaymentElement, Elements, useStripe, useElements } from "@stripe/react-stripe-js";
+import {
+  PaymentElement,
+  Elements,
+  useStripe,
+  useElements,
+} from "@stripe/react-stripe-js";
 import autocomplete, { AutocompleteItem, EventTrigger } from "autocompleter";
 import _, { isEmpty, isNil } from "lodash";
 
@@ -51,7 +56,8 @@ const ShoppingCart = () => {
   const { cart, clearCart } = useCart();
   const auth = useAuth();
   const [deli, setDeli] = useState<DeliveryType>("DOMICILE");
-  const [paymentMethod, setPaymentMethod] = useState<PaymentType>("CASH_ON_DELIVERY");
+  const [paymentMethod, setPaymentMethod] =
+    useState<PaymentType>("CASH_ON_DELIVERY");
 
   // Form Fields
   const [name, setName] = useState(auth.user?.fullname || "");
@@ -62,7 +68,9 @@ const ShoppingCart = () => {
   const [context, setcontext] = useState("");
   const [adrname, setadrname] = useState("");
   const [password, setPassword] = useState("");
-  const [shippingAddress, setShippingAddress] = useState(auth.user?.shippingAddress || "");
+  const [shippingAddress, setShippingAddress] = useState(
+    auth.user?.shippingAddress || ""
+  );
   const [isOrdering, setIsOrdering] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [completedOrder, setCompletedOrder] = useState<Order | null>(null);
@@ -75,32 +83,48 @@ const ShoppingCart = () => {
   }));
 
   useEffect(() => {
-    if (typeof document !== "undefined" && !isNil(document.getElementById("myinputfield")))
+    if (
+      typeof document !== "undefined" &&
+      !isNil(document.getElementById("myinputfield"))
+    )
       autocomplete<MyItem>({
         input: document.getElementById("myinputfield") as any,
         className: "autoComplete",
         emptyMsg: "aucune addresse",
         minLength: 1,
         debounceWaitMs: 1000,
-        fetch: async (text: string, update: (items: Item[]) => void, Trigger: EventTrigger, cursorPos: number) => {
+        fetch: async (
+          text: string,
+          update: (items: Item[]) => void,
+          Trigger: EventTrigger,
+          cursorPos: number
+        ) => {
           console.log("testtttttttttttt", text, Trigger, cursorPos);
           let res1,
             res2,
             res3,
             res4 = [];
           if (text.length >= 3) {
-            res1 = await fetch(`https://api-adresse.data.gouv.fr/search/?q=${text}&type=street&autocomplete=1`)
+            res1 = await fetch(
+              `https://api-adresse.data.gouv.fr/search/?q=${text}&type=street&autocomplete=1`
+            )
               .then((res) => res.json())
               .catch((res) => []);
 
-            res2 = await fetch(`https://api-adresse.data.gouv.fr/search/?q=${text}&type=locality&autocomplete=1`)
+            res2 = await fetch(
+              `https://api-adresse.data.gouv.fr/search/?q=${text}&type=locality&autocomplete=1`
+            )
               .then((res) => res.json())
               .catch((res) => []);
 
-            res3 = await fetch(`https://api-adresse.data.gouv.fr/search/?q=${text}&type=municipality&autocomplete=1`)
+            res3 = await fetch(
+              `https://api-adresse.data.gouv.fr/search/?q=${text}&type=municipality&autocomplete=1`
+            )
               .then((res) => res.json())
               .catch((res) => []);
-            res4 = await fetch(`https://api-adresse.data.gouv.fr/search/?q=${text}&type=housenumber&autocomplete=1`)
+            res4 = await fetch(
+              `https://api-adresse.data.gouv.fr/search/?q=${text}&type=housenumber&autocomplete=1`
+            )
               .then((res) => res.json())
               .catch((res) => []);
 
@@ -146,9 +170,13 @@ const ShoppingCart = () => {
           setpostcode(item?.postcode);
           setcity(item?.city);
 
-          document.getElementById("myinputfield")!.value = item?.name + " " + item?.context ?? "";
+          document.getElementById("myinputfield")!.value =
+            item?.name + " " + item?.context ?? "";
         },
-        render: function (item: Item, currentValue: string): HTMLDivElement | undefined {
+        render: function (
+          item: Item,
+          currentValue: string
+        ): HTMLDivElement | undefined {
           const itemElement = document.createElement("div");
           itemElement.className = "subautocomplete";
           itemElement.textContent = item?.name + " " + item.context;
@@ -164,7 +192,13 @@ const ShoppingCart = () => {
 
     // if not logged in, register the user
     const registerUser = async () => {
-      const regResponse = await auth.register!(email, name, password, shippingAddress, phone);
+      const regResponse = await auth.register!(
+        email,
+        name,
+        password,
+        shippingAddress,
+        phone
+      );
       if (!regResponse.success) {
         setIsOrdering(false);
         if (regResponse.message === "alreadyExists") {
@@ -178,16 +212,19 @@ const ShoppingCart = () => {
     if (!auth.user) registerUser();
 
     const makeOrder = async () => {
-      const res = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/orders`, {
-        customerId: auth!.user!.id,
-        shippingAddress: shippingAddress,
-        totalPrice: subtotal,
-        deliveryDate: new Date().setDate(new Date().getDate() + 7),
-        paymentType: null,
-        deliveryType: deli,
-        products,
-        sendEmail,
-      });
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/orders`,
+        {
+          customerId: auth!.user!.id,
+          shippingAddress: shippingAddress,
+          totalPrice: subtotal,
+          deliveryDate: new Date().setDate(new Date().getDate() + 7),
+          paymentType: null,
+          deliveryType: deli,
+          products,
+          sendEmail,
+        }
+      );
       if (res.data.success) {
         setCompletedOrder(res.data.data);
         clearCart!();
@@ -216,15 +253,29 @@ const ShoppingCart = () => {
   let disableOrder = true;
 
   if (!auth.user) {
-    disableOrder = name !== "" && email !== "" && phone !== "" && shippingAddress !== "" && password !== "" ? false : true;
+    disableOrder =
+      name !== "" &&
+      email !== "" &&
+      phone !== "" &&
+      shippingAddress !== "" &&
+      password !== ""
+        ? false
+        : true;
   } else {
-    disableOrder = name !== "" && email !== "" && phone !== "" && shippingAddress !== "" ? false : true;
+    disableOrder =
+      name !== "" && email !== "" && phone !== "" && shippingAddress !== ""
+        ? false
+        : true;
   }
 
   let subtotal: number | string = 0;
 
   subtotal = roundDecimal(
-    cart.reduce((accumulator: number, currentItem: itemType) => accumulator + currentItem.price * currentItem!.qty!, 0)
+    cart.reduce(
+      (accumulator: number, currentItem: itemType) =>
+        accumulator + currentItem.price * currentItem!.qty!,
+      0
+    )
   );
 
   let deliFee = 0;
@@ -299,7 +350,11 @@ const ShoppingCart = () => {
         {!completedOrder ? (
           <div className="app-max-width px-4 sm:px-8 md:px-20 mb-14 flex flex-col lg:flex-row">
             <div className="h-full w-full lg:w-7/12 mr-8">
-              {errorMsg !== "" && <span className="text-red text-sm font-semibold">- {t(errorMsg)}</span>}
+              {errorMsg !== "" && (
+                <span className="text-red text-sm font-semibold">
+                  - {t(errorMsg)}
+                </span>
+              )}
               <div className="my-4">
                 <label htmlFor="name" className="text-lg">
                   {t("name")}
@@ -310,7 +365,9 @@ const ShoppingCart = () => {
                   extraClass="w-full mt-1 mb-2"
                   border="border-2 border-gray400"
                   value={name}
-                  onChange={(e) => setName((e.target as HTMLInputElement).value)}
+                  onChange={(e) =>
+                    setName((e.target as HTMLInputElement).value)
+                  }
                   required
                 />
               </div>
@@ -323,10 +380,14 @@ const ShoppingCart = () => {
                   name="email"
                   type="email"
                   readOnly={auth.user ? true : false}
-                  extraClass={`w-full mt-1 mb-2 ${auth.user ? "bg-gray100 cursor-not-allowed" : ""}`}
+                  extraClass={`w-full mt-1 mb-2 ${
+                    auth.user ? "bg-gray100 cursor-not-allowed" : ""
+                  }`}
                   border="border-2 border-gray400"
                   value={email}
-                  onChange={(e) => setEmail((e.target as HTMLInputElement).value)}
+                  onChange={(e) =>
+                    setEmail((e.target as HTMLInputElement).value)
+                  }
                   required
                 />
               </div>
@@ -342,7 +403,9 @@ const ShoppingCart = () => {
                     extraClass="w-full mt-1 mb-2"
                     border="border-2 border-gray400"
                     value={password}
-                    onChange={(e) => setPassword((e.target as HTMLInputElement).value)}
+                    onChange={(e) =>
+                      setPassword((e.target as HTMLInputElement).value)
+                    }
                     required
                   />
                 </div>
@@ -358,7 +421,9 @@ const ShoppingCart = () => {
                   extraClass="w-full mt-1 mb-2"
                   border="border-2 border-gray400"
                   value={phone}
-                  onChange={(e) => setPhone((e.target as HTMLInputElement).value)}
+                  onChange={(e) =>
+                    setPhone((e.target as HTMLInputElement).value)
+                  }
                   required
                 />
               </div>
@@ -399,7 +464,9 @@ const ShoppingCart = () => {
                   extraClass="w-full mt-1 mb-2"
                   border="border-2 border-gray400"
                   value={adrname}
-                  onChange={(e) => setadrname((e.target as HTMLInputElement).value)}
+                  onChange={(e) =>
+                    setadrname((e.target as HTMLInputElement).value)
+                  }
                 />
               </div>
 
@@ -414,7 +481,9 @@ const ShoppingCart = () => {
                   extraClass="w-full mt-1 mb-2"
                   border="border-2 border-gray400"
                   value={postcode}
-                  onChange={(e) => setpostcode((e.target as HTMLInputElement).value)}
+                  onChange={(e) =>
+                    setpostcode((e.target as HTMLInputElement).value)
+                  }
                 />
               </div>
               <div className="my-4">
@@ -428,27 +497,41 @@ const ShoppingCart = () => {
                   extraClass="w-full mt-1 mb-2"
                   border="border-2 border-gray400"
                   value={city}
-                  onChange={(e) => setcity((e.target as HTMLInputElement).value)}
+                  onChange={(e) =>
+                    setcity((e.target as HTMLInputElement).value)
+                  }
                 />
               </div>
 
-              {!auth.user && <div className="text-sm text-gray400 mt-8 leading-6">{t("form_note")}</div>}
+              {!auth.user && (
+                <div className="text-sm text-gray400 mt-8 leading-6">
+                  {t("form_note")}
+                </div>
+              )}
             </div>
             <div className="h-full w-full lg:w-5/12 mt-10 lg:mt-4">
               {/* Cart Totals */}
               <div className="border border-gray500 p-6 divide-y-2 divide-gray200">
                 <div className="flex justify-between">
-                  <span className="text-base uppercase mb-3">{t("product")}</span>
-                  <span className="text-base uppercase mb-3">{t("subtotal")}</span>
+                  <span className="text-base uppercase mb-3">
+                    {t("product")}
+                  </span>
+                  <span className="text-base uppercase mb-3">
+                    {t("subtotal")}
+                  </span>
                 </div>
 
                 <div className="pt-2">
-                  {cart.map((item) => (
+                  {cart.map((item: any) => (
                     <div className="flex justify-between mb-2" key={item.id}>
                       <span className="text-base font-medium">
-                        {item.name} <span className="text-gray400">x {item.qty}</span>
+                        {item.name}{" "}
+                        <span className="text-gray400">x {item.qty}</span>{" "}
+                        <span className="text-gray400">| {item.size}</span>
                       </span>
-                      <span className="text-base">$ {roundDecimal(item.price * item!.qty!)}</span>
+                      <span className="text-base">
+                        $ {roundDecimal(item.price * item!.qty!)}
+                      </span>
                     </div>
                   ))}
                 </div>
@@ -601,7 +684,10 @@ const ShoppingCart = () => {
                         className="toggle-label block overflow-hidden h-6 rounded-full bg-gray300 cursor-pointer"
                       ></label>
                     </div>
-                    <label htmlFor="send-email-toggle" className="text-xs text-gray-700">
+                    <label
+                      htmlFor="send-email-toggle"
+                      className="text-xs text-gray-700"
+                    >
                       {t("send_order_email")}
                     </label>
                   </div>
@@ -616,7 +702,11 @@ const ShoppingCart = () => {
                 />
               </div>
 
-              {orderError !== "" && <span className="text-red text-sm font-semibold">- {orderError}</span>}
+              {orderError !== "" && (
+                <span className="text-red text-sm font-semibold">
+                  - {orderError}
+                </span>
+              )}
             </div>
           </div>
         ) : (
@@ -627,8 +717,12 @@ const ShoppingCart = () => {
               <div className="h-full w-full md:w-1/2 mt-2 lg:mt-4">
                 <div className="border border-gray500 p-6 divide-y-2 divide-gray200">
                   <div className="flex justify-between">
-                    <span className="text-base uppercase mb-3">{t("order_id")}</span>
-                    <span className="text-base uppercase mb-3">{completedOrder.orderNumber}</span>
+                    <span className="text-base uppercase mb-3">
+                      {t("order_id")}
+                    </span>
+                    <span className="text-base uppercase mb-3">
+                      {completedOrder.orderNumber}
+                    </span>
                   </div>
 
                   <div className="pt-2">
@@ -638,11 +732,19 @@ const ShoppingCart = () => {
                     </div>
                     <div className="flex justify-between mb-2">
                       <span className="text-base">{t("order_date")}</span>
-                      <span className="text-base">{new Date(completedOrder.orderDate).toLocaleDateString()}</span>
+                      <span className="text-base">
+                        {new Date(
+                          completedOrder.orderDate
+                        ).toLocaleDateString()}
+                      </span>
                     </div>
                     <div className="flex justify-between mb-2">
                       <span className="text-base">{t("delivery_date")}</span>
-                      <span className="text-base">{new Date(completedOrder.deliveryDate).toLocaleDateString()}</span>
+                      <span className="text-base">
+                        {new Date(
+                          completedOrder.deliveryDate
+                        ).toLocaleDateString()}
+                      </span>
                     </div>
                   </div>
 
@@ -659,7 +761,9 @@ const ShoppingCart = () => {
 
                   <div className="pt-2 flex justify-between mb-2">
                     <span className="text-base uppercase">{t("total")}</span>
-                    <span className="text-base">$ {completedOrder.totalPrice}</span>
+                    <span className="text-base">
+                      $ {completedOrder.totalPrice}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -667,17 +771,21 @@ const ShoppingCart = () => {
               <div className="h-full w-full md:w-1/2 md:ml-8 mt-4 md:mt-2 lg:mt-4">
                 <div>
                   {t("your_order_received")}
-                  {completedOrder.paymentType === "BANK_TRANSFER" && t("bank_transfer_note")}
+                  {completedOrder.paymentType === "BANK_TRANSFER" &&
+                    t("bank_transfer_note")}
                   {completedOrder.paymentType === "CASH_ON_DELIVERY" &&
                     completedOrder.deliveryType !== "DOMICILE" &&
                     t("cash_delivery_note")}
-                  {completedOrder.deliveryType === "DOMICILE" && t("store_pickup_note")}
+                  {completedOrder.deliveryType === "DOMICILE" &&
+                    t("store_pickup_note")}
                   {t("thank_you_for_purchasing")}
                 </div>
 
                 {completedOrder.paymentType === "BANK_TRANSFER" ? (
                   <div className="mt-6">
-                    <h2 className="text-xl font-bold">{t("our_banking_details")}</h2>
+                    <h2 className="text-xl font-bold">
+                      {t("our_banking_details")}
+                    </h2>
                     <span className="uppercase block my-1">Sat Naing :</span>
 
                     <div className="flex justify-between w-full xl:w-1/2">
