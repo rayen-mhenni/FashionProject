@@ -104,10 +104,10 @@ const Home: React.FC<Props> = ({ products, collections }) => {
         </section>
 
         {/* ===== Testimonial Section ===== */}
-        <section className="w-full hidden h-full py-16 md:flex flex-col items-center bg-lightgreen">
+        {/* <section className="w-full hidden h-full py-16 md:flex flex-col items-center bg-lightgreen">
           <h2 className="text-3xl">{t("testimonial")}</h2>
           <TestiSlider />
-        </section>
+        </section> */}
         {/* <div className="border-gray100 border-b-2"></div> */}
 
         {/* ===== Category Section ===== */}
