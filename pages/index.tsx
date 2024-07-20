@@ -28,7 +28,7 @@ const Home: React.FC<Props> = ({ products, collections }) => {
   const t = useTranslations("Index");
   const [currentItems, setCurrentItems] = useState(products);
   const [isFetching, setIsFetching] = useState(false);
-  console.log("testttttttttt", collections);
+  console.log("testttttttttt", products);
   // useEffect(() => {
   //   if (!isFetching) return;
   //   const fetchData = async () => {
@@ -46,7 +46,9 @@ const Home: React.FC<Props> = ({ products, collections }) => {
   //   fetchData();
   // }, [isFetching, currentItems.length]);
 
-  const handleSeemore = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const handleSeemore = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     e.preventDefault();
     setIsFetching(true);
   };
@@ -72,7 +74,13 @@ const Home: React.FC<Props> = ({ products, collections }) => {
                 <td>
                   <hr style={{ opacity: "0.2" }} />
                 </td>
-                <td style={{ width: "1px", padding: "0 25px", whiteSpace: "nowrap" }}>
+                <td
+                  style={{
+                    width: "1px",
+                    padding: "0 25px",
+                    whiteSpace: "nowrap",
+                  }}
+                >
                   <h2 className="text-4xl">Nouveautés</h2>
                 </td>
                 <td>
@@ -82,9 +90,15 @@ const Home: React.FC<Props> = ({ products, collections }) => {
             </table>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-x-4 lg:gap-x-12 gap-y-6 mb-10 app-x-padding">
-            {currentItems[0] && <Card key={currentItems[0]?.id} item={currentItems[0]} outStock />}
-            {currentItems[1] && <Card key={currentItems[1]?.id} item={currentItems[1]} />}
-            {currentItems[2] && <Card key={currentItems[2]?.id} item={currentItems[2]} />}
+            {currentItems[0] && (
+              <Card key={currentItems[0]?.id} item={currentItems[0]} outStock />
+            )}
+            {currentItems[1] && (
+              <Card key={currentItems[1]?.id} item={currentItems[1]} />
+            )}
+            {currentItems[2] && (
+              <Card key={currentItems[2]?.id} item={currentItems[2]} />
+            )}
             {/* <Card key={currentItems[4].id} item={currentItems[4]} /> */}
           </div>
         </section>
@@ -108,7 +122,13 @@ const Home: React.FC<Props> = ({ products, collections }) => {
                 <td>
                   <hr style={{ opacity: "0.2" }} />
                 </td>
-                <td style={{ width: "1px", padding: "0 25px", whiteSpace: "nowrap" }}>
+                <td
+                  style={{
+                    width: "1px",
+                    padding: "0 25px",
+                    whiteSpace: "nowrap",
+                  }}
+                >
                   <h2 className="text-4xl">Collections</h2>
                 </td>
                 <td>
@@ -138,7 +158,10 @@ const Home: React.FC<Props> = ({ products, collections }) => {
             {collections.slice(1, 3).map((el: any, i: number) => (
               <div className="w-full" key={i}>
                 <OverlayContainer imgSrc={el?.thumbnailImage} imgAlt={el?.name}>
-                  <LinkButton href={`/product-category/${el?.name}`} extraClass="absolute bottom-10-per z-20">
+                  <LinkButton
+                    href={`/product-category/${el?.name}`}
+                    extraClass="absolute bottom-10-per z-20"
+                  >
                     {el?.name}
                   </LinkButton>
                 </OverlayContainer>
@@ -186,21 +209,27 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   );
 
   const nouveateArray = sortedArray.slice(0, 3);
-  const products: itemType[] = nouveateArray.map((el) => ({
+  const products: any[] = nouveateArray.map((el) => ({
     id: el?.id,
+    option: el?.option[0].id,
     name: el?.name,
     price: el?.option[0].price,
     qty: 1,
     description: el?.description,
     detail: el?.detail,
     img1: el?.option[0].images.split(",")[0],
-    img2: el?.option[0].images.split(",").length > 1 ? el?.option[0].images.split(",")[1] : el?.option[0].images.split(",")[0],
+    img2:
+      el?.option[0].images.split(",").length > 1
+        ? el?.option[0].images.split(",")[1]
+        : el?.option[0].images.split(",")[0],
     // categoryName: ,
     stock: el?.option[0].stock,
     createdAt: el?.createdAt,
   }));
 
-  const collections = await axios.get(`${process.env.NEXT_PUBLIC_COLLECTIONS_MODULE}`);
+  const collections = await axios.get(
+    `${process.env.NEXT_PUBLIC_COLLECTIONS_MODULE}`
+  );
 
   // const res = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/products?order_by=createdAt.desc&limit=10`);
   // const fetchedProducts = res.data;

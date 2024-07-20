@@ -70,8 +70,8 @@ const Product: React.FC<Props> = ({ product, products, url }) => {
   const currentItem = {
     ...product,
     price: productOption.price,
-
     img1: productOption.images.split(",")[0],
+    option: productOption.id,
     qty: currentQty,
   };
 
@@ -108,7 +108,7 @@ const Product: React.FC<Props> = ({ product, products, url }) => {
         <div className="itemSection app-max-width app-x-padding flex flex-col md:flex-row">
           <div className="imgSection w-full md:w-1/2 h-full flex">
             <div className="hidden sm:block w-full sm:w-1/4 h-full space-y-4 my-4">
-              {productOption?.images?.split(",").map((el) => (
+              {productOption?.images?.split(",").map((el: any) => (
                 <Image
                   className={`cursor-pointer ${
                     mainImg === el
@@ -439,6 +439,7 @@ export const getServerSideProps: GetServerSideProps = async ({
             : el?.option[0]?.images?.split(",")[0],
         // categoryName: "Shirts",
         stock: el?.option[0]?.stock,
+        option: el?.option[0]?.id,
       })),
       messages: (await import(`../../messages/common/${locale}.json`)).default,
       url: req?.headers?.host + req?.url,

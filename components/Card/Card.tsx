@@ -46,7 +46,8 @@ const Card: FC<Props> = ({ item, outStock = false }) => {
 
   const itemLink = `/products/${encodeURIComponent(id)}`;
 
-  const alreadyWishlisted = wishlist.filter((wItem) => wItem.id === id).length > 0;
+  const alreadyWishlisted =
+    wishlist.filter((wItem) => wItem.id === id).length > 0;
 
   const handleWishlist = () => {
     alreadyWishlisted ? deleteWishlistItem!(item) : addToWishlist!(item);
@@ -64,8 +65,20 @@ const Card: FC<Props> = ({ item, outStock = false }) => {
     <div className={styles.card}>
       <div className={styles.imageContainer}>
         <Link href={itemLink}>
-          <a tabIndex={-1} onMouseOver={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
-            {!isHovered && <Image src={img1 as string} alt={name} width={230} height={300} layout="responsive" />}
+          <a
+            tabIndex={-1}
+            onMouseOver={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+          >
+            {!isHovered && (
+              <Image
+                src={img1 as string}
+                alt={name}
+                width={230}
+                height={300}
+                layout="responsive"
+              />
+            )}
             {isHovered && (
               <Image
                 className="transition-transform transform hover:scale-110 duration-1000"
@@ -113,7 +126,12 @@ const Card: FC<Props> = ({ item, outStock = false }) => {
           <a className={styles.itemName}>{name}</a>
         </Link>
         <div className="text-gray400">$ {price}</div>
-        <button type="button" onClick={() => addOne!(item)} className="uppercase font-bold text-sm sm:hidden" disabled={outStock}>
+        <button
+          type="button"
+          onClick={() => addOne!(item)}
+          className="uppercase font-bold text-sm sm:hidden"
+          disabled={outStock}
+        >
           {!outStock ? t("add_to_cart") : <>Non disponible</>}
         </button>
       </div>
@@ -137,10 +155,22 @@ const Card: FC<Props> = ({ item, outStock = false }) => {
             className="w-full"
           >
             <SwiperSlide>
-              <Image className="w-full" src={item?.img1 as string} width={420} height={520} alt={item.name} />
+              <Image
+                className="w-full"
+                src={item?.img1 as string}
+                width={420}
+                height={520}
+                alt={item.name}
+              />
             </SwiperSlide>
             <SwiperSlide>
-              <Image className="w-full" src={item?.img2 as string} width={420} height={520} alt={item.name} />
+              <Image
+                className="w-full"
+                src={item?.img2 as string}
+                width={420}
+                height={520}
+                alt={item.name}
+              />
             </SwiperSlide>
           </Swiper>
           {/* <Image className="w-full" src={mainImg as string} width={1000} height={1282} alt={product.name} /> */}
@@ -148,7 +178,9 @@ const Card: FC<Props> = ({ item, outStock = false }) => {
         <div className=" h-auto py-8 sm:pl-4 flex flex-col">
           <h1 className="text-3xl mb-4">{item.name}</h1>
           <span className="text-2xl text-gray400 mb-2">$ {item.price}</span>
-          <span className="mb-2 text-justify break-words">{item.description}</span>
+          <span className="mb-2 text-justify break-words">
+            {item.description}
+          </span>
           <span className="mb-2">
             {t("availability")}: {t("in_stock")}
           </span>
@@ -191,7 +223,9 @@ const Card: FC<Props> = ({ item, outStock = false }) => {
               >
                 -
               </div>
-              <div className="h-full w-28 sm:w-12 flex justify-center items-center pointer-events-none">{currentQty}</div>
+              <div className="h-full w-28 sm:w-12 flex justify-center items-center pointer-events-none">
+                {currentQty}
+              </div>
               <div
                 onClick={() => setCurrentQty((prevState) => prevState + 1)}
                 className="h-full w-full sm:w-12 flex justify-center items-center cursor-pointer hover:bg-gray500 hover:text-gray100"
@@ -203,12 +237,21 @@ const Card: FC<Props> = ({ item, outStock = false }) => {
               <Button
                 value={!outStock ? t("add_to_cart") : "Non disponible"}
                 size="lg"
-                extraClass={`flex-grow text-center whitespace-nowrap ${!outStock && "hover:bg-gray200"}`}
+                extraClass={`flex-grow text-center whitespace-nowrap ${
+                  !outStock && "hover:bg-gray200"
+                }`}
                 onClick={() => addItem!(currentItem)}
                 disabled={outStock}
               />
-              <GhostButton onClick={handleWishlist} extraClass="hover:bg-gray200">
-                {alreadyWishlisted ? <HeartSolid extraClass="inline" /> : <Heart extraClass="inline" />}
+              <GhostButton
+                onClick={handleWishlist}
+                extraClass="hover:bg-gray200"
+              >
+                {alreadyWishlisted ? (
+                  <HeartSolid extraClass="inline" />
+                ) : (
+                  <Heart extraClass="inline" />
+                )}
               </GhostButton>
             </div>
           </div>
@@ -217,9 +260,17 @@ const Card: FC<Props> = ({ item, outStock = false }) => {
               <>
                 <Disclosure.Button className="py-2 focus:outline-none text-left mb-4 border-b-2 border-gray200 flex items-center justify-between">
                   <span>{t("details")}</span>
-                  <DownArrow extraClass={`${open ? "" : "transform rotate-180"} w-5 h-5 text-purple-500`} />
+                  <DownArrow
+                    extraClass={`${
+                      open ? "" : "transform rotate-180"
+                    } w-5 h-5 text-purple-500`}
+                  />
                 </Disclosure.Button>
-                <Disclosure.Panel className={`text-gray400 animate__animated animate__bounceIn break-words`}>{item.detail}</Disclosure.Panel>
+                <Disclosure.Panel
+                  className={`text-gray400 animate__animated animate__bounceIn break-words`}
+                >
+                  {item.detail}
+                </Disclosure.Panel>
               </>
             )}
           </Disclosure>

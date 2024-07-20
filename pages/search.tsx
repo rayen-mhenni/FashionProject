@@ -88,6 +88,7 @@ export const getServerSideProps: GetServerSideProps = async ({
       ...product,
       img1: product.image1,
       img2: product.image2,
+      option: product?.option[0]?.id,
     })
   );
 
