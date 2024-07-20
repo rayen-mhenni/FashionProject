@@ -72,6 +72,7 @@ const Product: React.FC<Props> = ({ product, products, url }) => {
     price: productOption.price,
     img1: productOption.images.split(",")[0],
     option: productOption.id,
+    size,
     qty: currentQty,
   };
 
@@ -440,6 +441,7 @@ export const getServerSideProps: GetServerSideProps = async ({
         // categoryName: "Shirts",
         stock: el?.option[0]?.stock,
         option: el?.option[0]?.id,
+        size: el?.option[0].size.split(",")[0],
       })),
       messages: (await import(`../../messages/common/${locale}.json`)).default,
       url: req?.headers?.host + req?.url,

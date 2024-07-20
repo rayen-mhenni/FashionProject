@@ -54,6 +54,7 @@ export default function SearchForm() {
           // categoryName: ,
           stock: product?.option[0].stock,
           option: product?.option[0].id,
+          size: product?.option[0].size.split(",")[0],
           createdAt: product?.createdAt,
         })
       );

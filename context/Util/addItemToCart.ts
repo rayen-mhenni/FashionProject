@@ -26,6 +26,7 @@ const addItemToCart = (cartItems: any[], item: any, add_one = false) => {
     {
       id: item.id,
       option: item.option,
+      size: item?.size,
       name: item.name,
       price: item.price,
       img1: item.img1,

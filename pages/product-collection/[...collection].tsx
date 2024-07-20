@@ -367,6 +367,7 @@ export const getServerSideProps: GetServerSideProps = async ({
     // categoryName: ,
     stock: el?.option[0].stock,
     option: el?.option[0].id,
+    size: el?.option[0].size.split(",")[0],
     createdAt: el?.createdAt,
     details: el?.option?.map((col: any) => {
       return {

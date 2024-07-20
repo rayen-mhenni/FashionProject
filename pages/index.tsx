@@ -212,6 +212,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const products: any[] = nouveateArray.map((el) => ({
     id: el?.id,
     option: el?.option[0].id,
+    size: el?.option[0].size.split(",")[0],
     name: el?.name,
     price: el?.option[0].price,
     qty: 1,
