@@ -248,7 +248,7 @@ const ShoppingCart = () => {
         email,
         name,
         password,
-        adrname,
+        context,
         phone
       );
       if (!regResponse.success) {
@@ -266,7 +266,7 @@ const ShoppingCart = () => {
     const makeOrder = async () => {
       const res = await axios.post(`${process.env.NEXT_PUBLIC_ORDERS_MODULE}`, {
         customerId: auth!.user!.id,
-        shippingAddress: adrname,
+        shippingAddress: context,
         totalPrice: Number(roundDecimal(+subtotal + deliFee)),
         deliveryDate: new Date().setDate(new Date().getDate() + 7),
         paymentType: "OTHERS",
@@ -342,6 +342,8 @@ const ShoppingCart = () => {
       `${process.env.NEXT_PUBLIC_CREATEPAYMENT_MODULE}`,
       {
         totalPrice: Number(roundDecimal(+subtotal + deliFee)),
+        email:auth?.user?.email,
+        name:auth?.user?.fullname,
       }
     );
 
