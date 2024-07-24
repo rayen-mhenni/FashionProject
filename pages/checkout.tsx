@@ -12,6 +12,7 @@ import { useCart } from "../context/cart/CartProvider";
 import Input from "../components/Input/Input";
 import { itemType } from "../context/wishlist/wishlist-type";
 import { useAuth } from "../context/AuthContext";
+import toast, { Toaster } from "react-hot-toast";
 import {
   PaymentElement,
   Elements,
@@ -80,6 +81,8 @@ const ShoppingCart = () => {
   const products = cart.map((item) => ({
     id: item.id,
     quantity: item.qty,
+    option: item?.option,
+    size: item?.size,
   }));
 
   useEffect(() => {
@@ -185,8 +188,57 @@ const ShoppingCart = () => {
       });
   }, [typeof document]);
 
-  useEffect(() => {
-    if (!isOrdering) return;
+  // useEffect(() => {
+  //   if (!isOrdering) return;
+
+  //   setErrorMsg("");
+
+  //   // if not logged in, register the user
+  //   const registerUser = async () => {
+  //     const regResponse = await auth.register!(
+  //       email,
+  //       name,
+  //       password,
+  //       adrname,
+  //       phone
+  //     );
+  //     if (!regResponse.success) {
+  //       setIsOrdering(false);
+  //       if (regResponse.message === "alreadyExists") {
+  //         setErrorMsg("email_already_exists try to login with this Email !!");
+  //       } else {
+  //         setErrorMsg("error_occurs");
+  //       }
+  //       return false;
+  //     }
+  //   };
+  //   if (!auth.user) registerUser();
+
+  //   const makeOrder = async () => {
+  //     const res = await axios.post(`${process.env.NEXT_PUBLIC_ORDERS_MODULE}`, {
+  //       customerId: auth!.user!.id,
+  //       shippingAddress: adrname,
+  //       totalPrice: Number(roundDecimal(+subtotal + deliFee)),
+  //       deliveryDate: new Date().setDate(new Date().getDate() + 7),
+  //       paymentType: "OTHERS",
+  //       deliveryType: deli,
+  //       products,
+  //       sendEmail,
+  //     });
+  //     if (res?.data?.success) {
+  //       setCompletedOrder(res.data.data);
+  //       clearCart!();
+  //       setIsOrdering(false);
+  //     } else {
+  //       setOrderError("error_occurs");
+  //     }
+  //   };
+  //   if (auth.user) makeOrder();
+  // }, [isOrdering]);
+
+
+  const Ordering = ()=> {
+
 
     setErrorMsg("");
 
@@ -196,13 +248,13 @@ const ShoppingCart = () => {
         email,
         name,
         password,
-        shippingAddress,
+        adrname,
         phone
       );
       if (!regResponse.success) {
         setIsOrdering(false);
         if (regResponse.message === "alreadyExists") {
-          setErrorMsg("email_already_exists");
+          setErrorMsg("email_already_exists try to login with this Email !!");
         } else {
           setErrorMsg("error_occurs");
         }
@@ -212,20 +264,17 @@ const ShoppingCart = () => {
     if (!auth.user) registerUser();
 
     const makeOrder = async () => {
-      const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/orders`,
-        {
-          customerId: auth!.user!.id,
-          shippingAddress: shippingAddress,
-          totalPrice: subtotal,
-          deliveryDate: new Date().setDate(new Date().getDate() + 7),
-          paymentType: null,
-          deliveryType: deli,
-          products,
-          sendEmail,
-        }
-      );
-      if (res.data.success) {
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_ORDERS_MODULE}`, {
+        customerId: auth!.user!.id,
+        shippingAddress: adrname,
+        totalPrice: Number(roundDecimal(+subtotal + deliFee)),
+        deliveryDate: new Date().setDate(new Date().getDate() + 7),
+        paymentType: "OTHERS",
+        deliveryType: deli,
+        products,
+        sendEmail,
+      });
+      if (res?.data?.success) {
         setCompletedOrder(res.data.data);
         clearCart!();
         setIsOrdering(false);
@@ -234,7 +283,8 @@ const ShoppingCart = () => {
       }
     };
     if (auth.user) makeOrder();
-  }, [isOrdering, completedOrder, auth.user]);
+    
+  }
 
   useEffect(() => {
     if (auth.user) {
@@ -249,24 +299,6 @@ const ShoppingCart = () => {
       setPhone("");
     }
   }, [auth.user]);
-
-  let disableOrder = true;
-
-  if (!auth.user) {
-    disableOrder =
-      name !== "" &&
-      email !== "" &&
-      phone !== "" &&
-      shippingAddress !== "" &&
-      password !== ""
-        ? false
-        : true;
-  } else {
-    disableOrder =
-      name !== "" && email !== "" && phone !== "" && shippingAddress !== ""
-        ? false
-        : true;
-  }
 
   let subtotal: number | string = 0;
 
@@ -289,6 +321,7 @@ const ShoppingCart = () => {
   const elements = useElements();
 
   const [errorMessage, setErrorMessage] = useState(null);
+  const [paymentSuccess, setpaymentSuccess] = useState(false);
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();
@@ -305,20 +338,21 @@ const ShoppingCart = () => {
       return;
     }
 
-    // Create the PaymentIntent and obtain clientSecret from your server endpoint
-    const res = await fetch("/create-intent", {
-      method: "POST",
-    });
-
-    const { client_secret: clientSecret } = await res.json();
+    const response = await axios.post(
+      `${process.env.NEXT_PUBLIC_CREATEPAYMENT_MODULE}`,
+      {
+        totalPrice: Number(roundDecimal(+subtotal + deliFee)),
+      }
+    );
 
     const { error }: any = await stripe.confirmPayment({
       //`Elements` instance that was used to create the Payment Element
       elements,
-      clientSecret,
+      clientSecret: response.data.clientSecret,
       confirmParams: {
         return_url: "https://example.com/order/123/complete",
       },
+      redirect: "if_required",
     });
 
     if (error) {
@@ -326,12 +360,35 @@ const ShoppingCart = () => {
       // confirming the payment. Show error to your customer (for example, payment
       // details incomplete)
       setErrorMessage(error.message);
+      setpaymentSuccess(false);
     } else {
+      setpaymentSuccess(true);
+      setErrorMessage(null);
+      toast.success("Payment Done you can complite the order");
+
       // Your customer will be redirected to your `return_url`. For some payment
       // methods like iDEAL, your customer will be redirected to an intermediate
       // site first to authorize the payment, then redirected to the `return_url`.
     }
   };
+
+  let disableOrder = true;
+
+  if (!auth.user) {
+    disableOrder =
+      name !== "" &&
+      email !== "" &&
+      phone !== "" &&
+      password !== "" &&
+      paymentSuccess
+        ? false
+        : true;
+  } else {
+    disableOrder =
+      name !== "" && email !== "" && phone !== "" && paymentSuccess
+        ? false
+        : true;
+  }
 
   return (
     <div>
@@ -339,6 +396,7 @@ const ShoppingCart = () => {
       <Header title={`Shopping Cart - Haru Fashion`} />
 
       <main id="main-content">
+        <Toaster />
         {/* ===== Heading & Continue Shopping */}
         <div className="app-max-width px-4 sm:px-8 md:px-20 w-full border-t-2 border-gray100">
           <h1 className="text-2xl sm:text-4xl text-center sm:text-left mt-6 mb-2 animatee__animated animate__bounce">
@@ -350,11 +408,6 @@ const ShoppingCart = () => {
         {!completedOrder ? (
           <div className="app-max-width px-4 sm:px-8 md:px-20 mb-14 flex flex-col lg:flex-row">
             <div className="h-full w-full lg:w-7/12 mr-8">
-              {errorMsg !== "" && (
-                <span className="text-red text-sm font-semibold">
-                  - {t(errorMsg)}
-                </span>
-              )}
               <div className="my-4">
                 <label htmlFor="name" className="text-lg">
                   {t("name")}
@@ -661,9 +714,20 @@ const ShoppingCart = () => {
                     </label> */}
                     <form onSubmit={handleSubmit}>
                       <PaymentElement />
-                      <button type="submit" disabled={!stripe || !elements}>
-                        Paysssssssssss
-                      </button>
+
+                      <Button
+                        value={"Pay"}
+                        size="xl"
+                        extraClass={`w-full mt-5`}
+                        type="submit"
+                        disabled={
+                          (!stripe || !elements) &&
+                          name !== "" &&
+                          email !== "" &&
+                          phone !== ""
+                        }
+                      />
+
                       {/* Show error message to your customers */}
                       {errorMessage && <div>{errorMessage}</div>}
                     </form>
@@ -697,10 +761,16 @@ const ShoppingCart = () => {
                   value={t("place_order")}
                   size="xl"
                   extraClass={`w-full`}
-                  onClick={() => setIsOrdering(true)}
+                  onClick={() => Ordering()}
                   disabled={disableOrder}
                 />
               </div>
+
+              {errorMsg !== "" && (
+                <span className="text-red text-sm font-semibold">
+                  - {t(errorMsg)}
+                </span>
+              )}
 
               {orderError !== "" && (
                 <span className="text-red text-sm font-semibold">
