@@ -236,10 +236,7 @@ const ShoppingCart = () => {
   //   if (auth.user) makeOrder();
   // }, [isOrdering]);
 
-
-  const Ordering = ()=> {
-
-
+  const Ordering = () => {
     setErrorMsg("");
 
     // if not logged in, register the user
@@ -283,8 +280,7 @@ const ShoppingCart = () => {
       }
     };
     if (auth.user) makeOrder();
-    
-  }
+  };
 
   useEffect(() => {
     if (auth.user) {
@@ -342,8 +338,8 @@ const ShoppingCart = () => {
       `${process.env.NEXT_PUBLIC_CREATEPAYMENT_MODULE}`,
       {
         totalPrice: Number(roundDecimal(+subtotal + deliFee)),
-        email:auth?.user?.email,
-        name:auth?.user?.fullname,
+        email: email,
+        name: name,
       }
     );
 
