@@ -12,7 +12,7 @@ module.exports = {
     removeConsole: false,
   },
   images: {
-    domains: ["robohash.org", "res.cloudinary.com", "dptvo-store.com", "threadlogic.com", "celio.tn","127.0.0.1"],
+    domains: ["robohash.org", "res.cloudinary.com", "dptvo-store.com", "threadlogic.com", "celio.tn","127.0.0.1", "dummyimage.com"],
   },
   pwa: {
     dest: "public",
