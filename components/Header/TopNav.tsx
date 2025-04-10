@@ -33,7 +33,7 @@ const TopNav = () => {
     <div className="bg-white text-black hidden lg:block">
       <div className="text-center app-max-width p-2 ">
         <p className=" decoration-sky-500 " style={{ fontWeight: "500", fontSize: "12px" }}>
-          Découvrez la nouvelle marque de si el chleka ALAA -_-
+          Découvrez la nouvelle marque de si el chleka BRAND -_-
         </p>
         {/* <ul className={`flex ${styles.topLeftMenu}`}>
           <li>

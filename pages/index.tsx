@@ -28,7 +28,7 @@ const Home: React.FC<Props> = ({ products, collections }) => {
   const t = useTranslations("Index");
   const [currentItems, setCurrentItems] = useState(products);
   const [isFetching, setIsFetching] = useState(false);
-  console.log("testttttttttt", products);
+
   // useEffect(() => {
   //   if (!isFetching) return;
   //   const fetchData = async () => {
@@ -90,6 +90,7 @@ const Home: React.FC<Props> = ({ products, collections }) => {
             </table>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-x-4 lg:gap-x-12 gap-y-6 mb-10 app-x-padding">
+            {/*           
             {currentItems[0] && (
               <Card key={currentItems[0]?.id} item={currentItems[0]} outStock />
             )}
@@ -98,17 +99,13 @@ const Home: React.FC<Props> = ({ products, collections }) => {
             )}
             {currentItems[2] && (
               <Card key={currentItems[2]?.id} item={currentItems[2]} />
-            )}
-            {/* <Card key={currentItems[4].id} item={currentItems[4]} /> */}
+            )} */}
           </div>
         </section>
 
         {/* ===== Testimonial Section ===== */}
-        {/* <section className="w-full hidden h-full py-16 md:flex flex-col items-center bg-lightgreen">
-          <h2 className="text-3xl">{t("testimonial")}</h2>
-          <TestiSlider />
-        </section> */}
-        {/* <div className="border-gray100 border-b-2"></div> */}
+
+        {/* <div className="border-gray100 border-b-2"></div>
 
         {/* ===== Category Section ===== */}
         <section className="app-max-width w-full h-full flex flex-col justify-center mt-20 ">
@@ -142,34 +139,40 @@ const Home: React.FC<Props> = ({ products, collections }) => {
           <div className="app-max-width app-x-padding h-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <div className="w-full sm:col-span-2 lg:col-span-2 ">
               <OverlayContainer
-                imgSrc={collections[0]?.thumbnailImage}
-                imgSrc2={collections[0]?.thumbnailImage}
-                imgAlt="New Arrivals"
+                imgSrc="/bg-img/banner_minipage3.jpg"
+                imgAlt="Men Collection"
               >
                 <LinkButton
                   href={`/product-category/${collections[0]?.name}`}
                   extraClass="absolute bottom-10-per sm:right-10-per z-20"
                 >
-                  {collections[0]?.name}
+                  Homme
+                </LinkButton>
+              </OverlayContainer>
+            </div>
+            <div className="w-full sm:col-span-2 lg:col-span-2 ">
+              <OverlayContainer
+                imgSrc="/bg-img/banner_minipage3.jpg"
+                imgAlt="Men Collection"
+              >
+                <LinkButton
+                  href={`/product-category/${collections[0]?.name}`}
+                  extraClass="absolute bottom-10-per sm:right-10-per z-20"
+                >
+                  Famme
                 </LinkButton>
               </OverlayContainer>
             </div>
 
-            {collections.slice(1, 3).map((el: any, i: number) => (
-              <div className="w-full" key={i}>
-                <OverlayContainer imgSrc={el?.thumbnailImage} imgAlt={el?.name}>
-                  <LinkButton
-                    href={`/product-category/${el?.name}`}
-                    extraClass="absolute bottom-10-per z-20"
-                  >
-                    {el?.name}
-                  </LinkButton>
-                </OverlayContainer>
-              </div>
-            ))}
             {/* <div className="w-full">
-              <OverlayContainer imgSrc="/bg-img/banner_minipage3.jpg" imgAlt="Men Collection">
-                <LinkButton href="/product-category/men" extraClass="absolute bottom-10-per z-20">
+              <OverlayContainer
+                imgSrc="/bg-img/banner_minipage3.jpg"
+                imgAlt="Men Collection"
+              >
+                <LinkButton
+                  href="/product-category/men"
+                  extraClass="absolute bottom-10-per z-20"
+                >
                   {t("men_collection")}
                 </LinkButton>
               </OverlayContainer>
@@ -180,7 +183,13 @@ const Home: React.FC<Props> = ({ products, collections }) => {
         {/* <div className="border-gray100 border-b-2"></div> */}
 
         {/* ===== Our Shop Section */}
-        {/* <section className="app-max-width mt-16 mb-20 flex flex-col justify-center items-center text-center">
+
+        <section className="w-full hidden h-full py-16 md:flex flex-col items-center bg-lightgreen">
+          <h2 className="text-3xl">{t("testimonial")}</h2>
+          <TestiSlider />
+        </section>
+
+        <section className="app-max-width mt-16 mb-20 flex flex-col justify-center items-center text-center">
           <div className="textBox w-3/4 md:w-2/4 lg:w-2/5 mb-6">
             <h2 className="text-3xl mb-6">{t("our_shop")}</h2>
             <span className="w-full">{t("our_shop_desc")}</span>
@@ -188,7 +197,7 @@ const Home: React.FC<Props> = ({ products, collections }) => {
           <div className="w-full app-x-padding flex justify-center">
             <Image src={ourShop} alt="Our Shop" />
           </div>
-        </section> */}
+        </section>
       </main>
 
       {/* ===== Footer Section ===== */}
@@ -198,39 +207,39 @@ const Home: React.FC<Props> = ({ products, collections }) => {
 };
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
-  const res = await axios.get(`${process.env.NEXT_PUBLIC_PRODUCTS_MODULE}`);
+  // const res = await axios.get(`${process.env.NEXT_PUBLIC_PRODUCTS_MODULE}`);
 
-  const sortedArray = _.orderBy(
-    res.data.data,
-    (o: any) => {
-      return moment(o.createdAt).format("YYYY-MM-DD");
-    },
-    ["desc"]
-  );
+  // const sortedArray = _.orderBy(
+  //   res.data.data,
+  //   (o: any) => {
+  //     return moment(o.createdAt).format("YYYY-MM-DD");
+  //   },
+  //   ["desc"]
+  // );
 
-  const nouveateArray = sortedArray.slice(0, 3);
-  const products: any[] = nouveateArray.map((el) => ({
-    id: el?.id,
-    option: el?.option[0].id,
-    size: el?.option[0].size.split(",")[0],
-    name: el?.name,
-    price: el?.option[0].price,
-    qty: 1,
-    description: el?.description,
-    detail: el?.detail,
-    img1: el?.option[0].images.split(",")[0],
-    img2:
-      el?.option[0].images.split(",").length > 1
-        ? el?.option[0].images.split(",")[1]
-        : el?.option[0].images.split(",")[0],
-    // categoryName: ,
-    stock: el?.option[0].stock,
-    createdAt: el?.createdAt,
-  }));
+  // const nouveateArray = sortedArray.slice(0, 3);
+  // const products: any[] = nouveateArray.map((el) => ({
+  //   id: el?.id,
+  //   option: el?.option[0].id,
+  //   size: el?.option[0].size.split(",")[0],
+  //   name: el?.name,
+  //   price: el?.option[0].price,
+  //   qty: 1,
+  //   description: el?.description,
+  //   detail: el?.detail,
+  //   img1: el?.option[0].images.split(",")[0],
+  //   img2:
+  //     el?.option[0].images.split(",").length > 1
+  //       ? el?.option[0].images.split(",")[1]
+  //       : el?.option[0].images.split(",")[0],
+  //   // categoryName: ,
+  //   stock: el?.option[0].stock,
+  //   createdAt: el?.createdAt,
+  // }));
 
-  const collections = await axios.get(
-    `${process.env.NEXT_PUBLIC_COLLECTIONS_MODULE}`
-  );
+  // const collections = await axios.get(
+  //   `${process.env.NEXT_PUBLIC_COLLECTIONS_MODULE}`
+  // );
 
   // const res = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/products?order_by=createdAt.desc&limit=10`);
   // const fetchedProducts = res.data;
@@ -253,8 +262,8 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
         // ...require(`../messages/index/${locale}.json`),
         ...require(`../messages/common/${locale}.json`),
       },
-      products,
-      collections: collections.data.data,
+      products: [],
+      collections: [],
     }, // will be passed to the page component as props
   };
 };
