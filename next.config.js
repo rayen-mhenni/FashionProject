@@ -20,6 +20,9 @@ module.exports = {
       "celio.tn",
       "127.0.0.1",
       "dummyimage.com",
+      "www.fotomag.shop",
+      "fotomag.shop",
+      "*"
     ],
   },
   pwa: {
