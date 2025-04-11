@@ -21,15 +21,13 @@ import _, { isEmpty } from "lodash";
 
 // swiperjs
 import { Swiper, SwiperSlide } from "swiper/react";
-
 // import Swiper core and required modules
 import SwiperCore, { Pagination } from "swiper/core";
 import { apiProductsType, itemType } from "../../context/cart/cart-types";
 import { useWishlist } from "../../context/wishlist/WishlistProvider";
 import { useCart } from "../../context/cart/CartProvider";
 import HeartSolid from "../../public/icons/HeartSolid";
-import { EasyZoomOnMove } from "easy-magnify";
-import ShareLink from "../../public/icons/shareLink";
+import { EasyZoomOnMove, makeImageLoader } from "easy-magnify";
 import copy from "copy-to-clipboard";
 
 // install Swiper modules
@@ -40,9 +38,10 @@ type Props = {
   products: any[];
 };
 
-const Product: React.FC<Props> = ({ product, products, url }) => {
-  // const img1 = product?.option[0]?.images?.split(",")[0];
-  // const img2 = product?.option[1]?.images?.split(",")[0];
+const Product: React.FC<Props> = ({ product, products }) => {
+  console.log("eeeeeeeeeeeeeeee", products);
+  // const img1 = product?.options[0]?.images?.split(",")[0];
+  // const img2 = product?.options[1]?.images?.split(",")[0];
 
   const { addItem } = useCart();
   const { wishlist, addToWishlist, deleteWishlistItem } = useWishlist();
@@ -50,8 +49,8 @@ const Product: React.FC<Props> = ({ product, products, url }) => {
   const [mainImg, setMainImg] = useState(product?.mainImg);
   const [currentQty, setCurrentQty] = useState(1);
   const [copied, setcopied] = useState(false);
-  const [color, setcolor] = useState(product?.option[0]?.color);
-  const [productOption, setproductOption] = useState(product?.option[0]);
+  const [color, setcolor] = useState(product?.options[0]?.color);
+  const [productOption, setproductOption] = useState(product?.options[0]);
   const t = useTranslations("Category");
 
   const alreadyWishlisted =
@@ -59,8 +58,8 @@ const Product: React.FC<Props> = ({ product, products, url }) => {
 
   useEffect(() => {
     setMainImg(product?.mainImg);
-    setcolor(product?.option[0]?.color);
-    setproductOption(product?.option[0]);
+    setcolor(product?.options[0]?.color);
+    setproductOption(product?.options[0]);
   }, [product]);
 
   const handleSize = (value: string) => {
@@ -69,9 +68,9 @@ const Product: React.FC<Props> = ({ product, products, url }) => {
 
   const currentItem = {
     ...product,
-    price: productOption.price,
-    img1: productOption.images.split(",")[0],
-    option: productOption.id,
+    price: product.prixVente,
+    img1: productOption?.images?.split(",")[0],
+    options: 1,
     size,
     qty: currentQty,
   };
@@ -85,7 +84,7 @@ const Product: React.FC<Props> = ({ product, products, url }) => {
   return (
     <div>
       {/* ===== Head Section ===== */}
-      <Header title={`${product.name} - Haru Fashion`} />
+      <Header title={`${product.nom} - Haru Fashion`} />
 
       <main id="main-content">
         {/* ===== Breadcrumb Section ===== */}
@@ -101,48 +100,48 @@ const Product: React.FC<Props> = ({ product, products, url }) => {
                   {t(product.categoryName as string)}
                 </a>
               </Link>{" "}
-              / <span>{product.name}</span>
+              / <span>{product.nom}</span>
             </div>
           </div>
         </div>
         {/* ===== Main Content Section ===== */}
         <div className="itemSection app-max-width app-x-padding flex flex-col md:flex-row">
           <div className="imgSection w-full md:w-1/2 h-full flex">
-            <div className="hidden sm:block w-full sm:w-1/4 h-full space-y-4 my-4">
-              {productOption?.images?.split(",").map((el: any) => (
-                <Image
-                  className={`cursor-pointer ${
-                    mainImg === el
-                      ? "opacity-100 border border-gray300"
-                      : "opacity-50"
-                  }`}
-                  onClick={() => setMainImg(el)}
-                  src={el as string}
-                  alt={product.name}
-                  width={1000}
-                  height={1282}
-                />
-              ))}
-            </div>
-            <div className="w-full sm:w-3/4 h-full m-0 sm:m-4">
-              <EasyZoomOnMove
-                mainImage={{
-                  src: mainImg,
-                  alt: "My Product",
-                  width: 466,
-                  height: 466,
-                }}
-                zoomImage={{
-                  src: mainImg,
-                  alt: "My Product",
-                }}
-              />
-            </div>
+            <Swiper
+              slidesPerView={1}
+              // centeredSlides={true}
+              spaceBetween={10}
+              loop={true}
+              grabCursor={true}
+              pagination={{
+                clickable: true,
+                type: "bullets",
+              }}
+              className="mySwiper card-swiper"
+            >
+              {productOption?.images
+                ?.split(",")
+                ?.map((item: any, index: any) => (
+                  <SwiperSlide key={index}>
+                    <Image
+                      className={`cursor-pointer ${
+                        mainImg === item
+                          ? "opacity-100 border border-gray300"
+                          : "opacity-50"
+                      }`}
+                      src={item as string}
+                      alt={product.name}
+                      width={1000}
+                      height={1282}
+                    />
+                  </SwiperSlide>
+                ))}
+            </Swiper>
           </div>
           <div className="infoSection w-full md:w-1/2 h-auto py-8 sm:pl-4 flex flex-col">
             <h1 className="text-3xl mb-4">{product.name}</h1>
             <span className="text-2xl text-gray400 mb-2">
-              $ {productOption.price}
+              {product.prixVente} TND
             </span>
             <span className="mb-2 text-justify break-words">
               {product.description}
@@ -154,7 +153,7 @@ const Product: React.FC<Props> = ({ product, products, url }) => {
               {t("size")}: {size}
             </span>
             <div className="sizeContainer flex space-x-4 text-sm mb-4">
-              {productOption?.size?.split(",")?.map((el: any) => (
+              {productOption?.sizes?.split(",")?.map((el: any) => (
                 <div
                   onClick={() => handleSize(el)}
                   className={`w-8 h-8 flex items-center justify-center border ${
@@ -171,7 +170,7 @@ const Product: React.FC<Props> = ({ product, products, url }) => {
               {"Couleur"}: {color}
             </span>
             <Circle
-              colors={product?.option?.map((el: any) => el.color)}
+              colors={product?.options?.map((el: any) => el.color)}
               color={color}
               pointProps={{
                 style: {
@@ -181,28 +180,20 @@ const Product: React.FC<Props> = ({ product, products, url }) => {
                   borderRadius: "50%",
                   height: "20px",
                   width: "20px",
-                  // border:"1px solid black",
-                  // boxShadow: "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px"
-                  // boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px"
                   boxShadow:
                     " rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px",
                 },
               }}
               onChange={(color) => {
                 setcolor(color.hex);
-                setproductOption(
-                  product?.option?.find((el: any) => color.hex === el.color)
+                const option = product?.options?.find(
+                  (el: any) => color.hex === el.color
                 );
-                setMainImg(
-                  product?.option
-                    ?.find((el: any) => color.hex === el.color)
-                    .images.split(",")[0]
-                );
-                setSize(
-                  product?.option
-                    ?.find((el: any) => color.hex === el.color)
-                    .size.split(",")[0]
-                );
+                if (option) {
+                  setproductOption(option);
+                  setMainImg(option?.images?.split(",")[0]);
+                  setSize(option?.sizes?.split(",")[0]);
+                }
               }}
               // }}
             />{" "}
@@ -264,19 +255,6 @@ const Product: React.FC<Props> = ({ product, products, url }) => {
                 </>
               )}
             </Disclosure>
-            <div className="flex items-center mt-4">
-              <span>{t("shareLink")}</span>
-              <div
-                className="ml-3 cursor-pointer rounded-full h-10 w-10 flex items-center justify-center hover:bg-gray200"
-                onClick={() => {
-                  copy(window.location.href);
-                  setcopied(true);
-                }}
-              >
-                <ShareLink extraClass="h-5 cursor-pointer" />
-              </div>
-              {copied && <p className="text-blue">copié!</p>}
-            </div>
           </div>
         </div>
         {/* ===== Horizontal Divider ===== */}
@@ -286,7 +264,7 @@ const Product: React.FC<Props> = ({ product, products, url }) => {
         <div className="recSection my-8 app-max-width app-x-padding">
           <h2 className="text-3xl mb-6">{t("you_may_also_like")}</h2>
           <Swiper
-            slidesPerView={2}
+            slidesPerView={5}
             // centeredSlides={true}
             spaceBetween={10}
             loop={true}
@@ -295,9 +273,9 @@ const Product: React.FC<Props> = ({ product, products, url }) => {
               clickable: true,
               type: "bullets",
             }}
-            className="mySwiper card-swiper sm:hidden"
+            className="mySwiper card-swiper"
           >
-            {products.map((item) => (
+            {products?.map((item) => (
               <SwiperSlide key={item.id}>
                 <div className="mb-6">
                   <Card key={item.id} item={item} />
@@ -305,11 +283,6 @@ const Product: React.FC<Props> = ({ product, products, url }) => {
               </SwiperSlide>
             ))}
           </Swiper>
-          <div className="hidden sm:grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-x-4 gap-y-10 sm:gap-y-6 mb-10">
-            {products.map((item) => (
-              <Card key={item.id} item={item} />
-            ))}
-          </div>
         </div>
       </main>
 
@@ -329,122 +302,39 @@ export const getServerSideProps: GetServerSideProps = async ({
     `${process.env.NEXT_PUBLIC_PRODUCTS_MODULE}/${paramId}`
   );
 
-  const fetchedProduct: any = res.data.data;
+  const fetchedProduct: any = res.data;
 
   const resProduct = await axios.get(
-    `${process.env.NEXT_PUBLIC_PRODUCTS_MODULE}/col/${fetchedProduct?.collectionId}`
+    `${process.env.NEXT_PUBLIC_PRODUCTS_MODULE}`
   );
 
-  const products: any = resProduct.data.data;
-
-  //   id: 1234,
-  //   name: "Blue Cotton T-Shirt",
-  //   price: 29.99,
-  //   detail:
-  //     "A comfortable and stylish blue cotton t-shirt. Perfect for casual wear.",
-  //   img1: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091", // Replace with actual image path
-  //   img2: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091", // Replace with actual image path (optional)
-  //   categoryName: "Shirts",
-  // };
-
-  // Might be temporary solution for suggested products
-  // const randomProductRes = await axios.get(
-  //   `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/products?category=${product.categoryName}`
-  // );
-  // const fetchedProducts: apiProductsType[] = randomProductRes.data.data;
-
-  // // Shuffle array
-  // const shuffled = fetchedProducts.sort(() => 0.5 - Math.random());
-
-  // // Get sub-array of first 5 elements after shuffled
-  // let randomFetchedProducts = shuffled.slice(0, 5);
-
-  // let products: itemType[] = [
-  //   {
-  //     id: 1234,
-  //     name: "Blue Cotton T-Shirt",
-  //     price: 29.99,
-  //     detail:
-  //       "A comfortable and stylish blue cotton t-shirt. Perfect for casual wear.",
-  //     img1: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091", // Replace with actual image path
-  //     img2: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091", // Replace with actual image path (optional)
-  //     categoryName: "Shirts",
-  //   },
-  //   {
-  //     id: 1234,
-  //     name: "Blue Cotton T-Shirt",
-  //     price: 29.99,
-  //     detail:
-  //       "A comfortable and stylish blue cotton t-shirt. Perfect for casual wear.",
-  //     img1: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091", // Replace with actual image path
-  //     img2: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091", // Replace with actual image path (optional)
-  //     categoryName: "Shirts",
-  //   },
-  //   {
-  //     id: 1234,
-  //     name: "Blue Cotton T-Shirt",
-  //     price: 29.99,
-  //     detail:
-  //       "A comfortable and stylish blue cotton t-shirt. Perfect for casual wear.",
-  //     img1: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091", // Replace with actual image path
-  //     img2: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091", // Replace with actual image path (optional)
-  //     categoryName: "Shirts",
-  //   },
-  //   {
-  //     id: 1234,
-  //     name: "Blue Cotton T-Shirt",
-  //     price: 29.99,
-  //     detail:
-  //       "A comfortable and stylish blue cotton t-shirt. Perfect for casual wear.",
-  //     img1: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091", // Replace with actual image path
-  //     img2: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091", // Replace with actual image path (optional)
-  //     categoryName: "Shirts",
-  //   },
-  //   {
-  //     id: 1234,
-  //     name: "Blue Cotton T-Shirt",
-  //     price: 29.99,
-  //     detail:
-  //       "A comfortable and stylish blue cotton t-shirt. Perfect for casual wear.",
-  //     img1: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091", // Replace with actual image path
-  //     img2: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091", // Replace with actual image path (optional)
-  //     categoryName: "Shirts",
-  //   },
-  // ];
-  // randomFetchedProducts.forEach((randomProduct: apiProductsType) => {
-  //   products.push({
-  //     id: randomProduct.id,
-  //     name: randomProduct.name,
-  //     price: randomProduct.price,
-  //     img1: randomProduct.image1,
-  //     img2: randomProduct.image2,
-  //   });
-  // });
-
+  const products: any = resProduct.data;
   // Pass data to the page via props
   return {
     props: {
       product: {
         ...fetchedProduct,
-        mainImg: fetchedProduct.option[0]?.images?.split(",")[0],
+        mainImg: fetchedProduct?.options[0]?.images?.split(",")[0],
       },
-      products: products.map((el: any) => ({
-        id: el?.id,
-        name: el?.name,
-        price: el?.option[0]?.price,
-        detail: el?.detail,
-        img1: el?.option[0]?.images?.split(",")[0],
+      products: products?.map((el: any) => ({
+        id: el?._id,
+        options: el?.options,
+        size: el?.options[0].sizes?.split(",")[0],
+        name: el?.nom,
+        price: el?.prixVente,
+        qty: 1,
+        description: "",
+        detail: "",
+        img1: el?.options[0]?.images?.split(",")[0],
         img2:
-          el?.option[0]?.images?.split(",")?.length > 1
-            ? el?.option[0]?.images?.split(",")[1]
-            : el?.option[0]?.images?.split(",")[0],
-        // categoryName: "Shirts",
-        stock: el?.option[0]?.stock,
-        option: el?.option[0]?.id,
-        size: el?.option[0].size.split(",")[0],
+          el?.options[0]?.images?.split(",").length > 1
+            ? el?.options[0]?.images?.split(",")[1]
+            : el?.options[0]?.images?.split(",")[0],
+        // categoryName: ,
+        stock: el?.options[0].quantiteInitiale,
+        createdAt: el?.createdAt,
       })),
       messages: (await import(`../../messages/common/${locale}.json`)).default,
-      url: req?.headers?.host + req?.url,
     },
   };
 };
