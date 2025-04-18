@@ -30,8 +30,8 @@ const Header: React.FC<Props> = ({ title }) => {
   const { wishlist } = useWishlist();
   const [animate, setAnimate] = useState("");
   const [scrolled, setScrolled] = useState<boolean>(false);
-  const [collection, setcollection] = useState<Array<{ id: number; name: string }>>([]);
-  const [categorie, setcategorie] = useState<Array<{ id: number; name: string }>>([]);
+  const [collection, setcollection] = useState<Array<{ id: number; name: string }>>([{id:1,name:'Homme'},{id:2,name:'Femme'}]);
+  const [categorie, setcategorie] = useState<Array<{ id: number; name: string }>>([{id:1,name:'Homme'},{id:2,name:'Femme'}]);
   const [didMount, setDidMount] = useState<boolean>(false); // to disable Can't perform a React state Warning
   const router = useRouter();
   // Calculate Number of Wishlist
@@ -51,18 +51,18 @@ const Header: React.FC<Props> = ({ title }) => {
     }, 1000);
   }, [handleAnimate]);
 
-  useEffect(() => {
-    (async () => {
-      const res = await axios.get(`${process.env.NEXT_PUBLIC_COLLECTIONS_MODULE}`);
+  // useEffect(() => {
+  //   (async () => {
+  //     const res = await axios.get(`${process.env.NEXT_PUBLIC_COLLECTIONS_MODULE}`);
 
-      setcollection(res.data.data.map((el: any) => ({ name: el.name, id: el?.id })));
-    })();
-    (async () => {
-      const res = await axios.get(`${process.env.NEXT_PUBLIC_CATEGORIE_MODULE}`);
+  //     setcollection(res.data.data.map((el: any) => ({ name: el.name, id: el?.id })));
+  //   })();
+  //   (async () => {
+  //     const res = await axios.get(`${process.env.NEXT_PUBLIC_CATEGORIE_MODULE}`);
 
-      setcategorie(res.data.data.map((el: any) => ({ name: el.name, id: el?.id })));
-    })();
-  }, []);
+  //     setcategorie(res.data.data.map((el: any) => ({ name: el.name, id: el?.id })));
+  //   })();
+  // }, []);
 
   const handleScroll = useCallback(() => {
     const offset = window.scrollY;
@@ -116,7 +116,7 @@ const Header: React.FC<Props> = ({ title }) => {
         {categorie.map((el, i) => (
           <>
             <MenuItem
-              onClick={() => router.push(`/product-category/${el.id}/${el?.name}`)}
+              onClick={() => router.push(`/product-category/${el?.name}`)}
               key={i}
               className={styles.navBarSubItem}
               style={{ marginLeft: "15px", marginRight: "25px" }}
@@ -161,7 +161,7 @@ const Header: React.FC<Props> = ({ title }) => {
                   <a className={styles.navBarItem}>{"Accueil"}</a>
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <Dropdown
                   trigger={["hover", "click"]}
                   overlay={menuCol}
@@ -172,7 +172,7 @@ const Header: React.FC<Props> = ({ title }) => {
                 >
                   <a className={styles.navBarItem}>{"Nos Collection"}</a>
                 </Dropdown>
-              </li>
+              </li> */}
               <li>
                 <Dropdown
                   trigger={["hover", "click"]}

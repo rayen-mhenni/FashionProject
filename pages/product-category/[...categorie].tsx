@@ -337,7 +337,9 @@ export const getServerSideProps: GetServerSideProps = async ({
   const res = await axios.get(
     `${process.env.NEXT_PUBLIC_PRODUCTS_MODULE}/cat/${paramCategory[0]}`
   );
-  numberOfProducts = res.data.data.length;
+
+  console.log('dddddddddddddddddddddd',paramCategory[0] , res?.data)
+  numberOfProducts = res?.data?.length;
 
   let order_by: string;
 
@@ -349,47 +351,36 @@ export const getServerSideProps: GetServerSideProps = async ({
     order_by = "createdAt.desc";
   }
 
-  let items: any[] = res.data.data.map((el: any) => ({
-    id: el?.id,
-    name: el?.name,
-    price: el?.option[0].price,
+  let items: any[] = res.data?.map((el: any) => ({
+    id: el?._id,
+    name: el?.nom,
+    price: el?.prixVente,
     qty: 1,
-    description: el?.description,
-    detail: el?.detail,
-    img1: el?.option[0].images.split(",")[0],
+    description:"",
+    detail: "",
+    img1: el?.options[0].images.split(",")[0],
     img2:
-      el?.option[0].images.split(",").length > 1
-        ? el?.option[0].images.split(",")[1]
-        : el?.option[0].images.split(",")[0],
+      el?.options[0].images.split(",").length > 1
+        ? el?.options[0].images.split(",")[1]
+        : el?.options[0].images.split(",")[0],
     // categoryName: ,
-    stock: el?.option[0].stock,
+    stock: el?.options[0].quantiteInitiale,
     createdAt: el?.createdAt,
-    option: el?.option[0].id,
-    size: el?.option[0].size.split(",")[0],
-    details: el?.option?.map((col: any) => {
-      return {
-        color: col?.color,
-        img1: col?.images.split(",")[0],
-        img2:
-          col?.images.split(",").length > 1
-            ? col?.images.split(",")[1]
-            : col?.images.split(",")[0],
-        price: col?.price,
-        size: col?.size.split(",").map((size: any) => size),
-      };
-    }),
+    options: 1,
+    size: el?.options[0].sizes.split(",")[0],
+    details:''
   }));
   const colors: any = [];
-  res.data.data.forEach((element: any) => {
-    element?.option?.forEach((el: any) => {
+  res.data.forEach((element: any) => {
+    element?.options?.forEach((el: any) => {
       colors.push(el?.color);
     });
   });
   const sizes: any = [];
 
-  res.data.data.forEach((element: any) => {
-    element?.option?.forEach((el: any) => {
-      el?.size.split(",").forEach((size: any) => sizes.push(size));
+  res.data.forEach((element: any) => {
+    element?.options?.forEach((el: any) => {
+      el?.sizes.split(",").forEach((size: any) => sizes.push(size));
     });
   });
 

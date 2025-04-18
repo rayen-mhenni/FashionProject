@@ -101,7 +101,7 @@ const Card: FC<Props> = ({ item, outStock = false }) => {
         >
           {isWLHovered || alreadyWishlisted ? <HeartSolid /> : <Heart />}
         </button>
-        {isHovered && (
+        {/* {isHovered && (
           <button
             type="button"
             className="h-10 w-10 flex items-center justify-center hover:bg-gray200 transition-transform transform hover:scale-220 duration-2000 absolute top-12 right-1 p-1 rounded-full"
@@ -110,15 +110,15 @@ const Card: FC<Props> = ({ item, outStock = false }) => {
           >
             <Resize />
           </button>
-        )}
-        <button
+        )} */}
+        {/* <button
           type="button"
           onClick={() => addOne!(item)}
           className={!outStock ? styles.addBtn : styles.addBtnDisabled}
           disabled={outStock}
         >
           {!outStock ? t("add_to_cart") : <>Non disponible</>}
-        </button>
+        </button> */}
       </div>
 
       <div className="content">
@@ -126,14 +126,14 @@ const Card: FC<Props> = ({ item, outStock = false }) => {
           <a className={styles.itemName}>{name}</a>
         </Link>
         <div className="text-gray400">$ {price}</div>
-        <button
+        {/* <button
           type="button"
           onClick={() => addOne!(item)}
           className="uppercase font-bold text-sm sm:hidden"
           disabled={outStock}
         >
           {!outStock ? t("add_to_cart") : <>Non disponible</>}
-        </button>
+        </button> */}
       </div>
       <Modal
         open={open}

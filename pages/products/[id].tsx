@@ -80,7 +80,7 @@ const Product: React.FC<Props> = ({ product, products }) => {
       ? deleteWishlistItem!(currentItem)
       : addToWishlist!(currentItem);
   };
-
+console.log("product.categoryName",product.categoryName)
   return (
     <div>
       {/* ===== Head Section ===== */}

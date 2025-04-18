@@ -110,7 +110,7 @@ const Home: React.FC<Props> = ({ collections }) => {
                 imgAlt="Men Collection"
               >
                 <LinkButton
-                  href={`/product-category/${collections[0]?.name}`}
+                  href={`/product-category/Homme`}
                   extraClass="absolute bottom-10-per sm:right-10-per z-20"
                 >
                   Homme
@@ -123,10 +123,10 @@ const Home: React.FC<Props> = ({ collections }) => {
                 imgAlt="Men Collection"
               >
                 <LinkButton
-                  href={`/product-category/${collections[0]?.name}`}
+                  href={`/product-category/Femme`}
                   extraClass="absolute bottom-10-per sm:right-10-per z-20"
                 >
-                  Famme
+                  Femme
                 </LinkButton>
               </OverlayContainer>
             </div>
