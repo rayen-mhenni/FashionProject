@@ -123,45 +123,45 @@ export default function Menu() {
                     </Link>
                     {openCol && (
                       <div className="itemContainer px-10 w-full flex flex-col justify-around items-center">
-                        <Link href="/product-category/women">
+                        {/* <Link href="/product-category/women">
                           <a className="w-full text-lg hover:bg-gray100 text-left py-2" onClick={closeModal}>
                             {"Collection KKK"}
                           </a>
-                        </Link>
-                        <Link href="/product-category/women">
+                        </Link> */}
+                        <Link href="/product-category/Femme">
                           <a className="w-full text-lg hover:bg-gray100 text-left py-2" onClick={closeModal}>
-                            Collection aaaa{" "}
+                            Collection Femme{" "}
                           </a>
                         </Link>
-                        <Link href="/product-category/women">
+                        <Link href="/product-category/Homme">
                           <a className="w-full text-lg hover:bg-gray100 text-left py-2" onClick={closeModal}>
-                            Collection sssss{" "}
+                            Collection Homme{" "}
                           </a>
                         </Link>
-                        <Link href="/product-category/women">
+                        {/* <Link href="/product-category/women">
                           <a className="w-full text-lg hover:bg-gray100 text-left py-2" onClick={closeModal}>
                             Collection KKKsss
                           </a>
-                        </Link>
+                        </Link> */}
                       </div>
                     )}
 
-                    <Link href="/product-category/bags">
+                    {/* <Link href="/product-category/bags">
                       <a
                         className="w-full text-xl hover:bg-gray100 text-left py-2"
                         onClick={() => setopenCat(!openCat)}
                       >
                         {"Catalogue"}
                       </a>
-                    </Link>
+                    </Link> */}
                     {openCat && (
                       <div className="itemContainer px-10 w-full flex flex-col justify-around items-center">
-                        <Link href="/product-category/women">
+                        {/* <Link href="/product-category/men">
                           <a className="w-full text-lg hover:bg-gray100 text-left py-2" onClick={closeModal}>
                             T shirt
                           </a>
-                        </Link>
-                        <Link href="/product-category/women">
+                        </Link> */}
+                        {/* <Link href="/product-category/women">
                           <a className="w-full text-lg hover:bg-gray100 text-left py-2" onClick={closeModal}>
                             Robe soiree
                           </a>
@@ -175,17 +175,17 @@ export default function Menu() {
                           <a className="w-full text-lg hover:bg-gray100 text-left py-2" onClick={closeModal}>
                             Slipett{" "}
                           </a>
-                        </Link>
+                        </Link> */}
                       </div>
                     )}
 
                     <hr className="border border-gray300 w-full mt-2" />
-                    <div className="w-full text-xl py-2 my-3 flex justify-between">
+                    {/* <div className="w-full text-xl py-2 my-3 flex justify-between">
                       <AuthForm extraClass="flex justify-between w-full">
                         <span>{auth.user ? t("profile") : t("login")}</span>
                         <UserIcon />
                       </AuthForm>
-                    </div>
+                    </div> */}
                     <hr className="border border-gray300 w-full" />
                     <Link href="/wishlist">
                       <a className="text-xl py-2 my-3 w-full flex justify-between">
