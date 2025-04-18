@@ -15,7 +15,7 @@ import { apiProductsType, itemType } from "../context/cart/cart-types";
 import LinkButton from "../components/Buttons/LinkButton";
 
 // /bg-img/ourshop.png
-import ourShop from "../public/bg-img/ourshop.png";
+import ourShop from "../public/bg-img/empty-boutique-shopping-centre.jpg";
 import moment from "moment";
 import _ from "lodash";
 
@@ -119,7 +119,7 @@ const Home: React.FC<Props> = ({ collections }) => {
             </div>
             <div className="w-full sm:col-span-2 lg:col-span-2 ">
               <OverlayContainer
-                imgSrc="/bg-img/banner_minipage3.jpg"
+                imgSrc="/bg-img/banner_minipage2.jpg"
                 imgAlt="Men Collection"
               >
                 <LinkButton

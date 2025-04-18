@@ -13,7 +13,7 @@ export default function Footer() {
 
   return (
     <div className={styles.fullFooter}>
-      <div className={styles.footerContainer}>
+      {/* <div className={styles.footerContainer}>
         <div className={`app-max-width app-x-padding ${styles.footerContents}`}>
           <div>
             <h3 className={styles.footerHead}>{"INFORMATION"}</h3>
@@ -59,7 +59,7 @@ export default function Footer() {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
 
       <div className={styles.bottomFooter}>
         <div className="app-max-width app-x-padding w-full flex justify-center">

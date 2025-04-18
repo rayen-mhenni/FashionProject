@@ -1,95 +1,168 @@
 import { FC, useCallback, useEffect, useState } from "react";
 import LeftArrow from "../../public/icons/LeftArrow";
 import RightArrow from "../../public/icons/RightArrow";
+import Image from "next/image";
 
-const testi = [
+interface Testimonial {
+  speech: string;
+  name: string;
+  occupation: string;
+  rating: number;
+  avatar: string;
+  location: string;
+}
+
+const testimonials: Testimonial[] = [
   {
-    speech:
-      "Lorem ipsum dolor sit, amet consectetur rro fuga minima necessitatibus repellendus. Veniam suscipit excepturi rem aliquam officiis.",
-    name: "David",
-    occupation: "Social Influencer",
+    speech: "Les t-shirts  sont d'une qualité exceptionnelle. Le coton est doux et résistant, et les coupes sont parfaites. Je les recommande à tous mes followers!",
+    name: "Alexandre D.",
+    occupation: "Influenceur Mode",
+    rating: 5,
+    avatar: "/favicons/androgynous-avatar-non-binary-queer-person.jpg",
+    location: "Paris, France"
   },
   {
-    speech:
-      "Nesciunt natus ullam iusto, maiores facere consectetur minima necessitatib adipisicing elit. Autem porro",
-    name: "Neymar",
-    occupation: "Athlete",
+    speech: "En tant qu'athlète, je recherche des vêtements confortables et respirants. Les t-shirts  répondent parfaitement à mes besoins, même lors des entraînements intensifs.",
+    name: "Sarah M.",
+    occupation: "Athlète Professionnelle",
+    rating: 5,
+    avatar: "/favicons/brunet-man-wearing-round-eyeglasses-blue-shirt.jpg",
+    location: "Lyon, France"
   },
   {
-    speech:
-      "provident neque obcaecati, quo consequatur delectus s ullam iusto, maiores facere consecte",
-    name: "Ronaldo",
-    occupation: "Business Owner",
+    speech: "Je commande régulièrement pour mon entreprise. La qualité premium et le service client impeccable font toute la différence. Nos employés adorent!",
+    name: "Thomas L.",
+    occupation: "Directeur d'Entreprise",
+    rating: 4,
+    avatar: "/favicons/androgynous-avatar-non-binary-queer-person.jpg",
+    location: "Bordeaux, France"
   },
+  {
+    speech: "Les designs uniques et les coupes féminines sont exactement ce que je cherchais. Je ne porte presque plus que des t-shirts  maintenant!",
+    name: "Émilie R.",
+    occupation: "Designer Graphique",
+    rating: 5,
+    avatar: "/favicons/brunet-man-wearing-round-eyeglasses-blue-shirt.jpg",
+    location: "Marseille, France"
+  }
 ];
-// animate__fadeIn
-// animate__lightSpeedInRight
-const TestiSlider: FC = () => {
-  const [arrIndex, setArrIndex] = useState(0);
-  const [animate, setAnimate] = useState("animate__lightSpeedInRight");
+
+const TestimonialSlider: FC = () => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [animation, setAnimation] = useState("animate__fadeIn");
+  const [isHovered, setIsHovered] = useState(false);
 
   const handleNext = useCallback(() => {
-    if (arrIndex === testi.length - 1) {
-      setArrIndex(0);
-    } else {
-      setArrIndex((prevState) => prevState + 1);
-      setAnimate("animate__lightSpeedInRight");
-    }
-  }, [arrIndex]);
+    setCurrentIndex(prev => (prev === testimonials.length - 1 ? 0 : prev + 1));
+    setAnimation("animate__fadeInRight");
+  }, []);
 
-  const handlePrev = () => {
-    if (arrIndex === 0) {
-      setArrIndex(testi.length - 1);
-    } else {
-      setArrIndex((prevState) => prevState - 1);
-      setAnimate("animate__lightSpeedInLeft");
-    }
+  const handlePrev = useCallback(() => {
+    setCurrentIndex(prev => (prev === 0 ? testimonials.length - 1 : prev - 1));
+    setAnimation("animate__fadeInLeft");
+  }, []);
+
+  const goToIndex = (index: number) => {
+    setAnimation(index > currentIndex ? "animate__fadeInRight" : "animate__fadeInLeft");
+    setCurrentIndex(index);
   };
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      handleNext();
-    }, 4000);
-    return () => clearInterval(interval);
-  }, [handleNext]);
+    if (!isHovered) {
+      const interval = setInterval(handleNext, 5000);
+      return () => clearInterval(interval);
+    }
+  }, [handleNext, isHovered]);
+
+  const renderStars = (rating: number) => {
+    return [...Array(5)].map((_, i) => (
+      <span 
+        key={i} 
+        className={`text-xl ${i < rating ? 'text-yellow' : 'text-gray'}`}
+      >
+        ★
+      </span>
+    ));
+  };
+
   return (
-    <div
-      className="flex flex-1 overflow-hidden relative my-6"
-      style={{ width: "700px" }}
+    <div 
+      className="relative w-full max-w-4xl mx-auto py-12 px-4"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
-      <div className="slide-section min-w-min h-40 flex">
-        {testi.map((ti, index) => {
-          return (
-            index === arrIndex && (
-              <div
-                key={ti.name}
-                className={`h-full flex flex-col items-center justify-center animate__animated ${animate}`}
-                style={{ width: "700px" }}
-              >
-                <div className="textiContainer text-center w-3/4">
-                  <span>{ti.speech}</span>
-                  <h3 className="font-bold mt-6">{ti.name}</h3>
-                  <span className="text-sm">({ti.occupation})</span>
+      <h2 className="text-3xl font-bold text-center mb-12 text-gray-800">
+        Ce que nos clients disent
+      </h2>
+      
+      <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+        {testimonials.map((testimonial, index) => (
+          index === currentIndex && (
+            <div 
+              key={testimonial.name}
+              className={`animate__animated ${animation} p-8 md:p-12 flex flex-col md:flex-row items-center gap-8`}
+            >
+              <div className="w-32 h-32 relative flex-shrink-0">
+                <Image
+                  src={testimonial.avatar}
+                  alt={testimonial.name}
+                  layout="fill"
+                  objectFit="cover"
+                  className="rounded-full border-4 border-green-100"
+                  priority
+                />
+              </div>
+              
+              <div className="text-center md:text-left">
+                <div className="mb-4">
+                  {renderStars(testimonial.rating)}
+                </div>
+                
+                <blockquote className="text-lg italic text-gray-600 mb-6">
+                  "{testimonial.speech}"
+                </blockquote>
+                
+                <div className="text-gray-800">
+                  <p className="font-bold text-lg">{testimonial.name}</p>
+                  <p className="text-sm">{testimonial.occupation}</p>
+                  <p className="text-xs text-gray-500 mt-1">{testimonial.location}</p>
                 </div>
               </div>
-            )
-          );
-        })}
+            </div>
+          )
+        ))}
       </div>
-      <span
-        className="absolute top-1/3 left-3 hover:bg-green rounded-full p-2 cursor-pointer outline-none"
+
+      {/* Navigation */}
+      <button
         onClick={handlePrev}
+        className="absolute left-0 top-1/2 -translate-y-1/2 bg-white p-3 rounded-full shadow-md hover:bg-green-50 transition-colors"
+        aria-label="Témoignage précédent"
       >
-        <LeftArrow />
-      </span>
-      <span
-        className="absolute top-1/3 right-5 hover:bg-green rounded-full p-2 cursor-pointer outline-none"
+        <LeftArrow className="w-6 h-6 text-gray-700" />
+      </button>
+      
+      <button
         onClick={handleNext}
+        className="absolute right-0 top-1/2 -translate-y-1/2 bg-white p-3 rounded-full shadow-md hover:bg-green-50 transition-colors"
+        aria-label="Témoignage suivant"
       >
-        <RightArrow />
-      </span>
+        <RightArrow className="w-6 h-6 text-gray-700" />
+      </button>
+
+      {/* Indicators */}
+      <div className="flex justify-center mt-6 space-x-2">
+        {testimonials.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => goToIndex(index)}
+            className={`w-3 h-3 rounded-full ${index === currentIndex ? 'bg-green-500' : 'bg-gray-300'}`}
+            aria-label={`Aller au témoignage ${index + 1}`}
+          />
+        ))}
+      </div>
     </div>
   );
 };
 
-export default TestiSlider;
+export default TestimonialSlider;

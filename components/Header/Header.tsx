@@ -30,8 +30,18 @@ const Header: React.FC<Props> = ({ title }) => {
   const { wishlist } = useWishlist();
   const [animate, setAnimate] = useState("");
   const [scrolled, setScrolled] = useState<boolean>(false);
-  const [collection, setcollection] = useState<Array<{ id: number; name: string }>>([{id:1,name:'Homme'},{id:2,name:'Femme'}]);
-  const [categorie, setcategorie] = useState<Array<{ id: number; name: string }>>([{id:1,name:'Homme'},{id:2,name:'Femme'}]);
+  const [collection, setcollection] = useState<
+    Array<{ id: number; name: string }>
+  >([
+    { id: 1, name: "Homme" },
+    { id: 2, name: "Femme" },
+  ]);
+  const [categorie, setcategorie] = useState<
+    Array<{ id: number; name: string }>
+  >([
+    { id: 1, name: "Homme" },
+    { id: 2, name: "Femme" },
+  ]);
   const [didMount, setDidMount] = useState<boolean>(false); // to disable Can't perform a React state Warning
   const router = useRouter();
   // Calculate Number of Wishlist
@@ -97,14 +107,18 @@ const Header: React.FC<Props> = ({ title }) => {
         {collection.map((el, i) => (
           <>
             <MenuItem
-              onClick={() => router.push(`/product-collection/${el.id}/${el?.name}`)}
+              onClick={() =>
+                router.push(`/product-collection/${el.id}/${el?.name}`)
+              }
               key={i}
               className={styles.navBarSubItem}
               style={{ marginLeft: "15px", marginRight: "25px" }}
             >
               {el.name}
             </MenuItem>
-            {i !== collection.length - 1 && <hr className="mx-5 my-2	" style={{ opacity: "5%" }} />}
+            {i !== collection.length - 1 && (
+              <hr className="mx-5 my-2	" style={{ opacity: "5%" }} />
+            )}
           </>
         ))}
       </div>{" "}
@@ -123,7 +137,9 @@ const Header: React.FC<Props> = ({ title }) => {
             >
               {el.name}
             </MenuItem>
-            {i !== categorie.length - 1 && <hr className="mx-5 my-2	" style={{ opacity: "5%" }} />}
+            {i !== categorie.length - 1 && (
+              <hr className="mx-5 my-2	" style={{ opacity: "5%" }} />
+            )}
           </>
         ))}
       </div>
@@ -146,9 +162,15 @@ const Header: React.FC<Props> = ({ title }) => {
       <TopNav />
 
       {/* ===== Main Navigation ===== */}
-      <nav className={`${scrolled ? "bg-white sticky top-0 shadow-md z-40" : "bg-transparent"} w-full z-40 h-20 relative`}>
+      <nav
+        className={`${
+          scrolled ? "bg-white sticky top-0 shadow-md z-40" : "bg-transparent"
+        } w-full z-40 h-20 relative`}
+      >
         <div className="app-max-width w-full">
-          <div className={`flex justify-between align-baseline app-x-padding ${styles.mainMenu}`}>
+          <div
+            className={`flex justify-between align-baseline app-x-padding ${styles.mainMenu}`}
+          >
             {/* Hamburger Menu and Mobile Nav */}
             <div className="flex-1 lg:flex-0 lg:hidden">
               <Menu />
@@ -189,16 +211,15 @@ const Header: React.FC<Props> = ({ title }) => {
 
             {/* Haru Logo */}
             <div className="flex-1 flex justify-center items-center cursor-pointer">
-              <div className="w-32 h-auto">
+              <div className="" style={{"margin-top": "-47px","height":"-1px","width":"200px" }}>
                 <Link href="/">
                   <a>
                     <Image
-                      className="justify-center"
-                      src="/logo.svg"
+                      src="/bg-img/Raf.png"
                       alt="Picture of the author"
-                      width={220}
-                      height={50}
-                      layout="responsive"
+                      width={300}
+                      height={200}
+                   
                     />
                   </a>
                 </Link>
@@ -207,17 +228,17 @@ const Header: React.FC<Props> = ({ title }) => {
 
             {/* Right Nav */}
             <ul className={`flex-1 flex justify-end ${styles.rightMenu}`}>
-              <li>
+              {/* <li>
                 <SearchForm />
-              </li>
-              <li>
+              </li> */}
+              {/* <li>
                 <AuthForm>
                   <UserIcon />
                 </AuthForm>
-              </li>
+              </li> */}
               <li>
                 <Link href="/wishlist" passHref>
-                  {/* <a className="relative" aria-label="Wishlist"> */}
+                  <a className="relative" aria-label="Wishlist">
                   <button type="button" className="relative" aria-label="Wishlist">
                     <WhistlistIcon />
                     {noOfWishlist > 0 && (
@@ -228,7 +249,7 @@ const Header: React.FC<Props> = ({ title }) => {
                       </span>
                     )}
                   </button>
-                  {/* </a> */}
+                  </a>
                 </Link>
               </li>
               <li>
