@@ -1,10 +1,11 @@
 import { itemType } from "../cart/cart-types";
 
 const addItemToCart = (cartItems: any[], item: any, add_one = false) => {
+  console.log("iiiiiiiiiiiii", item);
   const duplicate = cartItems.some(
     (cartItem) =>
       cartItem.option === item.option &&
-      cartItem.id === item.id &&
+      cartItem.id === item._id &&
       cartItem.size === item.size
   );
 
@@ -31,11 +32,15 @@ const addItemToCart = (cartItems: any[], item: any, add_one = false) => {
     {
       id: item.id,
       option: item.option,
+      reference: item.reference,
       size: item?.size,
+      color: item?.color,
       name: item.name,
       price: item.price,
       img1: item.img1,
       img2: item.img2,
+      prixAchat: item.prixAchat,
+      prixVente: item.prixVente,
       qty: itemQty,
     },
   ];
