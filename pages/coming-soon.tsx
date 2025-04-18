@@ -7,29 +7,75 @@ import { GetStaticProps } from "next";
 
 const ComingSoon = () => {
   const t = useTranslations("Others");
+
   return (
     <>
-      <AppHeader title="Coming Soon!" />
-      <div className="flex flex-col h-screen justify-center items-center">
-        <h1 className="text-3xl tracking-wider leading-10">
-          {t("coming_soon")}
-        </h1>
-        <h2 className="text-2xl text-gray500 mt-2">
-          {t("page_not_created_msg")}
-        </h2>
-        <Image
-          src="/bg-img/coding.svg"
-          alt="Not created yet"
-          width={400}
-          height={300}
-        />
-        <span className="text-gray400">
-          {t("go_back_to")}{" "}
+      <AppHeader title="Commande Validée - Haru Fashion" />
+      <div className="flex flex-col h-screen justify-center items-center bg-gray-50 p-4">
+        <div className="bg-white p-8 rounded-lg shadow-md max-w-md w-full text-center">
+          {/* Success Icon */}
+          <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100 mb-4">
+            <svg
+              className="h-6 w-6 text-green-600"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M5 13l4 4L19 7"
+              />
+            </svg>
+          </div>
+
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">
+            Commande Validée avec Succès!
+          </h1>
+
+          <p className="text-gray-600 mb-6">
+            Merci pour votre commande. Nous avons bien reçu votre demande et la
+            traiterons dans les plus brefs délais.
+          </p>
+
+          {/* Delivery Information */}
+          <div className="bg-blue-50 p-4 rounded-md mb-6 text-left">
+            <h2 className="font-semibold text-blue-800 mb-2">
+              Informations Importantes:
+            </h2>
+            <ul className="list-disc pl-5 space-y-1 text-sm text-blue-700">
+              <li>Livraison dans un délai maximum de 48 heures</li>
+              <li>Un Apple de confirmation dans un délai 24H</li>
+              <li>Préparation de votre colis en cours</li>
+            </ul>
+          </div>
+
+          {/* Contact Information */}
+          <div className="mb-6">
+            <p className="text-gray-700">
+              Pour toute question, contactez-nous au:
+            </p>
+            <a
+              href="tel:42301531"
+              className="text-blue-600 font-bold text-lg hover:text-blue-800"
+            >
+              42 301 531
+            </a>
+          </div>
+
+          {/* Continue Shopping Button */}
           <Link href="/">
-            <a className="underline font-bold hover:text-gray500">home page</a>
+            <a className="inline-block bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-6 rounded-md transition duration-200">
+              Retour à l'accueil
+            </a>
           </Link>
-          ?
-        </span>
+
+          {/* Order Number (if available) */}
+          {/* <div className="mt-6 text-sm text-gray-500">
+            Numéro de commande: #123456
+          </div> */}
+        </div>
       </div>
     </>
   );
