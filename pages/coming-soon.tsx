@@ -60,7 +60,7 @@ const ComingSoon = () => {
               href="tel:42301531"
               className="text-blue-600 font-bold text-lg hover:text-blue-800"
             >
-              42 301 531
+              55 336 394
             </a>
           </div>
 
