@@ -80,7 +80,7 @@ const Product: React.FC<Props> = ({ product, products }) => {
       ? deleteWishlistItem!(currentItem)
       : addToWishlist!(currentItem);
   };
-console.log("product.categoryName",product.categoryName)
+  console.log("product.categoryName", product.categoryName);
   return (
     <div>
       {/* ===== Head Section ===== */}
@@ -265,10 +265,10 @@ console.log("product.categoryName",product.categoryName)
           <h2 className="text-3xl mb-6">{t("you_may_also_like")}</h2>
           <Swiper
             slidesPerView={5}
-            // centeredSlides={true}
+            centeredSlides={true}
             spaceBetween={10}
-            loop={true}
-            grabCursor={true}
+            // loop={true}
+            // grabCursor={true}
             pagination={{
               clickable: true,
               type: "bullets",
