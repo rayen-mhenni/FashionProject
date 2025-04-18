@@ -204,7 +204,7 @@ const Product: React.FC<Props> = ({ product, products }) => {
             <div className="relative mb-4 rounded-lg overflow-hidden">
               <Image
                 src={mainImg || productOption?.images?.split(",")[0]}
-                alt={product.name}
+                alt={product.nom}
                 width={800}
                 height={800}
                 className="w-full h-auto object-cover"
@@ -238,7 +238,7 @@ const Product: React.FC<Props> = ({ product, products }) => {
 
           {/* Product Info */}
           <div className="space-y-6">
-            <h1 className="text-3xl font-bold text-gray-900">{product.name}</h1>
+            <h1 className="text-3xl font-bold text-gray-900">{product.nom}</h1>
 
             <div className="flex items-center">
               <span className="text-2xl font-semibold text-gray-800">
