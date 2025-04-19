@@ -99,7 +99,7 @@ const Slideshow = () => {
                   }
                 >
                   <span
-                    className={`${styles.title2} text-center ${
+                    className={`${styles.title} text-center ${
                       slider.rightText ? "sm:text-right" : "sm:text-left"
                     }`}
                   >
