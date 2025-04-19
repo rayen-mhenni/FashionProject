@@ -586,6 +586,8 @@ const Product: React.FC<Props> = ({ paramId }) => {
                 } text-white font-bold`}
                 disabled={
                   isEmpty(name) ||
+                  isEmpty(size) ||
+                  isEmpty(color) ||
                   isEmpty(phone) ||
                   phone.length !== 8 ||
                   isEmpty(shippingAddress) ||
