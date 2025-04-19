@@ -64,8 +64,8 @@ const Slideshow = () => {
                 <Image
                   layout="responsive"
                   src={slider.image}
-                  width={1144}
-                  height={572}
+                  width={1600}
+                  height={800}
                   alt={"some name"}
                 />
               </div>
@@ -73,8 +73,8 @@ const Slideshow = () => {
                 <Image
                   layout="responsive"
                   src={slider.imageTablet}
-                  width={820}
-                  height={720}
+                  width={1600}
+                  height={800}
                   alt={"some name"}
                 />
               </div>
@@ -83,7 +83,7 @@ const Slideshow = () => {
                   layout="responsive"
                   src={slider.imageMobile}
                   width={428}
-                  height={800}
+                  height={600}
                   alt={"some name"}
                 />
               </div>
