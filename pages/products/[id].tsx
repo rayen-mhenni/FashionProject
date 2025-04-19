@@ -41,18 +41,23 @@ SwiperCore.use([Pagination, Navigation]);
 type Props = {
   product: any;
   products: any[];
+  paramId: any;
 };
 
-const Product: React.FC<Props> = ({ product, products }) => {
+const Product: React.FC<Props> = ({ paramId }) => {
   const { addItem } = useCart();
   const { wishlist, addToWishlist, deleteWishlistItem } = useWishlist();
   const [currency, setCurrency] = useState("TND");
   const [size, setSize] = useState("");
-  const [mainImg, setMainImg] = useState(product?.mainImg);
+  const [mainImg, setMainImg] = useState("");
   const [currentQty, setCurrentQty] = useState(1);
   const [copied, setCopied] = useState(false);
-  const [color, setColor] = useState(product?.options[0]?.color);
-  const [productOption, setProductOption] = useState(product?.options[0]);
+  const [color, setColor] = useState("");
+  const [productOption, setProductOption] = useState<any>();
+
+  const [product, setProduct] = useState<any>();
+  const [products, setProducts] = useState<any>();
+
   const t = useTranslations("Category");
   const router = useRouter();
   const auth = useAuth();
@@ -65,13 +70,30 @@ const Product: React.FC<Props> = ({ product, products }) => {
   const [orderError, setOrderError] = useState("");
   const [paymentSuccess, setPaymentSuccess] = useState(false);
 
-  const alreadyWishlisted = wishlist.some((wItem) => wItem.id === product.id);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
 
+  const fetchData = async () => {
+    const res = await axios.get(
+      `${process.env.NEXT_PUBLIC_PRODUCTS_MODULE}/${paramId}`
+    );
+    const fetchedProduct: any = res.data;
+
+    const resProducts = await axios.get(
+      `${process.env.NEXT_PUBLIC_PRODUCTS_MODULE}`
+    );
+    const products: any = resProducts.data;
+
+    setProduct(fetchedProduct);
+    setProducts(products);
+    setMainImg(fetchedProduct?.mainImg);
+    setColor(fetchedProduct?.options[0]?.color);
+    setProductOption(fetchedProduct?.options[0]);
+  };
   useEffect(() => {
-    setMainImg(product?.mainImg);
-    setColor(product?.options[0]?.color);
-    setProductOption(product?.options[0]);
-  }, [product]);
+    fetchData();
+  }, []);
+
+  const alreadyWishlisted = wishlist.some((wItem) => wItem.id === product?.id);
 
   const handleSize = (value: string) => {
     setSize(value);
@@ -79,7 +101,7 @@ const Product: React.FC<Props> = ({ product, products }) => {
 
   const currentItem = {
     ...product,
-    price: product.prixVente,
+    price: product?.prixVente,
     img1: productOption?.images?.split(",")[0],
     options: 1,
     size,
@@ -122,12 +144,12 @@ const Product: React.FC<Props> = ({ product, products }) => {
           customerPhone: phone,
           items: [
             {
-              stockId: product._id,
+              stockId: product?._id,
               color,
               size,
               image: mainImg,
-              reference: product.reference,
-              nom: product.nom,
+              reference: product?.reference,
+              nom: product?.nom,
               quantity: Number(currentQty),
               prixAchat: Number(productOption.prixAchat),
               prixVente: Number(productOption.prixVente),
@@ -165,7 +187,7 @@ const Product: React.FC<Props> = ({ product, products }) => {
 
   return (
     <div className="bg-gray-50">
-      <Header title={`${product.nom} - Haru Fashion`} />
+      <Header title={`${product?.nom} - Haru Fashion`} />
 
       <main
         id="main-content"
@@ -183,16 +205,16 @@ const Product: React.FC<Props> = ({ product, products }) => {
               <span className="text-gray-400">/</span>
             </li>
             <li>
-              <Link href={`/product-category/${product.categoryName}`}>
+              <Link href={`/product-category/${product?.categoryName}`}>
                 <a className="text-gray-400 hover:text-gray-500 capitalize">
-                  {t(product.categoryName as string)}
+                  {t(product?.categoryName as string)}
                 </a>
               </Link>
             </li>
             <li>
               <span className="text-gray-400">/</span>
             </li>
-            <li className="text-gray-900 font-medium">{product.nom}</li>
+            <li className="text-gray-900 font-medium">{product?.nom}</li>
           </ol>
         </nav>
 
@@ -203,7 +225,7 @@ const Product: React.FC<Props> = ({ product, products }) => {
             <div className="relative mb-4 rounded-lg overflow-hidden">
               <Image
                 src={mainImg || productOption?.images?.split(",")[0]}
-                alt={product.nom}
+                alt={product?.nom}
                 width={800}
                 height={800}
                 className="w-full h-auto object-cover"
@@ -237,15 +259,15 @@ const Product: React.FC<Props> = ({ product, products }) => {
 
           {/* Product Info */}
           <div className="space-y-6">
-            <h1 className="text-3xl font-bold text-gray-900">{product.nom}</h1>
+            <h1 className="text-3xl font-bold text-gray-900">{product?.nom}</h1>
 
             <div className="flex items-center">
               <span className="text-2xl font-semibold text-gray-800">
-                {product.prixVente} {currency}
+                {product?.prixVente} {currency}
               </span>
             </div>
 
-            <p className="text-gray-600">{product.description}</p>
+            <p className="text-gray-600">{product?.description}</p>
 
             <div className="border-t border-b border-gray-200 py-4">
               <div className="flex items-center mb-2">
@@ -262,7 +284,7 @@ const Product: React.FC<Props> = ({ product, products }) => {
                       <p className="text-sm text-gray-500 mt-1">
                         Selected:{" "}
                         <span className="font-medium capitalize">
-                          {color.toLowerCase()}
+                          {color?.toLowerCase()}
                         </span>
                       </p>
                     )}
@@ -311,7 +333,10 @@ const Product: React.FC<Props> = ({ product, products }) => {
                   : "border-gray-100 hover:border-gray-300"
               }
             `}
-                          style={{ backgroundColor: option.color }}
+                          style={{
+                            backgroundColor: option.color,
+                            border: "1px solid",
+                          }}
                           aria-label={`Select color ${option.color}`}
                         >
                           {isSelected && (
@@ -333,7 +358,7 @@ const Product: React.FC<Props> = ({ product, products }) => {
                           )}
                         </button>
                         {/* <span className="text-xs mt-2 text-gray-600 capitalize">
-                          {option.color.toLowerCase()}
+                          {option.color?.toLowerCase()}
                         </span> */}
                       </div>
                     );
@@ -398,10 +423,10 @@ const Product: React.FC<Props> = ({ product, products }) => {
                 onClick={() => {
                   addItem!({
                     ...product,
-                    name: product.nom,
-                    price: product.prixVente,
+                    name: product?.nom,
+                    price: product?.prixVente,
                     img1: mainImg,
-                    options: product._id + color,
+                    options: product?._id + color,
                     size,
                     color,
                     qty: currentQty,
@@ -434,7 +459,7 @@ const Product: React.FC<Props> = ({ product, products }) => {
                     />
                   </Disclosure.Button>
                   <Disclosure.Panel className="py-4 text-gray-600">
-                    {product.detail ||
+                    {product?.detail ||
                       "Aucun détail supplémentaire disponible."}
                   </Disclosure.Panel>
                 </>
@@ -520,7 +545,6 @@ const Product: React.FC<Props> = ({ product, products }) => {
                   </span>
                 </div>
 
-
                 <div className="flex justify-between">
                   <span>Livraison</span>
                   <span className="font-medium">8 {currency}</span>
@@ -605,39 +629,9 @@ export const getServerSideProps: GetServerSideProps = async ({
   locale,
 }) => {
   const paramId = params!.id as string;
-  const res = await axios.get(
-    `${process.env.NEXT_PUBLIC_PRODUCTS_MODULE}/${paramId}`
-  );
-  const fetchedProduct: any = res.data;
-
-  const resProducts = await axios.get(
-    `${process.env.NEXT_PUBLIC_PRODUCTS_MODULE}`
-  );
-  const products: any = resProducts.data;
-
   return {
     props: {
-      product: {
-        ...fetchedProduct,
-        mainImg: fetchedProduct?.options[0]?.images?.split(",")[0],
-      },
-      products: products?.map((el: any) => ({
-        id: el?._id,
-        options: el?.options,
-        size: el?.options[0].sizes?.split(",")[0],
-        name: el?.nom,
-        price: el?.prixVente,
-        qty: 1,
-        description: el?.description || "",
-        detail: el?.detail || "",
-        img1: el?.options[0]?.images?.split(",")[0],
-        img2:
-          el?.options[0]?.images?.split(",")[1] ||
-          el?.options[0]?.images?.split(",")[0],
-        categoryName: el?.categoryName || "uncategorized",
-        stock: el?.options[0].quantiteInitiale,
-        createdAt: el?.createdAt,
-      })),
+      paramId,
       messages: (await import(`../../messages/common/${locale}.json`)).default,
     },
   };
