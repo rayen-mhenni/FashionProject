@@ -204,7 +204,7 @@ const Header: React.FC<Props> = ({ title }) => {
                   openClassName="cursor-pointer"
                   onVisibleChange={onVisibleChange}
                 >
-                  <a className={styles.navBarItem}>{"Catalogue"}</a>
+                  <a className={styles.navBarItem}>{"Collection"}</a>
                 </Dropdown>
               </li>
             </ul>
