@@ -12,7 +12,7 @@ const ComingSoon = () => {
 
   return (
     <>
-      <AppHeader title="Commande Validée - RAF Fashion" />
+      <AppHeader title="Commande Validée - RAF SHOP" />
       <Header />
 
       <div className="flex flex-col h-screen justify-center items-center bg-gray-50 p-4">

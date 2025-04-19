@@ -104,7 +104,7 @@ const ShoppingCart: React.FC<Props> = () => {
 
   return (
     <div className="bg-gray-50 min-h-screen">
-      <Header title="Paiement - RAF Fashion" />
+      <Header title="Paiement - RAF SHOP" />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Fil d'Ariane */}

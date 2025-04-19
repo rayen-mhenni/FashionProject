@@ -1,8 +1,8 @@
 import { Html, Head, Main, NextScript } from "next/document";
 
-const title = "RAF Fashion";
-const desc = "RAF Fashion e-commerce developed with Next.JS. Coded with 🖤 by Sat Naing (satnaing.dev).";
-const keywords = "RAF Fashion, Online Shop, E-commerce, Sat Naing, NextJS";
+const title = "RAF SHOP";
+const desc = "RAF SHOP e-commerce";
+const keywords = "RAF SHOP, Online Shop, E-commerce, Sat Naing, NextJS";
 
 export default function Document() {
   return (
@@ -24,17 +24,17 @@ export default function Document() {
         <link href="/favicons/site.webmanifest" rel="manifest" />
         <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Poppins" />
 
-        <meta property="og:url" content="https://haru-fashion.vercel.app" />
-        <link rel="canonical" href="https://haru-fashion.vercel.app" />
-        <meta property="og:site_name" content="RAF Fashion" />
+        <meta property="og:url" content="https://rafrafi.shop" />
+        <link rel="canonical" href="https://rafrafi.shop" />
+        <meta property="og:site_name" content="RAF SHOP" />
         <meta property="og:description" content={desc} key="og_description" />
         <meta property="og:title" content={title} key="og_title" />
-        <meta property="og:image" content="https://haru-fashion.vercel.app/og.png" />
+        <meta property="og:image" content="https://www.rafrafi.shop:8443/upload/test.webp" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:site" content="@satnaing.dev" />
+        <meta name="twitter:site" content="@rafrafi.shop" />
         <meta name="twitter:title" content={title} key="twitter_title" />
         <meta name="twitter:description" content={desc} key="twitter_description" />
-        <meta name="twitter:image" content="https://haru-fashion.vercel.app/og.png" />
+        <meta name="twitter:image" content="https://www.rafrafi.shop:8443/upload/test.webp" />
 
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black" />

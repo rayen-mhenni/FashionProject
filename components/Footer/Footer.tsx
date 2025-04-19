@@ -66,10 +66,10 @@ export default function Footer() {
           <span className="">© {new Date().getFullYear()} BRAND Industry. All Rights Reserved.</span>
           {/* <span className="flex items-center">
             <span className="hidden sm:block">{"follow_us_on_social_media"}:</span>{" "}
-            <a href="www.facebook.com" aria-label="Facebook Page for RAF Fashion">
+            <a href="www.facebook.com" aria-label="Facebook Page for RAF SHOP">
               <FacebookLogo />
             </a>
-            <a href="www.ig.com" aria-label="Instagram Account for RAF Fashion">
+            <a href="www.ig.com" aria-label="Instagram Account for RAF SHOP">
               <InstagramLogo />
             </a>
           </span> */}

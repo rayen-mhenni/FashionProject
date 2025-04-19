@@ -4,9 +4,9 @@
   "display": "standalone",
   "scope": "/",
   "start_url": "/",
-  "name": "RAF Fashion ",
+  "name": "RAF SHOP ",
   "short_name": "Haru",
-  "description": "Discover affordable and fashionable men's and women's clothing online at RAF Fashion",
+  "description": "Discover affordable and fashionable men's and women's clothing online at RAF SHOP",
   "icons": [
     {
       "src": "/icon-192x192.png",

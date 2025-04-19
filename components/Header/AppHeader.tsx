@@ -7,11 +7,11 @@ type Props = {
   keywords?: string;
 };
 
-// "Discover affordable and fashionable men's and women's clothing online at RAF Fashion. Free Returns ✓ 1000+ New Arrivals Dropped Daily."
+// "Discover affordable and fashionable men's and women's clothing online at RAF SHOP. Free Returns ✓ 1000+ New Arrivals Dropped Daily."
 const defaultDesc =
-  "RAF Fashion e-commerce developed with Next.JS. Coded with 🖤 by Sat Naing (satnaing.dev).";
+  "RAF SHOP e-commerce developed with Next.JS. Coded with 🖤 by Sat Naing (satnaing.dev).";
 const defaultKeywords =
-  "RAF Fashion, Online Shop, E-commerce, Sat Naing, NextJS";
+  "RAF SHOP, Online Shop, E-commerce, Sat Naing, NextJS";
 
 const AppHeader: React.FC<Props> = ({
   title = "RAF",

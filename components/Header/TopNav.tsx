@@ -37,12 +37,12 @@ const TopNav = () => {
         </p>
         {/* <ul className={`flex ${styles.topLeftMenu}`}>
           <li>
-            <a href="#" aria-label="RAF Fashion Facebook Page">
+            <a href="#" aria-label="RAF SHOP Facebook Page">
               <FacebookLogo />
             </a>
           </li>
           <li>
-            <a href="#" aria-label="RAF Fashion Instagram Account">
+            <a href="#" aria-label="RAF SHOP Instagram Account">
               <InstagramLogo />
             </a>
           </li>

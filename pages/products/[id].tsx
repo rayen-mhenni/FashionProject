@@ -206,7 +206,7 @@ const Product: React.FC<Props> = ({ paramId }) => {
 
   return (
     <div className="bg-gray-50">
-      <Header title={`${product?.nom} - RAF Fashion`} />
+      <Header title={`${product?.nom} - RAF SHOP`} />
 
       <main
         id="main-content"
