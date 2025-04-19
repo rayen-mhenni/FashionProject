@@ -183,8 +183,8 @@ const Product: React.FC<Props> = ({ paramId }) => {
       );
 
       if (orderResponse.data) {
-        // fbPixelPurchase(Number(calculateTotalPrice()));
-        // setPaymentSuccess(true);
+        fbPixelPurchase(Number(calculateTotalPrice()));
+        setPaymentSuccess(true);
         router.push("/coming-soon");
       } else {
         setOrderError("Erreur lors de la commande. Veuillez réessayer.");

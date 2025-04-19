@@ -14,34 +14,24 @@ import SwiperCore, { Autoplay, Navigation, Pagination } from "swiper/core";
 SwiperCore.use([Pagination, Navigation, Autoplay]);
 
 const sliders = [
-  // {
-  //   id: 2,
-  //   image: "/bg-img/curly_hair_girl-1.jpg",
-  //   imageTablet: "/bg-img/curly_hair_girl-1-tablet.png",
-  //   imageMobile: "/bg-img/curly_hair_girl-1_mobile.jpg",
-  //   subtitle: "50% off",
-  //   titleUp: "New Cocktail",
-  //   titleDown: "Dresses",
-  //   rightText: false,
-  // },
-  // {
-  //   id: 1,
-  //   image: "/bg-img/curly_hair_white-1.jpg",
-  //   imageTablet: "/bg-img/curly_hair_white-1-tablet.png",
-  //   imageMobile: "/bg-img/curly_hair_white-1_mobile.jpg",
-  //   subtitle: "Spring Revolution",
-  //   titleUp: "Night Summer",
-  //   titleDown: "Dresses",
-  //   rightText: true,
-  // },
+  {
+    id: 2,
+    image: "/bg-img/curly_hair_white-1.jpg",
+    imageTablet: "/bg-img/curly_hair_white-1.jpg",
+    imageMobile: "/bg-img/test.png",
+    subtitle: "",
+    titleUp: "New Cocktail",
+    titleDown: "Dresses",
+    rightText: true,
+  },
   {
     id: 3,
     image: "/bg-img/monigote.jpg",
     imageTablet: "/bg-img/monigote-tablet.png",
-    imageMobile: "/bg-img/monigote_mobile.jpg",
-    subtitle: "Spring promo",
-    titleUp: "The Weekend",
-    titleDown: "Promotions",
+    imageMobile: "/bg-img/test2.png",
+    subtitle: "",
+    titleUp: "Rafrafi",
+    titleDown: "Collection",
     rightText: false,
   },
 ];
@@ -104,7 +94,6 @@ const Slideshow = () => {
                     : styles.leftTextSection
                 }
               >
-                <span className={styles.subtitle}>{slider.subtitle}</span>
                 <span
                   className={`${styles.title} text-center ${
                     slider.rightText ? "sm:text-right" : "sm:text-left"
@@ -113,7 +102,6 @@ const Slideshow = () => {
                   {slider.titleUp} <br />
                   {slider.titleDown}
                 </span>
-                <TextButton value={t("shop_now")} />
               </div>
             </SwiperSlide>
           ))}

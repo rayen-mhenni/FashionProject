@@ -28,11 +28,11 @@ export const FacebookPixelEvents = () => {
           .then((currReactPixel) => {
             ReactPixel = currReactPixel;
           });
-        ReactPixel.init(`1302096797738899`);
+        ReactPixel.init(`953002893376333`);
         ReactPixel.pageView();
       })();
     } else {
-      ReactPixel.init(`1302096797738899`);
+      ReactPixel.init(`953002893376333`);
       ReactPixel.pageView();
     }
   }, [router.pathname]);
