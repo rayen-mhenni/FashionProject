@@ -85,7 +85,7 @@ export default function Menu() {
                 <div className="flex justify-between items-center p-6 pb-0">
                   <Link href="/">
                     <a>
-                      <Image className="justify-center" src="/logo.svg" alt="Picture of the author" width={85} height={22} />
+                      <Image className="justify-center" src="/bg-img/Raf.png" alt="Picture of the author" width={100} height={100} />
                     </a>
                   </Link>
                   <button type="button" className="outline-none focus:outline-none text-3xl sm:text-2xl" onClick={closeModal}>
@@ -95,7 +95,7 @@ export default function Menu() {
 
                 <div className="mb-10">
                   <div className="itemContainer px-6 w-full flex flex-col justify-around items-center">
-                    <form
+                    {/* <form
                       className="flex w-full justify-between items-center mt-5 mb-5 border-gray300 border-b-2"
                       onSubmit={handleSubmit}
                     >
@@ -106,14 +106,14 @@ export default function Menu() {
                         className="px-4 py-2 w-full focus:outline-none text-xl"
                         onChange={handleChange}
                       />
-                    </form>
+                    </form> */}
                     <Link href="/">
                       <a className="w-full text-xl hover:bg-gray100 text-left py-2" onClick={closeModal}>
                         {"Accueil"}
                       </a>
                     </Link>
 
-                    <Link href="/product-category/women">
+                    <Link href="#">
                       <a
                         className="w-full text-xl hover:bg-gray100 text-left py-2"
                         onClick={() => setopenCol(!openCol)}
@@ -294,14 +294,14 @@ export default function Menu() {
 
                     <div className="flex my-10 w-2/5 space-x-6 justify-center">
                       <a
-                        href="#"
+                        href="https://www.facebook.com/la.mode.tunisien.A.S"
                         className="text-gray400 w-10 h-10 py-1 px-auto flex justify-center rounded-md active:bg-gray300"
                         aria-label="Haru Fashion Facebook Page"
                       >
                         <FacebookLogo extraClass="h-8" />
                       </a>
                       <a
-                        href="#"
+                        href="https://www.instagram.com/raf.shop__/profilecard/"
                         className="text-gray400 w-10 h-10 py-1 px-auto flex justify-center rounded-md active:bg-gray300"
                         aria-label="Haru Fashion Facebook Page"
                       >
