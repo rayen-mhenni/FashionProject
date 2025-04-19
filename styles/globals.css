@@ -32,6 +32,17 @@
   }
 }
 
+
+.title {
+  font-family: 'Signatura Monoline', cursive;
+  font-weight: normal;
+}
+
+.italic {
+  font-family: 'Signatura Monoline', cursive;
+  font-style: italic;
+}
+
 .toggle-checkbox:checked {
   @apply: right-0 border-gray500;
   right: 0;

@@ -9,31 +9,33 @@ import { Swiper, SwiperSlide } from "swiper/react";
 
 // import Swiper core and required modules
 import SwiperCore, { Autoplay, Navigation, Pagination } from "swiper/core";
+import { isEmpty } from "lodash";
 
 // install Swiper modules
 SwiperCore.use([Pagination, Navigation, Autoplay]);
 
 const sliders = [
   {
-    id: 2,
-    image: "/bg-img/curly_hair_white-1.jpg",
-    imageTablet: "/bg-img/curly_hair_white-1.jpg",
-    imageMobile: "/bg-img/test.png",
-    subtitle: "",
-    titleUp: "New Cocktail",
-    titleDown: "Dresses",
-    rightText: true,
-  },
-  {
     id: 3,
     image: "/bg-img/monigote.jpg",
     imageTablet: "/bg-img/monigote-tablet.png",
     imageMobile: "/bg-img/test2.png",
     subtitle: "",
-    titleUp: "Rafrafi",
-    titleDown: "Collection",
+    titleUp: "RAF CLOTHING",
+    titleDown: "SHOP",
     rightText: false,
   },
+  {
+    id: 2,
+    image: "/bg-img/curly_hair_white-1.jpg",
+    imageTablet: "/bg-img/curly_hair_white-1.jpg",
+    imageMobile: "/bg-img/test.png",
+    subtitle: "",
+    titleUp: "",
+    titleDown: "",
+    rightText: true,
+  },
+
 ];
 
 const Slideshow = () => {
@@ -87,22 +89,25 @@ const Slideshow = () => {
                   alt={"some name"}
                 />
               </div>
-              <div
-                className={
-                  slider.rightText
-                    ? styles.rightTextSection
-                    : styles.leftTextSection
-                }
-              >
-                <span
-                  className={`${styles.title} text-center ${
-                    slider.rightText ? "sm:text-right" : "sm:text-left"
-                  }`}
+
+              {!isEmpty(slider.titleUp) && (
+                <div
+                  className={
+                    slider.rightText
+                      ? styles.rightTextSection
+                      : styles.leftTextSection
+                  }
                 >
-                  {slider.titleUp} <br />
-                  {slider.titleDown}
-                </span>
-              </div>
+                  <span
+                    className={`${styles.title2} text-center ${
+                      slider.rightText ? "sm:text-right" : "sm:text-left"
+                    }`}
+                  >
+                    {slider.titleUp && slider.titleUp} <br />
+                    {slider.titleDown}
+                  </span>
+                </div>
+              )}
             </SwiperSlide>
           ))}
         </Swiper>
