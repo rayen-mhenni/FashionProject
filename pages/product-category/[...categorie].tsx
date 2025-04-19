@@ -320,7 +320,7 @@ const ProductCategory: React.FC<Props> = ({
       </Transition>
 
       {/* ===== Footer Section ===== */}
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };

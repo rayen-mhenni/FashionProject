@@ -400,7 +400,7 @@ const Product: React.FC<Props> = ({ product, products }) => {
                     ...product,
                     name: product.nom,
                     price: product.prixVente,
-                    img1: productOption?.images?.split(",")[0],
+                    img1: mainImg,
                     options: product._id + color,
                     size,
                     color,

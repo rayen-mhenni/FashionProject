@@ -289,7 +289,7 @@ const ShoppingCart: React.FC<Props> = () => {
         </div>
       </main>
 
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };

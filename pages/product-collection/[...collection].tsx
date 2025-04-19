@@ -321,7 +321,7 @@ const ProductCollection: React.FC<Props> = ({
       </Transition>
 
       {/* ===== Footer Section ===== */}
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };
