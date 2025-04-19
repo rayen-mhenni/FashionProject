@@ -125,7 +125,8 @@ export default function CartItem() {
                         <Item
                           key={item.id}
                           name={item.name}
-                          size={item.size}
+                          size={item?.size}
+                          color={item?.color}
                           price={item.price * item.qty!}
                           qty={item.qty!}
                           img={item.img1 as string}
@@ -139,7 +140,7 @@ export default function CartItem() {
                   <div className="btnContainer mt-4 px-4 h-1/3 mb-20 w-full flex flex-col ">
                     <div className="flex justify-between">
                       <span>{t("subtotal")}</span>
-                      <span>$ {roundDecimal(subtotal)}</span>
+                      <span>{roundDecimal(subtotal)} TND</span>
                     </div>
                     <LinkButton
                       href="/shopping-cart"

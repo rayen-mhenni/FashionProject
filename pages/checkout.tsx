@@ -50,7 +50,7 @@ const ShoppingCart: React.FC<Props> = () => {
   };
 
   const calculerTotal = () => {
-    return roundDecimal(calculerSousTotal() - calculerRemise() + 8); // 8 TND pour livraison
+    return roundDecimal(calculerSousTotal() + 8); // 8 TND pour livraison
   };
 
   const passerCommande = async () => {
@@ -154,11 +154,11 @@ const ShoppingCart: React.FC<Props> = () => {
                     <p className="font-medium">
                       {article.prixVente} X {article.qty} {devise}
                     </p>
-                    {Number(article.qty) > 1 && (
+                    {/* {Number(article.qty) > 1 && (
                       <p className="text-sm text-green-600">
                         -{(Number(article.qty) - 1) * 8} {devise}
                       </p>
-                    )}
+                    )} */}
                   </div>
                 </div>
               ))}
@@ -169,15 +169,15 @@ const ShoppingCart: React.FC<Props> = () => {
               <div className="flex justify-between mb-2">
                 <span>Sous-total</span>
                 <span>
-                  {calculerSousTotal()} {devise}
+                  {roundDecimal(calculerSousTotal())} {devise}
                 </span>
               </div>
-              <div className="flex justify-between mb-2 text-green-600">
+              {/* <div className="flex justify-between mb-2 text-green-600">
                 <span>Remise</span>
                 <span>
                   -{calculerRemise()} {devise}
                 </span>
-              </div>
+              </div> */}
               <div className="flex justify-between mb-2">
                 <span>Livraison</span>
                 <span>8 {devise}</span>

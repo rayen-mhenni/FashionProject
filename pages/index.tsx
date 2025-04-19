@@ -51,7 +51,6 @@ const Home: React.FC<Props> = ({ collections }) => {
         stock: el?.options[0].quantiteInitiale,
         createdAt: el?.createdAt,
       }));
-      console.log("eeeeeeeeeeeeeeeeeee", products);
       setCurrentItems(products);
       setIsFetching(false);
     };
@@ -75,12 +74,8 @@ const Home: React.FC<Props> = ({ collections }) => {
 
       <main id="main-content" className="-mt-20">
         {/* ===== Category Section ===== */}
-        <section className="app-max-width w-full h-full flex flex-col justify-center mt-20 ">
+        {/* <section className="app-max-width w-full h-full flex flex-col justify-center mt-20 ">
           <div className="flex justify-center">
-            {/* <div className="border-t border-gray-300 flex-grow"></div>
-              <h2 className="text-4xl mb-4">Nouveautés</h2>
-              <div className="border-t border-gray-300 flex-grow"></div> */}
-            {/* <span>{t("best_selling_desc")}</span> */}
             <table width="90%">
               <tr>
                 <td>
@@ -131,15 +126,11 @@ const Home: React.FC<Props> = ({ collections }) => {
               </OverlayContainer>
             </div>
           </div>
-        </section>
+        </section> */}
 
         {/* ===== Best Selling Section ===== */}
         <section className="app-max-width w-full h-full flex flex-col justify-center mt-16 mb-20">
           <div className="flex justify-center">
-            {/* <div className="border-t border-gray-300 flex-grow"></div>
-              <h2 className="text-4xl mb-4">Nouveautés</h2>
-              <div className="border-t border-gray-300 flex-grow"></div> */}
-            {/* <span>{t("best_selling_desc")}</span> */}
             <table width="90%" className="mb-10">
               <tr>
                 <td>

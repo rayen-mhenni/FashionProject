@@ -13,6 +13,8 @@ module.exports = {
   },
   images: {
     domains: [
+      "localhost:3003",
+      "localhost",
       "robohash.org",
       "res.cloudinary.com",
       "dptvo-store.com",

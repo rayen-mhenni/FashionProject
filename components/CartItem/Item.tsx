@@ -17,6 +17,7 @@ const Item: FC<Props> = ({
   name,
   size,
   price,
+  color,
   qty,
   onAdd,
   onRemove,
@@ -26,7 +27,9 @@ const Item: FC<Props> = ({
     <div className="item flex bg-white my-4 border-b-2 pb-4 border-gray200">
       <Image className="w-2/12" src={img} alt={name} width={70} height={104} />
       <div className="midPart mx-4 flex-grow">
-        <span>{name} | {size}</span>
+        <span>
+          {name} | {size} | {color}
+        </span>
         <div className="plusOrMinus w-2/6 mt-4 flex border border-gray300 divide-x-2 divide-gray300">
           <div
             onClick={onRemove}
@@ -53,7 +56,7 @@ const Item: FC<Props> = ({
         >
           &#10005;
         </button>
-        <span>$ {roundDecimal(price)}</span>
+        <span> {roundDecimal(price)} TND</span>
       </div>
     </div>
   );

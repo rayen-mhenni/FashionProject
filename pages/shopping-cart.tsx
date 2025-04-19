@@ -104,7 +104,7 @@ const ShoppingCart = () => {
                           </span>
                         </td>
                         <td className="text-right text-gray400 hidden sm:table-cell">
-                          $ {roundDecimal(item.price)}
+                          {roundDecimal(item.price)} TND
                         </td>
                         <td>
                           <div className="w-12 h-32 sm:h-auto sm:w-3/4 md:w-2/6 mx-auto flex flex-col-reverse sm:flex-row border border-gray300 sm:divide-x-2 divide-gray300">
@@ -126,10 +126,10 @@ const ShoppingCart = () => {
                           </div>
                         </td>
                         <td className="text-right text-gray400">
-                          $ {roundDecimal(item.price * item.qty!)}
+                           {roundDecimal(item.price * item.qty!)} TND
                           <br />
                           <span className="text-xs">
-                            ($ {roundDecimal(item.price)})
+                            ({roundDecimal(item.price)}) TND
                           </span>
                         </td>
                         <td className="text-right" style={{ minWidth: "3rem" }}>
@@ -162,48 +162,12 @@ const ShoppingCart = () => {
               <h2 className="text-xl mb-3">{t("cart_totals")}</h2>
               <div className="flex justify-between py-2">
                 <span className="uppercase">{t("subtotal")}</span>
-                <span>$ {roundDecimal(subtotal)}</span>
+                <span> {roundDecimal(subtotal)} TND </span>
               </div>
-              <div className="py-3">
-                <span className="uppercase">{t("delivery")}</span>
-                <div className="mt-3 space-y-2">
-                  <div className="flex justify-between">
-                    <div>
-                      <input
-                        type="radio"
-                        name="deli"
-                        value="POINT_RELE"
-                        id="POINT_RELE"
-                        checked={deli === "POINT_RELE"}
-                        onChange={() => setDeli("POINT_RELE")}
-                      />{" "}
-                      <label htmlFor="POINT_RELE" className="cursor-pointer">
-                        {"Livraison en point relais (Mondial Relay)"}
-                      </label>
-                    </div>
-                    <span> € 3.80</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <div>
-                      <input
-                        type="radio"
-                        name="deli"
-                        value="DOMICILE"
-                        id="DOMICILE"
-                        checked={deli === "DOMICILE"}
-                        onChange={() => setDeli("DOMICILE")}
-                      />{" "}
-                      <label htmlFor="DOMICILE" className="cursor-pointer">
-                        {"Livraison à domicile"}
-                      </label>
-                    </div>
-                    <span> € 8.80</span>
-                  </div>
-                </div>
-              </div>
+ 
               <div className="flex justify-between py-3">
                 <span>{t("grand_total")}</span>
-                <span>$ {roundDecimal(subtotal + deliFee)}</span>
+                <span>{roundDecimal(subtotal + deliFee)} TND</span>
               </div>
               <Button
                 value={t("proceed_to_checkout")}

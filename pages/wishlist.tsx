@@ -63,7 +63,7 @@ const Wishlist = () => {
                       wishlist.length === 0 ? "text-center" : "text-right"
                     }`}
                   >
-             Prix unitaire
+                  Prix unitaire
                   </th>
                   <th className="font-normal hidden sm:table-cell py-2 max-w-xs">
                   Ajouter
@@ -107,7 +107,7 @@ const Wishlist = () => {
                           {item.name}
                         </td>
                         <td className="text-right text-gray400">
-                          $ {item.price}
+                          {item.price} TND
                         </td>
                         <td className="text-center hidden sm:table-cell max-w-xs text-gray400">
                           <Button
