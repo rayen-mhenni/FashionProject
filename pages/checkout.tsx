@@ -12,6 +12,7 @@ import Input from "../components/Input/Input";
 import Button from "../components/Buttons/Button";
 import Footer from "../components/Footer/Footer";
 import { useCart } from "../context/cart/CartProvider";
+import { fbPixelPurchase } from "../components/Util/fb";
 
 type Props = {
   articles: any[];
@@ -88,6 +89,7 @@ const ShoppingCart: React.FC<Props> = () => {
       );
 
       if (reponse.data) {
+        fbPixelPurchase(Number(calculerTotal()));
         setSucces(true);
         router.push("/coming-soon");
       } else {
