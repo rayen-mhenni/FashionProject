@@ -4,13 +4,17 @@ import { useTranslations } from "next-intl";
 
 import AppHeader from "../components/Header/AppHeader";
 import { GetStaticProps } from "next";
+import Header from "../components/Header/Header";
+import LeftArrow from "../public/icons/LeftArrow";
 
 const ComingSoon = () => {
   const t = useTranslations("Others");
 
   return (
     <>
-      <AppHeader title="Commande Validée - Haru Fashion" />
+      <AppHeader title="Commande Validée - RAF Fashion" />
+      <Header />
+
       <div className="flex flex-col h-screen justify-center items-center bg-gray-50 p-4">
         <div className="bg-white p-8 rounded-lg shadow-md max-w-md w-full text-center">
           {/* Success Icon */}

@@ -296,14 +296,14 @@ export default function Menu() {
                       <a
                         href="https://www.facebook.com/la.mode.tunisien.A.S"
                         className="text-gray400 w-10 h-10 py-1 px-auto flex justify-center rounded-md active:bg-gray300"
-                        aria-label="Haru Fashion Facebook Page"
+                        aria-label="RAF Fashion Facebook Page"
                       >
                         <FacebookLogo extraClass="h-8" />
                       </a>
                       <a
                         href="https://www.instagram.com/raf.shop__/profilecard/"
                         className="text-gray400 w-10 h-10 py-1 px-auto flex justify-center rounded-md active:bg-gray300"
-                        aria-label="Haru Fashion Facebook Page"
+                        aria-label="RAF Fashion Facebook Page"
                       >
                         <InstagramLogo extraClass="h-8" />
                       </a>
