@@ -182,7 +182,7 @@ const ShoppingCart = () => {
       </main>
 
       {/* ===== Footer Section ===== */}
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };

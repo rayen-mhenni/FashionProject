@@ -81,11 +81,30 @@ const Product: React.FC<Props> = ({ paramId }) => {
     const resProducts = await axios.get(
       `${process.env.NEXT_PUBLIC_PRODUCTS_MODULE}`
     );
-    const products: any = resProducts.data;
+    const products: any[] = resProducts?.data?.map((el: any) => ({
+      id: el?._id,
+      options: el?.options,
+      size: el?.options[0].sizes?.split(",")[0],
+      name: el?.nom,
+      price: el?.prixVente,
+      qty: 1,
+      description: "",
+      detail: "",
+      img1: el?.options[0]?.images?.split(",")[0],
+      img2:
+        el?.options[0]?.images?.split(",").length > 1
+          ? el?.options[0]?.images?.split(",")[1]
+          : el?.options[0]?.images?.split(",")[0],
+      // categoryName: ,
+      stock: el?.options[0].quantiteInitiale,
+      createdAt: el?.createdAt,
+    }));
+
+    console.log("eeeeeeeeeeee", products);
 
     setProduct(fetchedProduct);
     setProducts(products);
-    setMainImg(fetchedProduct?.mainImg);
+    setMainImg(fetchedProduct?.options[0]?.images?.split(",")[0]);
     setColor(fetchedProduct?.options[0]?.color);
     setProductOption(fetchedProduct?.options[0]);
   };
@@ -151,8 +170,8 @@ const Product: React.FC<Props> = ({ paramId }) => {
               reference: product?.reference,
               nom: product?.nom,
               quantity: Number(currentQty),
-              prixAchat: Number(productOption.prixAchat),
-              prixVente: Number(productOption.prixVente),
+              prixAchat: Number(product.prixAchat ?? 0),
+              prixVente: Number(product.prixVente ?? 0),
             },
           ],
           subtotal: Number(calculateTotalPrice()),
@@ -289,17 +308,6 @@ const Product: React.FC<Props> = ({ paramId }) => {
                       </p>
                     )}
                   </div>
-                  {color && (
-                    <button
-                      onClick={() => {
-                        setColor("");
-                        setProductOption(null);
-                      }}
-                      className="text-sm text-blue-600 hover:text-blue-800 hover:underline"
-                    >
-                      Change
-                    </button>
-                  )}
                 </div>
 
                 <div className="flex flex-wrap gap-4">
@@ -371,6 +379,7 @@ const Product: React.FC<Props> = ({ paramId }) => {
                 <span className="block font-medium mb-2">
                   Taille: <span className="font-bold text-red"> {size}</span>
                 </span>
+
                 <div className="flex flex-wrap gap-2">
                   {productOption?.sizes
                     ?.split(",")
@@ -419,13 +428,14 @@ const Product: React.FC<Props> = ({ paramId }) => {
               <Button
                 value="Ajouter au panier"
                 size="lg"
+                disabled={isEmpty(size)}
                 extraClass="flex-grow hover:bg-green-700"
                 onClick={() => {
                   addItem!({
                     ...product,
                     name: product?.nom,
                     price: product?.prixVente,
-                    img1: mainImg,
+                    img1: product?.options[0]?.images?.split(",")[0],
                     options: product?._id + color,
                     size,
                     color,

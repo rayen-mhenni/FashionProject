@@ -54,6 +54,8 @@ const ShoppingCart: React.FC<Props> = () => {
   };
 
   const passerCommande = async () => {
+    console.log("eeeeeeeeeeeee", articles);
+
     setEnCours(true);
     setErreur("");
 
@@ -72,9 +74,9 @@ const ShoppingCart: React.FC<Props> = () => {
             image: product.img1,
             reference: product.reference,
             nom: product.name,
-            quantity: Number(product.qty),
-            prixAchat: Number(product.prixAchat),
-            prixVente: Number(product.prixVente),
+            quantity: Number(product.qty || 0),
+            prixAchat: Number(product.prixAchat ?? 0),
+            prixVente: Number(product.prixVente ?? 0),
           })),
 
           subtotal: Number(calculerTotal()),
