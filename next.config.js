@@ -23,6 +23,8 @@ module.exports = {
       "127.0.0.1",
       "dummyimage.com",
       "www.fotomag.shop",
+      "rafrafi.shop",
+      "www.rafrafi.shop",
       "fotomag.shop",
       "*"
     ],
