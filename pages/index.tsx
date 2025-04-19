@@ -26,7 +26,7 @@ type Props = {
 
 const Home: React.FC<Props> = ({ collections }) => {
   const t = useTranslations("Index");
-  const [currentItems, setCurrentItems] = useState();
+  const [currentItems, setCurrentItems] = useState<any>();
   const [isFetching, setIsFetching] = useState(false);
 
   useEffect(() => {
@@ -74,7 +74,7 @@ const Home: React.FC<Props> = ({ collections }) => {
 
       <main id="main-content" className="-mt-20">
         {/* ===== Category Section ===== */}
-        {/* <section className="app-max-width w-full h-full flex flex-col justify-center mt-20 ">
+        <section className="app-max-width w-full h-full flex flex-col justify-center mt-20 ">
           <div className="flex justify-center">
             <table width="90%">
               <tr>
@@ -126,7 +126,7 @@ const Home: React.FC<Props> = ({ collections }) => {
               </OverlayContainer>
             </div>
           </div>
-        </section> */}
+        </section>
 
         {/* ===== Best Selling Section ===== */}
         <section className="app-max-width w-full h-full flex flex-col justify-center mt-16 mb-20">
@@ -151,20 +151,11 @@ const Home: React.FC<Props> = ({ collections }) => {
               </tr>
             </table>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-x-4 lg:gap-x-12 gap-y-6 mb-10 app-x-padding">
-            {currentItems && currentItems[0] && (
-              <Card
-                key={currentItems[0]?._id}
-                item={currentItems[0]}
-                outStock
-              />
-            )}
-            {currentItems && currentItems[1] && (
-              <Card key={currentItems[1]?._id} item={currentItems[1]} />
-            )}
-            {currentItems && currentItems[2] && (
-              <Card key={currentItems[2]?._id} item={currentItems[2]} />
-            )}
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-x-4 lg:gap-x-12 gap-y-6 mb-10 app-x-padding">
+            {currentItems &&
+              currentItems?.map((el: any) => (
+                <Card key={el?._id} item={el} outStock />
+              ))}
           </div>
         </section>
 
@@ -173,7 +164,7 @@ const Home: React.FC<Props> = ({ collections }) => {
           <TestiSlider />
         </section>
 
-        <section className="app-max-width mt-16 mb-20 flex flex-col justify-center items-center text-center">
+        {/* <section className="app-max-width mt-16 mb-20 flex flex-col justify-center items-center text-center">
           <div className="textBox w-3/4 md:w-2/4 lg:w-2/5 mb-6">
             <h2 className="text-3xl mb-6">{t("our_shop")}</h2>
             <span className="w-full">{t("our_shop_desc")}</span>
@@ -181,7 +172,7 @@ const Home: React.FC<Props> = ({ collections }) => {
           <div className="w-full app-x-padding flex justify-center">
             <Image src={ourShop} alt="Our Shop" />
           </div>
-        </section>
+        </section> */}
       </main>
 
       {/* ===== Footer Section ===== */}

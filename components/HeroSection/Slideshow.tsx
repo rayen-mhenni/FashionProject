@@ -14,24 +14,34 @@ import SwiperCore, { Autoplay, Navigation, Pagination } from "swiper/core";
 SwiperCore.use([Pagination, Navigation, Autoplay]);
 
 const sliders = [
+  // {
+  //   id: 2,
+  //   image: "/bg-img/curly_hair_girl-1.jpg",
+  //   imageTablet: "/bg-img/curly_hair_girl-1-tablet.png",
+  //   imageMobile: "/bg-img/curly_hair_girl-1_mobile.jpg",
+  //   subtitle: "50% off",
+  //   titleUp: "New Cocktail",
+  //   titleDown: "Dresses",
+  //   rightText: false,
+  // },
+  // {
+  //   id: 1,
+  //   image: "/bg-img/curly_hair_white-1.jpg",
+  //   imageTablet: "/bg-img/curly_hair_white-1-tablet.png",
+  //   imageMobile: "/bg-img/curly_hair_white-1_mobile.jpg",
+  //   subtitle: "Spring Revolution",
+  //   titleUp: "Night Summer",
+  //   titleDown: "Dresses",
+  //   rightText: true,
+  // },
   {
-    id: 1,
-    image: "/bg-img/ban 2.png",
-    imageTablet: "/bg-img/banMobile.png",
-    imageMobile: "/bg-img/banMobile.png",
-    subtitle: "Summer Collection",
-    titleUp: "RAF",
-    titleDown: "Collection",
-    rightText: false,
-  },
-  {
-    id: 2,
-    image: "/bg-img/ban 1.png",
-    imageTablet: "/bg-img/test.png",
-    imageMobile: "/bg-img/test.png",
-    subtitle: "Summer Collection",
-    titleUp: "RAF",
-    titleDown: "Collection",
+    id: 3,
+    image: "/bg-img/monigote.jpg",
+    imageTablet: "/bg-img/monigote-tablet.png",
+    imageMobile: "/bg-img/monigote_mobile.jpg",
+    subtitle: "Spring promo",
+    titleUp: "The Weekend",
+    titleDown: "Promotions",
     rightText: false,
   },
 ];
@@ -64,8 +74,8 @@ const Slideshow = () => {
                 <Image
                   layout="responsive"
                   src={slider.image}
-                  width={1600}
-                  height={800}
+                  width={1144}
+                  height={572}
                   alt={"some name"}
                 />
               </div>
@@ -73,8 +83,8 @@ const Slideshow = () => {
                 <Image
                   layout="responsive"
                   src={slider.imageTablet}
-                  width={1600}
-                  height={800}
+                  width={820}
+                  height={720}
                   alt={"some name"}
                 />
               </div>
@@ -83,7 +93,7 @@ const Slideshow = () => {
                   layout="responsive"
                   src={slider.imageMobile}
                   width={428}
-                  height={600}
+                  height={800}
                   alt={"some name"}
                 />
               </div>
@@ -103,7 +113,7 @@ const Slideshow = () => {
                   {slider.titleUp} <br />
                   {slider.titleDown}
                 </span>
-                {/* <TextButton value={t("shop_now")} /> */}
+                <TextButton value={t("shop_now")} />
               </div>
             </SwiperSlide>
           ))}
