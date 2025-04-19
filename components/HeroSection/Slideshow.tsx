@@ -84,7 +84,7 @@ const Slideshow = () => {
                   layout="responsive"
                   src={slider.imageTablet}
                   width={820}
-                  height={720}
+                  height={500}
                   alt={"some name"}
                 />
               </div>
@@ -93,7 +93,7 @@ const Slideshow = () => {
                   layout="responsive"
                   src={slider.imageMobile}
                   width={428}
-                  height={800}
+                  height={700}
                   alt={"some name"}
                 />
               </div>
