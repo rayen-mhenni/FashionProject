@@ -93,11 +93,11 @@ const MyApp = ({ Component, pageProps }: AppCustomProps) => {
           .then((currReactPixel) => {
             ReactPixel = currReactPixel;
           });
-        ReactPixel.init(`953002893376333`);
+        ReactPixel.init(`1172709854144579`);
         ReactPixel.pageView();
       })();
     } else {
-      ReactPixel.init(`953002893376333`);
+      ReactPixel.init(`1172709854144579`);
       ReactPixel.pageView();
     }
   }, [router.pathname]);
