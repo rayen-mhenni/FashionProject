@@ -10,6 +10,8 @@ import { Swiper, SwiperSlide } from "swiper/react";
 // import Swiper core and required modules
 import SwiperCore, { Autoplay, Navigation, Pagination } from "swiper/core";
 import { isEmpty } from "lodash";
+import Button from "../Buttons/Button";
+import { useRouter } from "next/router";
 
 // install Swiper modules
 SwiperCore.use([Pagination, Navigation, Autoplay]);
@@ -23,6 +25,7 @@ const sliders = [
     subtitle: "",
     titleUp: "RAF CLOTHING",
     titleDown: "SHOP",
+    url: "/product-category/Homme",
     rightText: false,
   },
   {
@@ -33,14 +36,14 @@ const sliders = [
     subtitle: "",
     titleUp: "",
     titleDown: "",
+    url: "/product-category/Femme",
     rightText: true,
   },
-
 ];
 
 const Slideshow = () => {
   const t = useTranslations("Index");
-
+  const router = useRouter();
   return (
     <>
       <div className="relative -top-20 slide-container w-full z-20">
@@ -80,6 +83,7 @@ const Slideshow = () => {
                   alt={"some name"}
                 />
               </div>
+
               <div className="sm:hidden">
                 <Image
                   layout="responsive"
@@ -88,26 +92,29 @@ const Slideshow = () => {
                   height={700}
                   alt={"some name"}
                 />
-              </div>
 
-              {!isEmpty(slider.titleUp) && (
                 <div
                   className={
                     slider.rightText
                       ? styles.rightTextSection
                       : styles.leftTextSection
                   }
+                  style={{
+                    borderRadius: "50px",
+                    fontSize: "20px",
+                    color: "#fff",
+                    backgroundColor: "#000",
+                  }}
                 >
-                  <span
-                    className={`${styles.title} text-center ${
-                      slider.rightText ? "sm:text-right" : "sm:text-left"
-                    }`}
+                  <button
+                    onClick={() => {
+                      router.push(slider.url);
+                    }}
                   >
-                    {slider.titleUp && slider.titleUp} <br />
-                    {slider.titleDown}
-                  </span>
+                    VOIR LA COLLECTION
+                  </button>
                 </div>
-              )}
+              </div>
             </SwiperSlide>
           ))}
         </Swiper>

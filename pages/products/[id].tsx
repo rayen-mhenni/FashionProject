@@ -108,9 +108,10 @@ const Product: React.FC<Props> = ({ paramId }) => {
     setColor(fetchedProduct?.options[0]?.color);
     setProductOption(fetchedProduct?.options[0]);
   };
+  
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [products]);
 
   const alreadyWishlisted = wishlist.some((wItem) => wItem.id === product?.id);
 
