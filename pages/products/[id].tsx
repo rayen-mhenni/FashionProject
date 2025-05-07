@@ -54,6 +54,7 @@ const Product: React.FC<Props> = ({ paramId }) => {
   const [copied, setCopied] = useState(false);
   const [color, setColor] = useState("");
   const [productOption, setProductOption] = useState<any>();
+  const [originalPrice, setOriginalPrice] = useState(0);
 
   const [product, setProduct] = useState<any>();
   const [products, setProducts] = useState<any>();
@@ -69,8 +70,6 @@ const Product: React.FC<Props> = ({ paramId }) => {
   const [isOrdering, setIsOrdering] = useState(false);
   const [orderError, setOrderError] = useState("");
   const [paymentSuccess, setPaymentSuccess] = useState(false);
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
 
   const fetchData = async () => {
     const res = await axios.get(
@@ -95,18 +94,16 @@ const Product: React.FC<Props> = ({ paramId }) => {
         el?.options[0]?.images?.split(",").length > 1
           ? el?.options[0]?.images?.split(",")[1]
           : el?.options[0]?.images?.split(",")[0],
-      // categoryName: ,
       stock: el?.options[0].quantiteInitiale,
       createdAt: el?.createdAt,
     }));
-
-    console.log("eeeeeeeeeeee", products);
 
     setProduct(fetchedProduct);
     setProducts(products);
     setMainImg(fetchedProduct?.options[0]?.images?.split(",")[0]);
     setColor(fetchedProduct?.options[0]?.color);
     setProductOption(fetchedProduct?.options[0]);
+    setOriginalPrice(fetchedProduct?.prixVente);
   };
 
   useEffect(() => {
@@ -115,13 +112,14 @@ const Product: React.FC<Props> = ({ paramId }) => {
 
   const alreadyWishlisted = wishlist.some((wItem) => wItem.id === product?.id);
 
-  const handleSize = (value: string) => {
-    setSize(value);
+  const calculateDiscountPrice = () => {
+    if (!product?.discount) return originalPrice;
+    return originalPrice - product.discount;
   };
 
   const currentItem = {
     ...product,
-    price: product?.prixVente,
+    price: calculateDiscountPrice(),
     img1: productOption?.images?.split(",")[0],
     options: 1,
     size,
@@ -135,8 +133,8 @@ const Product: React.FC<Props> = ({ paramId }) => {
   };
 
   const calculateTotalPrice = () => {
-    const basePrice = Number(currentItem.price) * currentQty + 8;
-    return roundDecimal(basePrice) + 8; // 8 TND for shipping
+    const basePrice = Number(currentItem.price) * currentQty;
+    return roundDecimal(basePrice + 8); // 8 TND for shipping
   };
 
   const handleOrder = async () => {
@@ -144,17 +142,6 @@ const Product: React.FC<Props> = ({ paramId }) => {
     setOrderError("");
 
     try {
-      // Register user if not exists
-      // await auth.register!(
-      //   `client${Date.now()}@client.com`,
-      //   name,
-      //   "12345678",
-      //   shippingAddress,
-      //   phone,
-
-      // );
-
-      // Create order
       const orderResponse = await axios.post(
         `${process.env.NEXT_PUBLIC_ORDERS_MODULE}`,
         {
@@ -172,14 +159,15 @@ const Product: React.FC<Props> = ({ paramId }) => {
               nom: product?.nom,
               quantity: Number(currentQty),
               prixAchat: Number(product.prixAchat ?? 0),
-              prixVente: Number(product.prixVente ?? 0),
+              prixVente: Number(calculateDiscountPrice() ?? 0),
+              discount: product?.discount || 0,
             },
           ],
           subtotal: Number(calculateTotalPrice()),
           tax: 0,
           total: Number(calculateTotalPrice()),
           status: "pending",
-          notes: "Waiting for confirmation",
+          notes: "En attente de confirmation",
         }
       );
 
@@ -197,14 +185,6 @@ const Product: React.FC<Props> = ({ paramId }) => {
     }
   };
 
-  // const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const files = e.target.files;
-  //   if (files && files.length > 0) {
-  //     const newImages = Array.from(files).slice(0, Number(productOption?.discount) - uploadedImages.length);
-  //     setUploadedImages([...uploadedImages, ...newImages]);
-  //   }
-  // };
-
   return (
     <div className="bg-gray-50">
       <Header title={`${product?.nom} - RAF SHOP`} />
@@ -213,7 +193,7 @@ const Product: React.FC<Props> = ({ paramId }) => {
         id="main-content"
         className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
       >
-        {/* Breadcrumb */}
+        {/* Fil d'Ariane */}
         <nav className="flex py-4" aria-label="Breadcrumb">
           <ol className="flex items-center space-x-4">
             <li>
@@ -238,9 +218,9 @@ const Product: React.FC<Props> = ({ paramId }) => {
           </ol>
         </nav>
 
-        {/* Product Section */}
+        {/* Section Produit */}
         <div className="lg:grid lg:grid-cols-2 lg:gap-8">
-          {/* Image Gallery */}
+          {/* Galerie d'images */}
           <div className="mb-8 lg:mb-0">
             <div className="relative mb-4 rounded-lg overflow-hidden">
               <Image
@@ -277,14 +257,40 @@ const Product: React.FC<Props> = ({ paramId }) => {
             </div>
           </div>
 
-          {/* Product Info */}
+          {/* Informations Produit */}
           <div className="space-y-6">
             <h1 className="text-3xl font-bold text-gray-900">{product?.nom}</h1>
 
             <div className="flex items-center">
-              <span className="text-2xl font-semibold text-gray-800">
-                {product?.prixVente} {currency}
-              </span>
+              {product?.discount ? (
+                <div className="flex items-center space-x-4">
+                  <span className="text-2xl font-semibold text-gray-800">
+                    {calculateDiscountPrice()} {currency}
+                  </span>
+                  <span className="text-lg text-gray-500 line-through">
+                    {originalPrice} {currency}
+                  </span>
+                  <span
+                    className="relative bg-red-600 text-red text-sm font-bold px-3 py-1 rounded-md animate-pulse"
+                    style={{
+                      animation: "pulse 1.5s infinite",
+                      boxShadow: "0 2px 8px rgba(255, 0, 0, 0.3)",
+                      textShadow: "0 1px 1px rgba(0,0,0,0.2)",
+                    }}
+                  >
+                    -{product.discount} {currency}
+                  
+                    <span
+                      className="absolute -right-1 bottom-0 w-2 h-2 bg-red-800 transform rotate-45"
+                      style={{ clipPath: "polygon(0 0, 100% 100%, 0 100%)" }}
+                    ></span>
+                  </span>
+                </div>
+              ) : (
+                <span className="text-2xl font-semibold text-gray-800">
+                  {originalPrice} {currency}
+                </span>
+              )}
             </div>
 
             <p className="text-gray-600">{product?.description}</p>
@@ -295,14 +301,14 @@ const Product: React.FC<Props> = ({ paramId }) => {
                 <span className="text-green-600">En stock</span>
               </div>
 
-              {/* Color Selection */}
+              {/* Sélection Couleur */}
               <div className="mb-5">
                 <div className="flex items-center justify-between mb-1">
                   <div>
-                    <h3 className="font-medium text-gray-900">Select Color</h3>
+                    <h3 className="font-medium text-gray-900">Couleur</h3>
                     {color && (
                       <p className="text-sm text-gray-500 mt-1">
-                        Selected:{" "}
+                        Sélectionné:{" "}
                         <span className="font-medium capitalize">
                           {color?.toLowerCase()}
                         </span>
@@ -327,26 +333,26 @@ const Product: React.FC<Props> = ({ paramId }) => {
                             setSize(option?.sizes?.split(",")[0]);
                           }}
                           className={`
-              w-8 h-8
-              rounded-full 
-              border-3 
-              transition-all 
-              duration-200 
-              flex 
-              items-center 
-              justify-center
-              shadow-sm
-              ${
-                isSelected
-                  ? "border-blue-500 scale-105 ring-2 ring-blue-200"
-                  : "border-gray-100 hover:border-gray-300"
-              }
-            `}
+                            w-8 h-8
+                            rounded-full 
+                            border-3 
+                            transition-all 
+                            duration-200 
+                            flex 
+                            items-center 
+                            justify-center
+                            shadow-sm
+                            ${
+                              isSelected
+                                ? "border-blue-500 scale-105 ring-2 ring-blue-200"
+                                : "border-gray-100 hover:border-gray-300"
+                            }
+                          `}
                           style={{
                             backgroundColor: option.color,
                             border: "1px solid",
                           }}
-                          aria-label={`Select color ${option.color}`}
+                          aria-label={`Sélectionner la couleur ${option.color}`}
                         >
                           {isSelected && (
                             <svg
@@ -366,16 +372,13 @@ const Product: React.FC<Props> = ({ paramId }) => {
                             </svg>
                           )}
                         </button>
-                        {/* <span className="text-xs mt-2 text-gray-600 capitalize">
-                          {option.color?.toLowerCase()}
-                        </span> */}
                       </div>
                     );
                   })}
                 </div>
               </div>
 
-              {/* Size Selection */}
+              {/* Sélection Taille */}
               <div className="mb-4">
                 <span className="block font-medium mb-2">
                   Taille: <span className="font-bold text-red"> {size}</span>
@@ -401,7 +404,7 @@ const Product: React.FC<Props> = ({ paramId }) => {
                 </div>
               </div>
 
-              {/* Quantity */}
+              {/* Quantité */}
               <div className="mb-4">
                 <span className="block font-medium mb-2">Quantité:</span>
                 <div className="flex items-center">
@@ -424,7 +427,7 @@ const Product: React.FC<Props> = ({ paramId }) => {
               </div>
             </div>
 
-            {/* Action Buttons */}
+            {/* Boutons d'action */}
             <div className="flex space-x-4">
               <Button
                 value="Ajouter au panier"
@@ -435,7 +438,7 @@ const Product: React.FC<Props> = ({ paramId }) => {
                   addItem!({
                     ...product,
                     name: product?.nom,
-                    price: product?.prixVente,
+                    price: calculateDiscountPrice(),
                     img1: product?.options[0]?.images?.split(",")[0],
                     options: product?._id + color,
                     size,
@@ -457,7 +460,7 @@ const Product: React.FC<Props> = ({ paramId }) => {
               </GhostButton>
             </div>
 
-            {/* Product Details Accordion */}
+            {/* Détails Produit Accordéon */}
             <Disclosure>
               {({ open }) => (
                 <>
@@ -479,14 +482,14 @@ const Product: React.FC<Props> = ({ paramId }) => {
           </div>
         </div>
 
-        {/* Order Form */}
+        {/* Formulaire de commande */}
         <div className="mt-12 bg-white p-6 rounded-lg shadow-md border border-gray-200">
           <h2 className="text-2xl font-bold mb-6 text-center">
             Passer la commande
           </h2>
 
           <div className="grid md:grid-cols-2 gap-6">
-            {/* Left Column */}
+            {/* Colonne gauche */}
             <div>
               <div className="mb-4">
                 <label
@@ -543,7 +546,7 @@ const Product: React.FC<Props> = ({ paramId }) => {
               </div>
             </div>
 
-            {/* Right Column - Order Summary */}
+            {/* Colonne droite - Récapitulatif */}
             <div className="bg-gray-50 p-4 rounded-md">
               <h3 className="text-lg font-bold mb-4">Résumé de la commande</h3>
 
@@ -607,7 +610,7 @@ const Product: React.FC<Props> = ({ paramId }) => {
           </div>
         </div>
 
-        {/* Related Products */}
+        {/* Produits similaires */}
         <section className="mt-16 mb-10">
           <h2 className="text-2xl font-bold mb-8">Produits similaires</h2>
           <div className="relative">

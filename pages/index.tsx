@@ -39,6 +39,8 @@ const Home: React.FC<Props> = ({ collections }) => {
         size: el?.options[0].sizes?.split(",")[0],
         name: el?.nom,
         price: el?.prixVente,
+        prixVente: el?.prixVente,
+        discount: el.discount,
         qty: 1,
         description: "",
         detail: "",

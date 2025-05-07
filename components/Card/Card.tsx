@@ -22,11 +22,12 @@ import ShareLink from "../../public/icons/shareLink";
 import { isEmpty } from "lodash";
 
 type Props = {
-  item: itemType;
+  item: any;
   outStock?: boolean;
 };
 
 const Card: FC<Props> = ({ item, outStock = false }) => {
+  console.log("eeeeeeee", item);
   const { addItem } = useCart();
 
   const t = useTranslations("CartWishlist");
@@ -60,6 +61,11 @@ const Card: FC<Props> = ({ item, outStock = false }) => {
 
   const handleSize = (value: string) => {
     setSize(value);
+  };
+
+  const calculateDiscountPrice = () => {
+    if (!item?.discount) return price;
+    return item?.prixVente - item.discount;
   };
 
   return (
@@ -108,7 +114,28 @@ const Card: FC<Props> = ({ item, outStock = false }) => {
         <Link href={itemLink}>
           <a className={styles.itemName}>{name}</a>
         </Link>
-        <div className="text-gray400">{price} TND</div>
+
+        <div className="flex flex-col">
+          {item.discount > 0 ? (
+            <>
+              <div className="flex items-center gap-2">
+                <span className="text-base font-bold text-gray-900">
+                  {calculateDiscountPrice()} TND
+                </span>
+                <span className="bg-red-600 text-white text-xs font-bold px-1.5 py-0.5 rounded">
+                  -{item.discount} TND
+                </span>
+              </div>
+              <span className="text-xs text-gray-500 line-through">
+                {price} TND
+              </span>
+            </>
+          ) : (
+            <span className="text-base font-bold text-gray-900">
+              {price} TND
+            </span>
+          )}
+        </div>
       </div>
     </div>
   );
