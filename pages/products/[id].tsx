@@ -226,7 +226,7 @@ const Product: React.FC<Props> = ({ paramId }) => {
                 ?.split(",")
                 ?.map((img: string, index: number) => (
                   <div
-                    key={index}
+                    key={img + index}
                     className={`transition-opacity duration-300 ${
                       mainImg === img
                         ? "opacity-100"
@@ -249,7 +249,7 @@ const Product: React.FC<Props> = ({ paramId }) => {
                 ?.split(",")
                 ?.map((img: string, index: number) => (
                   <button
-                    key={index}
+                    key={img + index}
                     onClick={() => setMainImg(img)}
                     className={`rounded-md overflow-hidden border-2 ${
                       mainImg === img
