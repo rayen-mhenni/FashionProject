@@ -44,6 +44,339 @@ type Props = {
   paramId: any;
 };
 
+const ProductOptions = ({
+  product,
+  currency,
+  color,
+  setColor,
+  size,
+  setSize,
+  currentQty,
+  setCurrentQty,
+  productOption,
+  setProductOption,
+  setMainImg,
+  originalPrice,
+  calculateDiscountPrice,
+}) => {
+  // Package options with discounts
+  const packageOptions = [
+    {
+      id: 1,
+      name: "1 Paire",
+      label: "Prix Standard",
+      price: originalPrice,
+      itemNb: 1,
+      discount: 0,
+    },
+    {
+      id: 2,
+      name: "2 Paires",
+      label: "20% OFF",
+      itemNb: 2,
+      price: originalPrice * 2 * 0.8,
+      originalPrice: originalPrice * 2,
+      discountPercentage: "20% OFF",
+    },
+    {
+      id: 3,
+      name: "3 Paires",
+      label: "30% OFF",
+      itemNb: 3,
+      price: originalPrice * 3 * 0.7,
+      originalPrice: originalPrice * 3,
+      discountPercentage: "30% OFF",
+    },
+  ];
+
+  const [selectedPackage, setSelectedPackage] = useState(1); // Default to 3 pairs based on the image
+
+  // State for individual pair selections
+  const [pairSelections, setPairSelections] = useState([
+    { color: "", size: "" },
+    { color: "", size: "" },
+    { color: "", size: "" },
+  ]);
+
+  // Update quantity based on package selection
+  useEffect(() => {
+    setCurrentQty(selectedPackage);
+  }, [selectedPackage, setCurrentQty]);
+
+  // Handle updating a specific pair's color
+  const handleColorChange = (pairIndex, newColor) => {
+    const updatedSelections = [...pairSelections];
+    updatedSelections[pairIndex].color = newColor;
+    setPairSelections(updatedSelections);
+    setMainImg(option?.images?.split(",")[0]);
+  };
+
+  // Handle updating a specific pair's size
+  const handleSizeChange = (pairIndex, newSize) => {
+    const updatedSelections = [...pairSelections];
+    updatedSelections[pairIndex].size = newSize;
+    setPairSelections(updatedSelections);
+  };
+
+  console.log("pairSelectionspairSelections", pairSelections);
+
+  return (
+    <div className="space-y-6">
+      {/* Package Selection with Radio Buttons */}
+      <div className="space-y-4">
+        {packageOptions.map((option) => (
+          <div
+            key={option.id}
+            className={`relative border rounded-lg p-4 cursor-pointer transition-all ${
+              selectedPackage === option.id
+                ? "border-green-500 bg-green-50"
+                : "border-gray-200 hover:border-gray-300"
+            }`}
+            onClick={() => setSelectedPackage(option.id)}
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-3">
+                <div className="flex items-center justify-center w-5 h-5">
+                  <input
+                    type="radio"
+                    checked={selectedPackage === option.id}
+                    onChange={() => {
+                      setPairSelections([]);
+                      const str = [];
+                      for (let i = 0; i < option.itemNb; i++) {
+                        str.push({
+                          color: productOption.color,
+                          size: productOption?.sizes?.split(",")[0],
+                        });
+                      }
+                      setPairSelections(str);
+                      setSelectedPackage(option.id);
+                    }}
+                    className="w-4 h-4 text-green-600 border-gray-300 focus:ring-green-500"
+                  />
+                </div>
+                <div className="font-medium">
+                  {option.name}
+                  {option.label && (
+                    <span
+                      className={`ml-2 text-xs font-semibold px-2 py-1 rounded ${
+                        option.id === 1
+                          ? "bg-gray-700 text-white"
+                          : "bg-red-600 text-white"
+                      }`}
+                    >
+                      {option.label}
+                    </span>
+                  )}
+                </div>
+              </div>
+              <div className="text-right">
+                <div className="font-semibold text-lg">
+                  {option.price.toFixed(3)} {currency}
+                </div>
+                {option.originalPrice && (
+                  <div className="text-sm text-gray-500 line-through">
+                    {option.originalPrice.toFixed(3)} {currency}
+                  </div>
+                )}
+              </div>
+            </div>
+            {option.id !== 1 && (
+              <div className="absolute top-0 right-0 transform translate-x-2 -translate-y-2">
+                <span className="bg-red-600 text-white text-xs px-2 py-1 rounded-full font-bold">
+                  {option.id === 2 ? "Populaire" : ""}
+                </span>
+              </div>
+            )}
+
+            {selectedPackage === option.id && option.id > 1 && (
+              <div className="mt-6">
+                {/* Multiple pair selectors */}
+                {Array.from({ length: option.id }).map((_, index) => (
+                  <div
+                    key={index}
+                    className="mb-4 pb-4 border-b border-gray-200 last:border-0"
+                  >
+                    {/* <div className="flex justify-between items-center mb-2">
+                      <div className="font-medium">{index + 1}.</div>
+                    </div> */}
+
+                    <div className="flex items-center justify-between mb-1">
+                      {/* Custom Color Selector */}
+                      <div>
+                        <div className="flex items-center justify-between mb-1">
+                          <div>
+                            <h3 className="font-medium text-gray-700">
+                              Couleur
+                            </h3>
+                          </div>
+                        </div>
+                        <div className="flex flex-wrap gap-4">
+                          {product?.options?.map((option) => {
+                            const isSelected =
+                              pairSelections[index]?.color === option.color;
+                            return (
+                              <div
+                                key={option.color}
+                                className="flex flex-col items-center"
+                              >
+                                <button
+                                  onClick={() =>
+                                    handleColorChange(index, option.color)
+                                  }
+                                  className={`w-8 h-8 rounded-full border-3 transition-all duration-200 flex items-center justify-center shadow-sm ${
+                                    isSelected
+                                      ? "border-blue-500 scale-105 ring-2 ring-blue-200"
+                                      : "border-gray-100 hover:border-gray-300"
+                                  }`}
+                                  style={{
+                                    backgroundColor: option.color,
+                                    border: "1px solid",
+                                  }}
+                                  aria-label={`Sélectionner la couleur ${option.color}`}
+                                >
+                                  {isSelected && (
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      className="h-5 w-5 text-white"
+                                      viewBox="0 0 20 20"
+                                      fill="currentColor"
+                                      style={{
+                                        filter:
+                                          "drop-shadow(0 0 2px rgba(0,0,0,0.5))",
+                                      }}
+                                    >
+                                      <path
+                                        fillRule="evenodd"
+                                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                        clipRule="evenodd"
+                                      />
+                                    </svg>
+                                  )}
+                                </button>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+
+                      {/* Size dropdown */}
+
+                      <div>
+                        <label
+                          htmlFor={`size-${index}`}
+                          className="block text-sm font-medium text-gray-700 mb-1"
+                        >
+                          Taille
+                        </label>
+                        <select
+                          id={`size-${index}`}
+                          value={pairSelections[index]?.size}
+                          onChange={(e) =>
+                            handleSizeChange(index, e.target.value)
+                          }
+                          className="appearance-none block w-full pl-10 pr-6 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                        >
+                          {productOption?.sizes
+                            ?.split(",")
+                            ?.map((sizeOption) => (
+                              <option value={sizeOption}>{sizeOption}</option>
+                            ))}
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {selectedPackage === option.id && option.id === 1 && (
+              <div className="mt-4">
+                <div className="mb-5">
+                  <div className="flex items-center justify-between mb-1">
+                    <div>
+                      <h3 className="font-medium text-gray-900">Couleur</h3>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-wrap gap-4">
+                    {product?.options?.map((option) => {
+                      const isSelected = color === option.color;
+                      return (
+                        <div
+                          key={option.color}
+                          className="flex flex-col items-center"
+                        >
+                          <button
+                            onClick={() => {
+                              setColor(option.color);
+                            }}
+                            className={`w-8 h-8 rounded-full border-3 transition-all duration-200 flex items-center justify-center shadow-sm ${
+                              isSelected
+                                ? "border-blue-500 scale-105 ring-2 ring-blue-200"
+                                : "border-gray-100 hover:border-gray-300"
+                            }`}
+                            style={{
+                              backgroundColor: option.color,
+                              border: "1px solid",
+                            }}
+                            aria-label={`Sélectionner la couleur ${option.color}`}
+                          >
+                            {isSelected && (
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="h-5 w-5 text-white"
+                                viewBox="0 0 20 20"
+                                fill="currentColor"
+                                style={{
+                                  filter:
+                                    "drop-shadow(0 0 2px rgba(0,0,0,0.5))",
+                                }}
+                              >
+                                <path
+                                  fillRule="evenodd"
+                                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                  clipRule="evenodd"
+                                />
+                              </svg>
+                            )}
+                          </button>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                <div className="mb-4">
+                  <span className="block font-medium mb-2">
+                    Taille: <span className="font-bold text-red">{size}</span>
+                  </span>
+
+                  <div className="flex flex-wrap gap-2">
+                    {productOption?.sizes?.split(",")?.map((sizeOption) => (
+                      <button
+                        key={sizeOption}
+                        onClick={() => setSize(sizeOption)}
+                        className={`px-4 py-2 border rounded-md transition-all duration-150 ${
+                          size.toLocaleLowerCase() ===
+                          sizeOption.toLocaleLowerCase()
+                            ? "bg-green-50 border-green-600 text-green-700 shadow-sm font-medium"
+                            : "border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-gray-400"
+                        }`}
+                      >
+                        {sizeOption}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
 const Product: React.FC<Props> = ({ paramId }) => {
   const { addItem } = useCart();
   const { wishlist, addToWishlist, deleteWishlistItem } = useWishlist();
@@ -311,112 +644,132 @@ const Product: React.FC<Props> = ({ paramId }) => {
                 <span className="font-medium mr-2">Disponibilité:</span>
                 <span className="text-green-600">En stock</span>
               </div>
+              <ProductOptions
+                product={product}
+                currency={currency}
+                color={color}
+                setColor={setColor}
+                size={size}
+                setSize={setSize}
+                currentQty={currentQty}
+                setCurrentQty={setCurrentQty}
+                productOption={productOption}
+                setProductOption={setProductOption}
+                setMainImg={setMainImg}
+                originalPrice={originalPrice}
+                calculateDiscountPrice={calculateDiscountPrice}
+              />
 
-              {/* Sélection Couleur */}
-              <div className="mb-5">
-                <div className="flex items-center justify-between mb-1">
-                  <div>
-                    <h3 className="font-medium text-gray-900">Couleur</h3>
-                  </div>
-                </div>
-
-                <div className="flex flex-wrap gap-4">
-                  {product?.options?.map((option: any) => {
-                    const isSelected = color === option.color;
-                    return (
-                      <div
-                        key={option.color}
-                        className="flex flex-col items-center"
-                      >
-                        <button
-                          onClick={() => {
-                            setColor(option.color);
-                            setProductOption(option);
-                            setMainImg(option?.images?.split(",")[0]);
-                            setSize(option?.sizes?.split(",")[0]);
-                          }}
-                          className={` w-8 h-8 rounded-full border-3 transition-all duration-200 flex items-center justify-center shadow-sm ${
-                            isSelected
-                              ? "border-blue-500 scale-105 ring-2 ring-blue-200"
-                              : "border-gray-100 hover:border-gray-300"
-                          } `}
-                          style={{
-                            backgroundColor: option.color,
-                            border: "1px solid",
-                          }}
-                          aria-label={`Sélectionner la couleur ${option.color}`}
-                        >
-                          {isSelected && (
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              className="h-5 w-5 text-white"
-                              viewBox="0 0 20 20"
-                              fill="currentColor"
-                              style={{
-                                filter: "drop-shadow(0 0 2px rgba(0,0,0,0.5))",
-                              }}
-                            >
-                              <path
-                                fillRule="evenodd"
-                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                clipRule="evenodd"
-                              />
-                            </svg>
-                          )}
-                        </button>
+              {false && (
+                <>
+                  <div className="mb-5">
+                    <div className="flex items-center justify-between mb-1">
+                      <div>
+                        <h3 className="font-medium text-gray-900">Couleur</h3>
                       </div>
-                    );
-                  })}
-                </div>
-              </div>
+                    </div>
 
-              {/* Sélection Taille */}
-              <div className="mb-4">
-                <span className="block font-medium mb-2">
-                  Taille: <span className="font-bold text-red"> {size}</span>
-                </span>
+                    <div className="flex flex-wrap gap-4">
+                      {product?.options?.map((option: any) => {
+                        const isSelected = color === option.color;
+                        return (
+                          <div
+                            key={option.color}
+                            className="flex flex-col items-center"
+                          >
+                            <button
+                              onClick={() => {
+                                setColor(option.color);
+                                setProductOption(option);
+                                setMainImg(option?.images?.split(",")[0]);
+                                setSize(option?.sizes?.split(",")[0]);
+                              }}
+                              className={` w-8 h-8 rounded-full border-3 transition-all duration-200 flex items-center justify-center shadow-sm ${
+                                isSelected
+                                  ? "border-blue-500 scale-105 ring-2 ring-blue-200"
+                                  : "border-gray-100 hover:border-gray-300"
+                              } `}
+                              style={{
+                                backgroundColor: option.color,
+                                border: "1px solid",
+                              }}
+                              aria-label={`Sélectionner la couleur ${option.color}`}
+                            >
+                              {isSelected && (
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  className="h-5 w-5 text-white"
+                                  viewBox="0 0 20 20"
+                                  fill="currentColor"
+                                  style={{
+                                    filter:
+                                      "drop-shadow(0 0 2px rgba(0,0,0,0.5))",
+                                  }}
+                                >
+                                  <path
+                                    fillRule="evenodd"
+                                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                    clipRule="evenodd"
+                                  />
+                                </svg>
+                              )}
+                            </button>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
 
-                <div className="flex flex-wrap gap-2">
-                  {productOption?.sizes
-                    ?.split(",")
-                    ?.map((sizeOption: string) => (
+                  <div className="mb-4">
+                    <span className="block font-medium mb-2">
+                      Taille:{" "}
+                      <span className="font-bold text-red"> {size}</span>
+                    </span>
+
+                    <div className="flex flex-wrap gap-2">
+                      {productOption?.sizes
+                        ?.split(",")
+                        ?.map((sizeOption: string) => (
+                          <button
+                            key={sizeOption}
+                            onClick={() => setSize(sizeOption)}
+                            className={`px-4 py-2 border rounded-md transition-all duration-150 ${
+                              size.toLocaleLowerCase() ===
+                              sizeOption.toLocaleLowerCase()
+                                ? "bg-green-50 border-green-600 text-green-700 shadow-sm font-medium"
+                                : "border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-gray-400"
+                            }`}
+                          >
+                            {sizeOption}
+                          </button>
+                        ))}
+                    </div>
+                  </div>
+
+                  <div className="mb-4">
+                    <span className="block font-medium mb-2">Quantité:</span>
+                    <div className="flex items-center">
                       <button
-                        key={sizeOption}
-                        onClick={() => setSize(sizeOption)}
-                        className={`px-4 py-2 border rounded-md transition-all duration-150 ${
-                          size.toLocaleLowerCase() ===
-                          sizeOption.toLocaleLowerCase()
-                            ? "bg-green-50 border-green-600 text-green-700 shadow-sm font-medium"
-                            : "border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-gray-400"
-                        }`}
+                        onClick={() =>
+                          setCurrentQty(Math.max(1, currentQty - 1))
+                        }
+                        className="px-3 py-1 border border-gray-300 rounded-l-md bg-gray-100 hover:bg-gray-200"
                       >
-                        {sizeOption}
+                        -
                       </button>
-                    ))}
-                </div>
-              </div>
-
-              {/* Quantité */}
-              <div className="mb-4">
-                <span className="block font-medium mb-2">Quantité:</span>
-                <div className="flex items-center">
-                  <button
-                    onClick={() => setCurrentQty(Math.max(1, currentQty - 1))}
-                    className="px-3 py-1 border border-gray-300 rounded-l-md bg-gray-100 hover:bg-gray-200"
-                  >
-                    -
-                  </button>
-                  <span className="px-4 py-1 border-t border-b border-gray-300 bg-white">
-                    {currentQty}
-                  </span>
-                  <button
-                    onClick={() => setCurrentQty(currentQty + 1)}
-                    className="px-3 py-1 border border-gray-300 rounded-r-md bg-gray-100 hover:bg-gray-200"
-                  >
-                    +
-                  </button>
-                </div>
-              </div>
+                      <span className="px-4 py-1 border-t border-b border-gray-300 bg-white">
+                        {currentQty}
+                      </span>
+                      <button
+                        onClick={() => setCurrentQty(currentQty + 1)}
+                        className="px-3 py-1 border border-gray-300 rounded-r-md bg-gray-100 hover:bg-gray-200"
+                      >
+                        +
+                      </button>
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
 
             {/* Boutons d'action */}
