@@ -79,6 +79,7 @@ const Card: FC<Props> = ({ item, outStock = false }) => {
           >
             {!isHovered && (
               <Image
+                className="w-full h-auto object-contain"
                 src={img1 as string}
                 alt={name}
                 width={230}
@@ -88,7 +89,7 @@ const Card: FC<Props> = ({ item, outStock = false }) => {
             )}
             {isHovered && (
               <Image
-                className="transition-transform transform hover:scale-110 duration-1000"
+                className="transition-transform transform hover:scale-110 object-contain duration-1000"
                 src={(isEmpty(img2) ? img1 : img2) as string}
                 alt={name}
                 width={230}
