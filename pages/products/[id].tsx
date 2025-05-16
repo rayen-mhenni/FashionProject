@@ -184,7 +184,6 @@ const Product: React.FC<Props> = ({ paramId }) => {
       setIsOrdering(false);
     }
   };
-
   return (
     <div className="bg-gray-50">
       <Header title={`${product?.nom} - RAF SHOP`} />
@@ -223,14 +222,27 @@ const Product: React.FC<Props> = ({ paramId }) => {
           {/* Galerie d'images */}
           <div className="mb-8 lg:mb-0">
             <div className="relative mb-4 rounded-lg overflow-hidden">
-              <Image
-                src={mainImg || productOption?.images?.split(",")[0]}
-                alt={product?.nom}
-                width={800}
-                height={800}
-                className="w-full h-auto object-cover"
-                priority
-              />
+              {productOption?.images
+                ?.split(",")
+                ?.map((img: string, index: number) => (
+                  <div
+                    key={index}
+                    className={`transition-opacity duration-300 ${
+                      mainImg === img
+                        ? "opacity-100"
+                        : "opacity-0 absolute inset-0"
+                    }`}
+                  >
+                    <Image
+                      src={img}
+                      alt={`${product?.nom} view ${index + 1}`}
+                      width={800}
+                      height={800}
+                      className="w-full h-auto object-contain"
+                      priority={index === 0}
+                    />
+                  </div>
+                ))}
             </div>
             <div className="grid grid-cols-4 gap-2">
               {productOption?.images
@@ -279,7 +291,6 @@ const Product: React.FC<Props> = ({ paramId }) => {
                     }}
                   >
                     -{product.discount} {currency}
-                  
                     <span
                       className="absolute -right-1 bottom-0 w-2 h-2 bg-red-800 transform rotate-45"
                       style={{ clipPath: "polygon(0 0, 100% 100%, 0 100%)" }}
@@ -306,14 +317,6 @@ const Product: React.FC<Props> = ({ paramId }) => {
                 <div className="flex items-center justify-between mb-1">
                   <div>
                     <h3 className="font-medium text-gray-900">Couleur</h3>
-                    {color && (
-                      <p className="text-sm text-gray-500 mt-1">
-                        Sélectionné:{" "}
-                        <span className="font-medium capitalize">
-                          {color?.toLowerCase()}
-                        </span>
-                      </p>
-                    )}
                   </div>
                 </div>
 
@@ -332,22 +335,11 @@ const Product: React.FC<Props> = ({ paramId }) => {
                             setMainImg(option?.images?.split(",")[0]);
                             setSize(option?.sizes?.split(",")[0]);
                           }}
-                          className={`
-                            w-8 h-8
-                            rounded-full 
-                            border-3 
-                            transition-all 
-                            duration-200 
-                            flex 
-                            items-center 
-                            justify-center
-                            shadow-sm
-                            ${
-                              isSelected
-                                ? "border-blue-500 scale-105 ring-2 ring-blue-200"
-                                : "border-gray-100 hover:border-gray-300"
-                            }
-                          `}
+                          className={` w-8 h-8 rounded-full border-3 transition-all duration-200 flex items-center justify-center shadow-sm ${
+                            isSelected
+                              ? "border-blue-500 scale-105 ring-2 ring-blue-200"
+                              : "border-gray-100 hover:border-gray-300"
+                          } `}
                           style={{
                             backgroundColor: option.color,
                             border: "1px solid",

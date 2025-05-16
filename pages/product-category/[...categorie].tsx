@@ -51,7 +51,7 @@ const ProductCategory: React.FC<Props> = ({
   const [size, setSize] = useState("");
   const [min, setmin] = useState(0);
   const [max, setmax] = useState(1000);
-  const [filteredData, setfilteredData] = useState(items);
+  const [filteredData, setfilteredData] = useState([]);
 
   const router = useRouter();
   const { categorie } = router.query;
@@ -62,9 +62,38 @@ const ProductCategory: React.FC<Props> = ({
     categorie!.toString().charAt(0).toUpperCase() +
     categorie!.toString().slice(1);
 
-  useEffect(() => {
-    setfilteredData(items);
-  }, [items]);
+  // useEffect(() => {
+  //   setfilteredData(items);
+  // }, [items]);
+
+    useEffect(() => {
+      const fetchData = async () => {
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_PRODUCTS_MODULE}`);
+  
+        const products: any[] = res?.data?.map((el: any) => ({
+          id: el?._id,
+          options: el?.options,
+          size: el?.options[0].sizes?.split(",")[0],
+          name: el?.nom,
+          price: el?.prixVente,
+          prixVente: el?.prixVente,
+          discount: el.discount,
+          qty: 1,
+          description: "",
+          detail: "",
+          img1: el?.options[0]?.images?.split(",")[0],
+          img2:
+            el?.options[0]?.images?.split(",").length > 1
+              ? el?.options[0]?.images?.split(",")[1]
+              : el?.options[0]?.images?.split(",")[0],
+          // categoryName: ,
+          stock: el?.options[0].quantiteInitiale,
+          createdAt: el?.createdAt,
+        }));
+        setfilteredData(products);
+      };
+      fetchData();
+    }, []);
 
   const firstIndex = page === 1 ? page : page * 10 - 9;
   const lastIndex = page * 10;
@@ -338,7 +367,7 @@ export const getServerSideProps: GetServerSideProps = async ({
     `${process.env.NEXT_PUBLIC_PRODUCTS_MODULE}/cat/${paramCategory[0]}`
   );
 
-  console.log('dddddddddddddddddddddd',paramCategory[0] , res?.data)
+  console.log("dddddddddddddddddddddd", paramCategory[0], res?.data);
   numberOfProducts = res?.data?.length;
 
   let order_by: string;
@@ -356,7 +385,7 @@ export const getServerSideProps: GetServerSideProps = async ({
     name: el?.nom,
     price: el?.prixVente,
     qty: 1,
-    description:"",
+    description: "",
     detail: "",
     img1: el?.options[0].images.split(",")[0],
     img2:
@@ -368,7 +397,7 @@ export const getServerSideProps: GetServerSideProps = async ({
     createdAt: el?.createdAt,
     options: 1,
     size: el?.options[0].sizes.split(",")[0],
-    details:''
+    details: "",
   }));
   const colors: any = [];
   res.data.forEach((element: any) => {
