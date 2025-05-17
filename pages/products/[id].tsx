@@ -56,59 +56,31 @@ const ProductOptions = ({
   productOption,
   setProductOption,
   setMainImg,
+  mainImg,
   originalPrice,
   calculateDiscountPrice,
+  packageOptions,
+  pairSelections,
+  setPairSelections,
+  setSelectedPackage,
+  selectedPackage,
 }) => {
-  // Package options with discounts
-  const packageOptions = [
-    {
-      id: 1,
-      name: "1 Paire",
-      label: "Prix Standard",
-      price: originalPrice,
-      itemNb: 1,
-      discount: 0,
-    },
-    {
-      id: 2,
-      name: "2 Paires",
-      label: "20% OFF",
-      itemNb: 2,
-      price: originalPrice * 2 * 0.8,
-      originalPrice: originalPrice * 2,
-      discountPercentage: "20% OFF",
-    },
-    {
-      id: 3,
-      name: "3 Paires",
-      label: "30% OFF",
-      itemNb: 3,
-      price: originalPrice * 3 * 0.7,
-      originalPrice: originalPrice * 3,
-      discountPercentage: "30% OFF",
-    },
-  ];
-
-  const [selectedPackage, setSelectedPackage] = useState(1); // Default to 3 pairs based on the image
-
-  // State for individual pair selections
-  const [pairSelections, setPairSelections] = useState([
-    { color: "", size: "" },
-    { color: "", size: "" },
-    { color: "", size: "" },
-  ]);
-
   // Update quantity based on package selection
-  useEffect(() => {
-    setCurrentQty(selectedPackage);
-  }, [selectedPackage, setCurrentQty]);
+  // useEffect(() => {
+  //   setCurrentQty(selectedPackage);
+  // }, [selectedPackage, setCurrentQty]);
 
   // Handle updating a specific pair's color
-  const handleColorChange = (pairIndex, newColor) => {
+  const handleColorChange = (pairIndex, newColor, option) => {
+    setColor(option.color);
+    setProductOption(option);
+    setMainImg(option?.images?.split(",")[0]);
+    setSize(option?.sizes?.split(",")[0]);
+
     const updatedSelections = [...pairSelections];
     updatedSelections[pairIndex].color = newColor;
+    updatedSelections[pairIndex].image = option?.images?.split(",")[0];
     setPairSelections(updatedSelections);
-    setMainImg(option?.images?.split(",")[0]);
   };
 
   // Handle updating a specific pair's size
@@ -117,9 +89,6 @@ const ProductOptions = ({
     updatedSelections[pairIndex].size = newSize;
     setPairSelections(updatedSelections);
   };
-
-  console.log("pairSelectionspairSelections", pairSelections);
-
   return (
     <div className="space-y-6">
       {/* Package Selection with Radio Buttons */}
@@ -132,9 +101,21 @@ const ProductOptions = ({
                 ? "border-green-500 bg-green-50"
                 : "border-gray-200 hover:border-gray-300"
             }`}
-            onClick={() => setSelectedPackage(option.id)}
           >
-            <div className="flex items-center justify-between">
+            <div
+              className="flex items-center justify-between"
+              onClick={() => {
+                setPairSelections(
+                  pairSelections.map((el: any) => ({
+                    ...el,
+                    color: product?.options[0]?.color,
+                    size: product?.options[0]?.sizes?.split(",")[0],
+                    // quantity: Number(option.itemNb),
+                  }))
+                );
+                setSelectedPackage(option?.id);
+              }}
+            >
               <div className="flex items-center space-x-3">
                 <div className="flex items-center justify-center w-5 h-5">
                   <input
@@ -143,27 +124,34 @@ const ProductOptions = ({
                     onChange={() => {
                       setPairSelections([]);
                       const str = [];
-                      for (let i = 0; i < option.itemNb; i++) {
+                      for (let i = 0; i < option?.itemNb; i++) {
+                        console.log("str", str);
                         str.push({
                           color: productOption.color,
                           size: productOption?.sizes?.split(",")[0],
+                          image: mainImg,
+                          stockId: product?._id,
+                          reference: product?.reference,
+                          nom: product?.nom,
+                          quantity: Number(1),
+                          prixAchat: Number(product?.prixAchat ?? 0),
+                          prixVente: Number(product?.prixVente ?? 0),
+                          discount: product?.discount || 0,
                         });
                       }
-                      setPairSelections(str);
+                      console.log("str", str);
+                      setPairSelections([...str]);
                       setSelectedPackage(option.id);
                     }}
                     className="w-4 h-4 text-green-600 border-gray-300 focus:ring-green-500"
                   />
                 </div>
+
                 <div className="font-medium">
                   {option.name}
                   {option.label && (
                     <span
-                      className={`ml-2 text-xs font-semibold px-2 py-1 rounded ${
-                        option.id === 1
-                          ? "bg-gray-700 text-white"
-                          : "bg-red-600 text-white"
-                      }`}
+                      className={`bg-red-600 text-red text-sm font-bold px-3 py-1 rounded-md animate-pulse`}
                     >
                       {option.label}
                     </span>
@@ -189,7 +177,7 @@ const ProductOptions = ({
               </div>
             )}
 
-            {selectedPackage === option.id && option.id > 1 && (
+            {selectedPackage === option.id && (
               <div className="mt-6">
                 {/* Multiple pair selectors */}
                 {Array.from({ length: option.id }).map((_, index) => (
@@ -215,6 +203,12 @@ const ProductOptions = ({
                           {product?.options?.map((option) => {
                             const isSelected =
                               pairSelections[index]?.color === option.color;
+
+                            console.log(
+                              "tttttt",
+                              pairSelections[index]?.color,
+                              option.color
+                            );
                             return (
                               <div
                                 key={option.color}
@@ -222,7 +216,11 @@ const ProductOptions = ({
                               >
                                 <button
                                   onClick={() =>
-                                    handleColorChange(index, option.color)
+                                    handleColorChange(
+                                      index,
+                                      option.color,
+                                      option
+                                    )
                                   }
                                   className={`w-8 h-8 rounded-full border-3 transition-all duration-200 flex items-center justify-center shadow-sm ${
                                     isSelected
@@ -289,88 +287,6 @@ const ProductOptions = ({
                 ))}
               </div>
             )}
-
-            {selectedPackage === option.id && option.id === 1 && (
-              <div className="mt-4">
-                <div className="mb-5">
-                  <div className="flex items-center justify-between mb-1">
-                    <div>
-                      <h3 className="font-medium text-gray-900">Couleur</h3>
-                    </div>
-                  </div>
-
-                  <div className="flex flex-wrap gap-4">
-                    {product?.options?.map((option) => {
-                      const isSelected = color === option.color;
-                      return (
-                        <div
-                          key={option.color}
-                          className="flex flex-col items-center"
-                        >
-                          <button
-                            onClick={() => {
-                              setColor(option.color);
-                            }}
-                            className={`w-8 h-8 rounded-full border-3 transition-all duration-200 flex items-center justify-center shadow-sm ${
-                              isSelected
-                                ? "border-blue-500 scale-105 ring-2 ring-blue-200"
-                                : "border-gray-100 hover:border-gray-300"
-                            }`}
-                            style={{
-                              backgroundColor: option.color,
-                              border: "1px solid",
-                            }}
-                            aria-label={`Sélectionner la couleur ${option.color}`}
-                          >
-                            {isSelected && (
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="h-5 w-5 text-white"
-                                viewBox="0 0 20 20"
-                                fill="currentColor"
-                                style={{
-                                  filter:
-                                    "drop-shadow(0 0 2px rgba(0,0,0,0.5))",
-                                }}
-                              >
-                                <path
-                                  fillRule="evenodd"
-                                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                  clipRule="evenodd"
-                                />
-                              </svg>
-                            )}
-                          </button>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                <div className="mb-4">
-                  <span className="block font-medium mb-2">
-                    Taille: <span className="font-bold text-red">{size}</span>
-                  </span>
-
-                  <div className="flex flex-wrap gap-2">
-                    {productOption?.sizes?.split(",")?.map((sizeOption) => (
-                      <button
-                        key={sizeOption}
-                        onClick={() => setSize(sizeOption)}
-                        className={`px-4 py-2 border rounded-md transition-all duration-150 ${
-                          size.toLocaleLowerCase() ===
-                          sizeOption.toLocaleLowerCase()
-                            ? "bg-green-50 border-green-600 text-green-700 shadow-sm font-medium"
-                            : "border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-gray-400"
-                        }`}
-                      >
-                        {sizeOption}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            )}
           </div>
         ))}
       </div>
@@ -404,6 +320,14 @@ const Product: React.FC<Props> = ({ paramId }) => {
   const [orderError, setOrderError] = useState("");
   const [paymentSuccess, setPaymentSuccess] = useState(false);
 
+  const [pairSelections, setPairSelections] = useState([]);
+
+  const [selectedPackage, setSelectedPackage] = useState(1);
+
+  // Default to 3 pairs based on the image
+  const [packageOptions, setpackageOptions] = useState([]); // Default to 3 pairs based on the image
+  // Package options with discounts
+
   const fetchData = async () => {
     const res = await axios.get(
       `${process.env.NEXT_PUBLIC_PRODUCTS_MODULE}/${paramId}`
@@ -433,15 +357,36 @@ const Product: React.FC<Props> = ({ paramId }) => {
 
     setProduct(fetchedProduct);
     setProducts(products);
+    setpackageOptions(fetchedProduct?.packageOptions);
+
+    setPairSelections(
+      fetchedProduct?.packageOptions.map((el) => ({
+        color: fetchedProduct?.options[0]?.color,
+        size: fetchedProduct?.options[0]?.sizes?.split(",")[0],
+        image: mainImg,
+        stockId: fetchedProduct?._id,
+        reference: fetchedProduct?.reference,
+        nom: fetchedProduct?.nom,
+        quantity: Number(currentQty),
+        prixAchat: Number(fetchedProduct?.prixAchat ?? 0),
+        prixVente: Number(fetchedProduct?.prixVente),
+        discount: fetchedProduct?.discount || 0,
+      }))
+    );
+
     setMainImg(fetchedProduct?.options[0]?.images?.split(",")[0]);
     setColor(fetchedProduct?.options[0]?.color);
     setProductOption(fetchedProduct?.options[0]);
     setOriginalPrice(fetchedProduct?.prixVente);
   };
 
+  console.log("packageOptions", packageOptions);
+
   useEffect(() => {
     fetchData();
   }, [paramId]);
+
+  // State for individual pair selections
 
   const alreadyWishlisted = wishlist.some((wItem) => wItem.id === product?.id);
 
@@ -449,6 +394,8 @@ const Product: React.FC<Props> = ({ paramId }) => {
     if (!product?.discount) return originalPrice;
     return originalPrice - product.discount;
   };
+
+  console.log("handleColorChange", mainImg);
 
   const currentItem = {
     ...product,
@@ -466,8 +413,19 @@ const Product: React.FC<Props> = ({ paramId }) => {
   };
 
   const calculateTotalPrice = () => {
-    const basePrice = Number(currentItem.price) * currentQty;
-    return roundDecimal(basePrice + 8); // 8 TND for shipping
+    // let gfg = _.sumBy(arr, function (o) { return o.n; });
+    // const basePrice = _.sumBy(
+    //   pairSelections.slice(0, selectedPackage),
+    //   function (o) {
+    //     return Number(o?.prixVente);
+    //   }
+    // );
+
+    return roundDecimal(
+      Number(
+        isEmpty(packageOptions) ? 0 : packageOptions[selectedPackage - 1]?.price
+      ) + 8
+    ); // 8 TND for shipping
   };
 
   const handleOrder = async () => {
@@ -475,6 +433,18 @@ const Product: React.FC<Props> = ({ paramId }) => {
     setOrderError("");
 
     try {
+      // console.log("eeeeeeeeeee", {
+      //   date: moment().format("MMMM Do YYYY, h:mm:ss a"),
+      //   customerName: name,
+      //   customerAddress: shippingAddress,
+      //   customerPhone: phone,
+      //   items: pairSelections.slice(0, selectedPackage),
+      //   subtotal: Number(calculateTotalPrice()),
+      //   tax: 0,
+      //   total: Number(calculateTotalPrice()),
+      //   status: "pending",
+      //   notes: "En attente de confirmation",
+      // });
       const orderResponse = await axios.post(
         `${process.env.NEXT_PUBLIC_ORDERS_MODULE}`,
         {
@@ -482,20 +452,7 @@ const Product: React.FC<Props> = ({ paramId }) => {
           customerName: name,
           customerAddress: shippingAddress,
           customerPhone: phone,
-          items: [
-            {
-              stockId: product?._id,
-              color,
-              size,
-              image: mainImg,
-              reference: product?.reference,
-              nom: product?.nom,
-              quantity: Number(currentQty),
-              prixAchat: Number(product.prixAchat ?? 0),
-              prixVente: Number(calculateDiscountPrice() ?? 0),
-              discount: product?.discount || 0,
-            },
-          ],
+          items: pairSelections.slice(0, selectedPackage),
           subtotal: Number(calculateTotalPrice()),
           tax: 0,
           total: Number(calculateTotalPrice()),
@@ -658,9 +615,15 @@ const Product: React.FC<Props> = ({ paramId }) => {
                 setMainImg={setMainImg}
                 originalPrice={originalPrice}
                 calculateDiscountPrice={calculateDiscountPrice}
+                packageOptions={packageOptions}
+                pairSelections={pairSelections}
+                setPairSelections={setPairSelections}
+                setSelectedPackage={setSelectedPackage}
+                selectedPackage={selectedPackage}
+                mainImg={mainImg}
               />
 
-              {false && (
+              {/* {false && (
                 <>
                   <div className="mb-5">
                     <div className="flex items-center justify-between mb-1">
@@ -769,11 +732,11 @@ const Product: React.FC<Props> = ({ paramId }) => {
                     </div>
                   </div>
                 </>
-              )}
+              )} */}
             </div>
 
             {/* Boutons d'action */}
-            <div className="flex space-x-4">
+            {/* <div className="flex space-x-4">
               <Button
                 value="Ajouter au panier"
                 size="lg"
@@ -803,7 +766,7 @@ const Product: React.FC<Props> = ({ paramId }) => {
                   <Heart extraClass="text-gray-500" />
                 )}
               </GhostButton>
-            </div>
+            </div> */}
 
             {/* Détails Produit Accordéon */}
             <Disclosure>
@@ -899,8 +862,7 @@ const Product: React.FC<Props> = ({ paramId }) => {
                 <div className="flex justify-between">
                   <span>Produit</span>
                   <span className="font-medium">
-                    {roundDecimal(Number(currentItem.price) * currentQty)}{" "}
-                    {currency}
+                    {Number(calculateTotalPrice()) - 8} {currency}
                   </span>
                 </div>
 
@@ -935,8 +897,7 @@ const Product: React.FC<Props> = ({ paramId }) => {
                 } text-white font-bold`}
                 disabled={
                   isEmpty(name) ||
-                  isEmpty(size) ||
-                  isEmpty(color) ||
+                  isEmpty(pairSelections.slice(0, selectedPackage)) ||
                   isEmpty(phone) ||
                   phone.length !== 8 ||
                   isEmpty(shippingAddress) ||
