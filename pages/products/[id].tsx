@@ -169,7 +169,8 @@ const ProductOptions = ({
                 <div className="font-semibold text-lg">
                   {option.price.toFixed(3)} {currency}
                 </div>
-                {option.originalPrice && (
+
+                {option.itemNb > 1 && option.originalPrice && (
                   <div className="text-sm text-gray-500 line-through">
                     {option.originalPrice.toFixed(3)} {currency}
                   </div>
