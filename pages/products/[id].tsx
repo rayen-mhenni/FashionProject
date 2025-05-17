@@ -782,8 +782,7 @@ const Product: React.FC<Props> = ({ paramId }) => {
                     />
                   </Disclosure.Button>
                   <Disclosure.Panel className="py-4 text-gray-600">
-                    {product?.detail ||
-                      "Aucun détail supplémentaire disponible."}
+                    {product?.details}
                   </Disclosure.Panel>
                 </>
               )}
