@@ -152,7 +152,13 @@ const ProductOptions = ({
                   {option.name}
                   {option.label && (
                     <span
-                      className={`bg-red-600 text-red text-sm font-bold px-3 py-1 rounded-md animate-pulse`}
+                      className={`ml-5 bg-red-600 text-white text-xs font-bold px-2 py-1 rounded-md animate-pulse `}
+                      style={{
+                        backgroundColor: "#dc2626",
+                        animation: "pulse 1.5s infinite",
+                        boxShadow: "0 2px 8px rgba(255, 0, 0, 0.3)",
+                        textShadow: "0 1px 1px rgba(0,0,0,0.2)",
+                      }}
                     >
                       {option.label}
                     </span>
