@@ -110,6 +110,7 @@ const ProductOptions = ({
                     ...el,
                     color: product?.options[0]?.color,
                     size: product?.options[0]?.sizes?.split(",")[0],
+                    image: product?.option?.images?.split(",")[0],
                     // quantity: Number(option.itemNb),
                   }))
                 );
@@ -129,7 +130,7 @@ const ProductOptions = ({
                         str.push({
                           color: productOption.color,
                           size: productOption?.sizes?.split(",")[0],
-                          image: mainImg,
+                          image: productOption?.images?.split(",")[0],
                           stockId: product?._id,
                           reference: product?.reference,
                           nom: product?.nom,
@@ -363,7 +364,7 @@ const Product: React.FC<Props> = ({ paramId }) => {
       fetchedProduct?.packageOptions.map((el) => ({
         color: fetchedProduct?.options[0]?.color,
         size: fetchedProduct?.options[0]?.sizes?.split(",")[0],
-        image: mainImg,
+        image: fetchedProduct?.options[0]?.images?.split(",")[0],
         stockId: fetchedProduct?._id,
         reference: fetchedProduct?.reference,
         nom: fetchedProduct?.nom,
