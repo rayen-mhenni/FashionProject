@@ -266,6 +266,33 @@ const ProductOptions = ({
                         </div>
                       </div>
 
+                      {option.id === 1 && (
+                        <div>
+                          <span className="block font-medium mb-2">
+                            Quantité:
+                          </span>
+                          <div className="flex items-center">
+                            <button
+                              onClick={() =>
+                                setCurrentQty(Math.max(1, currentQty - 1))
+                              }
+                              className="px-3 py-1 border border-gray-300 rounded-l-md bg-gray-100 hover:bg-gray-200"
+                            >
+                              -
+                            </button>
+                            <span className="px-4 py-1 border-t border-b border-gray-300 bg-white">
+                              {currentQty}
+                            </span>
+                            <button
+                              onClick={() => setCurrentQty(currentQty + 1)}
+                              className="px-3 py-1 border border-gray-300 rounded-r-md bg-gray-100 hover:bg-gray-200"
+                            >
+                              +
+                            </button>
+                          </div>
+                        </div>
+                      )}
+
                       {/* Size dropdown */}
 
                       <div>
@@ -428,12 +455,23 @@ const Product: React.FC<Props> = ({ paramId }) => {
     //     return Number(o?.prixVente);
     //   }
     // );
+    if (selectedPackage !== 1) {
+      return roundDecimal(
+        Number(
+          isEmpty(packageOptions)
+            ? 0
+            : packageOptions[selectedPackage - 1]?.price
+        ) + 8
+      );
+    } else {
+      return roundDecimal(
+        Number(packageOptions && packageOptions[0]?.originalPrice) *
+          currentQty +
+          8
+      );
+    }
 
-    return roundDecimal(
-      Number(
-        isEmpty(packageOptions) ? 0 : packageOptions[selectedPackage - 1]?.price
-      ) + 8
-    ); // 8 TND for shipping
+    // 8 TND for shipping
   };
 
   const handleOrder = async () => {
