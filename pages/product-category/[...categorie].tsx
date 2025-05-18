@@ -66,11 +66,17 @@ const ProductCategory: React.FC<Props> = ({
   //   setfilteredData(items);
   // }, [items]);
 
-    useEffect(() => {
-      const fetchData = async () => {
-        const res = await axios.get(`${process.env.NEXT_PUBLIC_PRODUCTS_MODULE}`);
-  
-        const products: any[] = res?.data?.map((el: any) => ({
+  console.log("sssssssss", categorie);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await axios.get(`${process.env.NEXT_PUBLIC_PRODUCTS_MODULE}`);
+
+      const products: any[] = res?.data
+        ?.filter(
+          (elm) => elm.category.toUpperCase() === categorie[0]?.toUpperCase()
+        )
+        .map((el: any) => ({
           id: el?._id,
           options: el?.options,
           size: el?.options[0].sizes?.split(",")[0],
@@ -90,10 +96,10 @@ const ProductCategory: React.FC<Props> = ({
           stock: el?.options[0].quantiteInitiale,
           createdAt: el?.createdAt,
         }));
-        setfilteredData(products);
-      };
-      fetchData();
-    }, []);
+      setfilteredData(products);
+    };
+    fetchData();
+  }, []);
 
   const firstIndex = page === 1 ? page : page * 10 - 9;
   const lastIndex = page * 10;

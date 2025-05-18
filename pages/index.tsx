@@ -103,20 +103,7 @@ const Home: React.FC<Props> = ({ collections }) => {
           <div className="app-max-width app-x-padding h-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <div className="w-full sm:col-span-2 lg:col-span-2 ">
               <OverlayContainer
-                imgSrc="/bg-img/banner_minipage3.jpg"
-                imgAlt="Men Collection"
-              >
-                <LinkButton
-                  href={`/product-category/Homme`}
-                  extraClass="absolute bottom-10-per sm:right-10-per z-20"
-                >
-                  Homme
-                </LinkButton>
-              </OverlayContainer>
-            </div>
-            <div className="w-full sm:col-span-2 lg:col-span-2 ">
-              <OverlayContainer
-                imgSrc="/bg-img/banner_minipage2.jpg"
+                imgSrc="/bg-img/FemmeImg.jpg"
                 imgAlt="Men Collection"
               >
                 <LinkButton
@@ -124,6 +111,19 @@ const Home: React.FC<Props> = ({ collections }) => {
                   extraClass="absolute bottom-10-per sm:right-10-per z-20"
                 >
                   Femme
+                </LinkButton>
+              </OverlayContainer>
+            </div>
+            <div className="w-full sm:col-span-2 lg:col-span-2 ">
+              <OverlayContainer
+                imgSrc="/bg-img/Homme.JPG"
+                imgAlt="Men Collection"
+              >
+                <LinkButton
+                  href={`/product-category/Homme`}
+                  extraClass="absolute bottom-10-per sm:right-10-per z-20"
+                >
+                  Homme
                 </LinkButton>
               </OverlayContainer>
             </div>

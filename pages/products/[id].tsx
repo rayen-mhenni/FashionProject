@@ -479,18 +479,25 @@ const Product: React.FC<Props> = ({ paramId }) => {
     setOrderError("");
 
     try {
-      // console.log("eeeeeeeeeee", {
-      //   date: moment().format("MMMM Do YYYY, h:mm:ss a"),
-      //   customerName: name,
-      //   customerAddress: shippingAddress,
-      //   customerPhone: phone,
-      //   items: pairSelections.slice(0, selectedPackage),
-      //   subtotal: Number(calculateTotalPrice()),
-      //   tax: 0,
-      //   total: Number(calculateTotalPrice()),
-      //   status: "pending",
-      //   notes: "En attente de confirmation",
-      // });
+      // console.log(
+      //   "eeeeeeeeeee",
+      //   selectedPackage !== 1
+      //     ? pairSelections.slice(0, selectedPackage)
+      //     : [
+      //         {
+      //           color: pairSelections[0]?.color,
+      //           size: pairSelections[0]?.size,
+      //           image: pairSelections[0]?.image,
+      //           stockId: pairSelections[0]?._id,
+      //           reference: pairSelections[0]?.reference,
+      //           nom: pairSelections[0]?.nom,
+      //           quantity: Number(currentQty),
+      //           prixAchat: pairSelections[0]?.prixAchat,
+      //           prixVente: pairSelections[0]?.prixVente,
+      //           discount: pairSelections[0]?.discount,
+      //         },
+      //       ]
+      // );
       const orderResponse = await axios.post(
         `${process.env.NEXT_PUBLIC_ORDERS_MODULE}`,
         {
@@ -498,7 +505,23 @@ const Product: React.FC<Props> = ({ paramId }) => {
           customerName: name,
           customerAddress: shippingAddress,
           customerPhone: phone,
-          items: pairSelections.slice(0, selectedPackage),
+          items:
+            selectedPackage !== 1
+              ? pairSelections.slice(0, selectedPackage)
+              : [
+                  {
+                    color: pairSelections[0]?.color,
+                    size: pairSelections[0]?.size,
+                    image: pairSelections[0]?.image,
+                    stockId: pairSelections[0]?._id,
+                    reference: pairSelections[0]?.reference,
+                    nom: pairSelections[0]?.nom,
+                    quantity: Number(currentQty),
+                    prixAchat: pairSelections[0]?.prixAchat,
+                    prixVente: pairSelections[0]?.prixVente,
+                    discount: pairSelections[0]?.discount,
+                  },
+                ],
           subtotal: Number(calculateTotalPrice()),
           tax: 0,
           total: Number(calculateTotalPrice()),
@@ -827,7 +850,13 @@ const Product: React.FC<Props> = ({ paramId }) => {
                     />
                   </Disclosure.Button>
                   <Disclosure.Panel className="py-4 text-gray-600">
-                    {product?.details}
+                    {product?.details &&
+                      product?.details?.split("✅").map((el: any) => (
+                        <>
+                          {" "}
+                          <span>✅ {el} </span> <br />
+                        </>
+                      ))}
                   </Disclosure.Panel>
                 </>
               )}

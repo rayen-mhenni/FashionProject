@@ -14,7 +14,7 @@ const OverlayContainer: FC<Props> = ({ imgSrc, imgSrc2, imgAlt, children }) => (
       <>
         <div className="hidden sm:block w-full">
           <Image
-            className={styles.img}
+            className={`${styles.img} object-contain`}
             src={imgSrc}
             alt={imgAlt}
             width={858}
@@ -24,7 +24,7 @@ const OverlayContainer: FC<Props> = ({ imgSrc, imgSrc2, imgAlt, children }) => (
         </div>
         <div className="block sm:hidden w-full">
           <Image
-            className={styles.img}
+            className={`${styles.img} object-contain`}
             src={imgSrc2}
             alt={imgAlt}
             width={710}
@@ -35,7 +35,7 @@ const OverlayContainer: FC<Props> = ({ imgSrc, imgSrc2, imgAlt, children }) => (
       </>
     ) : (
       <Image
-        className={styles.img}
+        className={`${styles.img} object-contain`}
         src={imgSrc}
         alt={imgAlt}
         width={710}
