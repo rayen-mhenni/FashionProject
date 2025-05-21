@@ -266,7 +266,7 @@ const ProductOptions = ({
                         </div>
                       </div>
 
-                      {option.id === 1 && (
+                      {/* {option.id === 1 && (
                         <div>
                           <span className="block font-medium mb-2">
                             Quantité:
@@ -291,7 +291,7 @@ const ProductOptions = ({
                             </button>
                           </div>
                         </div>
-                      )}
+                      )} */}
 
                       {/* Size dropdown */}
 
@@ -310,10 +310,16 @@ const ProductOptions = ({
                           }
                           className="appearance-none block w-full pl-10 pr-6 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                         >
-                          {productOption?.sizes
-                            ?.split(",")
-                            ?.map((sizeOption) => (
-                              <option value={sizeOption}>{sizeOption}</option>
+                          {product.options
+                            .find(
+                              (elm: any) =>
+                                elm.color === pairSelections[index]?.color
+                            )
+                            ?.sizes?.split(",")
+                            ?.map((sizeOption: any) => (
+                              <option key={sizeOption} value={sizeOption}>
+                                {sizeOption}
+                              </option>
                             ))}
                         </select>
                       </div>
